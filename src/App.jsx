@@ -7,6 +7,7 @@ import AboutSection from './components/sections/AboutSection'
 import StackSection from './components/sections/StackSection'
 import ExperienceSection from './components/sections/ExperienceSection'
 import ProjectsSection from './components/sections/ProjectsSection'
+import ContactSection from './components/sections/ContactSection'
 
 function App() {
   const [theme, setTheme] = useState('light')
@@ -40,65 +41,16 @@ function App() {
         return <ExperienceSection />
       case 'projects':
         return <ProjectsSection />
+      case 'contact':
+        return <ContactSection />
       default:
-        // Placeholder provisório para a etapa 10 (Contato & Formação)
-        return (
-          <div style={{ maxWidth: '640px' }}>
-            <div style={{
-              display: 'inline-flex',
-              alignItems: 'center',
-              gap: '0.5rem',
-              fontSize: 'var(--text-xs)',
-              fontWeight: 'var(--weight-semibold)',
-              textTransform: 'uppercase',
-              letterSpacing: '0.08em',
-              color: currentSectionData.accentColor,
-              marginBottom: '0.5rem'
-            }}>
-              <span>Próxima Etapa</span>
-              <span>•</span>
-              <span>{currentSectionData.tag}</span>
-            </div>
-
-            <h2 style={{
-              fontSize: 'var(--text-2xl)',
-              fontWeight: 'var(--weight-bold)',
-              marginBottom: '1rem',
-              color: 'var(--window-text-primary)'
-            }}>
-              {currentSectionData.title}
-            </h2>
-
-            <p style={{
-              fontSize: 'var(--text-base)',
-              lineHeight: 1.6,
-              color: 'var(--window-text-secondary)',
-              marginBottom: '1.5rem'
-            }}>
-              O conteúdo desta janela será implementado na Etapa 10 (Formação e Contato).
-            </p>
-
-            <button
-              type="button"
-              onClick={handleCloseWindow}
-              style={{
-                padding: '0.4rem 0.9rem',
-                fontSize: 'var(--text-xs)',
-                fontWeight: 'var(--weight-semibold)',
-                background: currentSectionData.accentColor,
-                color: '#ffffff',
-                borderRadius: 'var(--radius-sm)'
-              }}
-            >
-              Fechar Janela
-            </button>
-          </div>
-        )
+        return null
     }
   }
 
   return (
     <div className="desktop-workspace">
+      {/* Barra superior de menus */}
       <MenuBar
         activeSection={activeSection}
         onOpenSection={handleSelectSection}
@@ -106,6 +58,7 @@ function App() {
         onToggleTheme={toggleTheme}
       />
 
+      {/* Área central do desktop */}
       <main className="desktop-content-area" style={{ marginTop: 'var(--menubar-height)' }}>
         <DesktopIconsArea
           activeSection={activeSection}
