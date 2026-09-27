@@ -3,6 +3,7 @@ import { SECTIONS } from './data/sections'
 import MenuBar from './components/MenuBar'
 import DesktopIconsArea from './components/DesktopIconsArea'
 import Window from './components/Window'
+import Dock from './components/Dock'
 import AboutSection from './components/sections/AboutSection'
 import StackSection from './components/sections/StackSection'
 import ExperienceSection from './components/sections/ExperienceSection'
@@ -65,6 +66,7 @@ function App() {
           onSelectSection={handleSelectSection}
         />
 
+        {/* Janela centralizada */}
         {currentSectionData && (
           <Window
             title={currentSectionData.title}
@@ -77,6 +79,14 @@ function App() {
           </Window>
         )}
       </main>
+
+      {/* Dock flutuante fixo na parte inferior da tela */}
+      <Dock
+        activeSection={activeSection}
+        onSelectSection={handleSelectSection}
+        theme={theme}
+        onToggleTheme={toggleTheme}
+      />
     </div>
   )
 }
