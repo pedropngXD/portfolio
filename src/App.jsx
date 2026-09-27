@@ -5,6 +5,7 @@ import DesktopIconsArea from './components/DesktopIconsArea'
 import Window from './components/Window'
 import AboutSection from './components/sections/AboutSection'
 import StackSection from './components/sections/StackSection'
+import ExperienceSection from './components/sections/ExperienceSection'
 
 function App() {
   const [theme, setTheme] = useState('light')
@@ -34,8 +35,10 @@ function App() {
         return <AboutSection onNavigate={handleSelectSection} />
       case 'stack':
         return <StackSection />
+      case 'experience':
+        return <ExperienceSection />
       default:
-        // Placeholder provisório para as próximas etapas (8 a 10)
+        // Placeholder provisório para as próximas etapas (9 e 10)
         return (
           <div style={{ maxWidth: '640px' }}>
             <div style={{

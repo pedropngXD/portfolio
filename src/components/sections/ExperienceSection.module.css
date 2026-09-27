@@ -1,0 +1,146 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  max-width: 700px;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.title {
+  font-size: var(--text-xl);
+  font-weight: var(--weight-bold);
+  color: var(--window-text-primary);
+}
+
+.subtitle {
+  font-size: var(--text-sm);
+  color: var(--window-text-secondary);
+}
+
+.experienceCard {
+  background: var(--window-surface);
+  border: 1px solid var(--window-border);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  position: relative;
+  border-left: 4px solid var(--accent-experience);
+}
+
+.cardTop {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.roleTitle {
+  font-size: var(--text-lg);
+  font-weight: var(--weight-bold);
+  color: var(--window-text-primary);
+}
+
+.companyName {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-semibold);
+  color: var(--accent-experience);
+  margin-top: 0.2rem;
+}
+
+.statusBadge {
+  font-size: var(--text-xs);
+  font-weight: var(--weight-semibold);
+  padding: 0.25rem 0.65rem;
+  border-radius: var(--radius-full);
+  background: rgba(59, 130, 246, 0.12);
+  color: var(--accent-experience);
+  border: 1px solid rgba(59, 130, 246, 0.25);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.pulseDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--accent-experience);
+}
+
+.summaryText {
+  font-size: var(--text-sm);
+  line-height: 1.6;
+  color: var(--window-text-secondary);
+}
+
+.responsibilitiesList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.responsibilityItem {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  padding-left: 1rem;
+  border-left: 2px solid var(--window-border);
+}
+
+.areaHeading {
+  font-size: var(--text-sm);
+  font-weight: var(--weight-bold);
+  color: var(--window-text-primary);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.detailText {
+  font-size: var(--text-xs);
+  line-height: 1.55;
+  color: var(--window-text-secondary);
+}
+
+.techSection {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid var(--window-border);
+}
+
+.techHeading {
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-weight: var(--weight-semibold);
+  color: var(--window-text-muted);
+}
+
+.techTags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.techTag {
+  font-size: var(--text-xs);
+  font-weight: var(--weight-medium);
+  padding: 0.25rem 0.6rem;
+  border-radius: var(--radius-sm);
+  background: var(--window-bg);
+  border: 1px solid var(--window-border);
+  color: var(--window-text-primary);
+}
