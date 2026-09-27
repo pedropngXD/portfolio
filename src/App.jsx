@@ -12,6 +12,7 @@ import StackSection from './components/sections/StackSection'
 import ExperienceSection from './components/sections/ExperienceSection'
 import ProjectsSection from './components/sections/ProjectsSection'
 import ContactSection from './components/sections/ContactSection'
+import { getAvailableGridPosition, sanitizeAllPositions, gridToCoords } from './utils/desktopGrid'
 
 export default function App() {
   const [theme, setTheme] = useState(() => {
@@ -23,17 +24,15 @@ export default function App() {
     return 'light'
   })
 
-  // Posições dos ícones da área de trabalho
+  // Posições dos ícones da área de trabalho (alinhados em grade e com prevenção total de sobreposição)
   const [iconPositions, setIconPositions] = useState(() => {
+    const sectionIds = SECTIONS.map((s) => s.id)
     const saved = localStorage.getItem('pedro-os-desktop-icons')
+    let parsed = {}
     if (saved) {
-      try { return JSON.parse(saved) } catch (e) { /* ignore */ }
+      try { parsed = JSON.parse(saved) } catch (e) { /* ignore */ }
     }
-    const initial = {}
-    SECTIONS.forEach((sec, idx) => {
-      initial[sec.id] = { x: 24, y: 24 + (idx * 88) }
-    })
-    return initial
+    return sanitizeAllPositions(parsed, sectionIds)
   })
 
   // Aplicativos fixados na barra de tarefas (Dock)
@@ -90,11 +89,12 @@ export default function App() {
     })
   }
 
-  // Move o ícone na área de trabalho
-  const handleMoveIcon = (id, newPos) => {
+  // Posiciona o ícone garantindo alinhamento na grade e prevenindo sobreposição com outros ícones
+  const handleDropIcon = (id, rawPos) => {
+    const cleanPos = getAvailableGridPosition(rawPos, id, iconPositions)
     setIconPositions((prev) => ({
       ...prev,
-      [id]: newPos
+      [id]: cleanPos
     }))
   }
 
@@ -113,11 +113,11 @@ export default function App() {
     setDockAppIds(SECTIONS.map((s) => s.id))
   }
 
-  // Organiza os ícones em coluna limpa no canto esquerdo
+  // Organiza os ícones em coluna limpa na grade do canto esquerdo
   const handleAlignIcons = () => {
     const resetPositions = {}
     SECTIONS.forEach((sec, idx) => {
-      resetPositions[sec.id] = { x: 24, y: 24 + (idx * 88) }
+      resetPositions[sec.id] = gridToCoords(0, idx)
     })
     setIconPositions(resetPositions)
   }
@@ -265,7 +265,7 @@ export default function App() {
           focusedWindowId={focusedWindowId}
           iconPositions={iconPositions}
           onSelectSection={openWindow}
-          onMoveIcon={handleMoveIcon}
+          onDropIcon={handleDropIcon}
           onContextMenu={handleDesktopIconContextMenu}
         />
 

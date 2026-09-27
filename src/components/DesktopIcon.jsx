@@ -10,58 +10,97 @@ export default function DesktopIcon({
   isActive,
   position = { x: 24, y: 24 },
   onClick,
+  onDrop,
   onMove,
   onContextMenu
 }) {
   const [isDragging, setIsDragging] = useState(false)
-  const dragStartRef = useRef({ startX: 0, startY: 0, initialX: 0, initialY: 0, hasMoved: false })
+  const [dragPos, setDragPos] = useState(null)
+  const dragRef = useRef({
+    startX: 0,
+    startY: 0,
+    initialX: 0,
+    initialY: 0,
+    currentX: 0,
+    currentY: 0,
+    hasMoved: false
+  })
 
-  const handleMouseDown = (e) => {
-    // Apenas botão esquerdo dispara o arraste
-    if (e.button !== 0) return
-
-    dragStartRef.current = {
-      startX: e.clientX,
-      startY: e.clientY,
+  const startDrag = (clientX, clientY) => {
+    dragRef.current = {
+      startX: clientX,
+      startY: clientY,
       initialX: position.x,
       initialY: position.y,
+      currentX: position.x,
+      currentY: position.y,
       hasMoved: false
     }
 
-    const onMouseMove = (moveEvent) => {
-      const deltaX = moveEvent.clientX - dragStartRef.current.startX
-      const deltaY = moveEvent.clientY - dragStartRef.current.startY
+    const onPointerMove = (moveEvent) => {
+      const curX = moveEvent.touches ? moveEvent.touches[0].clientX : moveEvent.clientX
+      const curY = moveEvent.touches ? moveEvent.touches[0].clientY : moveEvent.clientY
 
-      // Threshold de 4px para distinguir clique de arrastar
-      if (!dragStartRef.current.hasMoved && (Math.abs(deltaX) > 4 || Math.abs(deltaY) > 4)) {
-        dragStartRef.current.hasMoved = true
+      const deltaX = curX - dragRef.current.startX
+      const deltaY = curY - dragRef.current.startY
+
+      // Threshold de 4px para distinguir clique de arraste intencional
+      if (!dragRef.current.hasMoved && (Math.abs(deltaX) > 4 || Math.abs(deltaY) > 4)) {
+        dragRef.current.hasMoved = true
         setIsDragging(true)
       }
 
-      if (dragStartRef.current.hasMoved) {
-        // Limita o ícone dentro da tela
-        const maxX = window.innerWidth - 90
-        const maxY = window.innerHeight - 150
-        const newX = Math.max(10, Math.min(maxX, dragStartRef.current.initialX + deltaX))
-        const newY = Math.max(10, Math.min(maxY, dragStartRef.current.initialY + deltaY))
+      if (dragRef.current.hasMoved) {
+        // Limita o ícone dentro dos limites visíveis da tela
+        const maxX = window.innerWidth - 85
+        const maxY = window.innerHeight - 120
+        const newX = Math.max(10, Math.min(maxX, dragRef.current.initialX + deltaX))
+        const newY = Math.max(10, Math.min(maxY, dragRef.current.initialY + deltaY))
 
-        onMove && onMove(id, { x: newX, y: newY })
+        dragRef.current.currentX = newX
+        dragRef.current.currentY = newY
+        setDragPos({ x: newX, y: newY })
       }
     }
 
-    const onMouseUp = () => {
-      window.removeEventListener('mousemove', onMouseMove)
-      window.removeEventListener('mouseup', onMouseUp)
-      setIsDragging(false)
+    const onPointerUp = () => {
+      window.removeEventListener('mousemove', onPointerMove)
+      window.removeEventListener('mouseup', onPointerUp)
+      window.removeEventListener('touchmove', onPointerMove)
+      window.removeEventListener('touchend', onPointerUp)
 
-      // Se não moveu, foi apenas um clique
-      if (!dragStartRef.current.hasMoved) {
+      setIsDragging(false)
+      setDragPos(null)
+
+      if (dragRef.current.hasMoved) {
+        const finalPos = {
+          x: dragRef.current.currentX,
+          y: dragRef.current.currentY
+        }
+        if (onDrop) {
+          onDrop(id, finalPos)
+        } else if (onMove) {
+          onMove(id, finalPos)
+        }
+      } else {
         onClick && onClick(id)
       }
     }
 
-    window.addEventListener('mousemove', onMouseMove)
-    window.addEventListener('mouseup', onMouseUp)
+    window.addEventListener('mousemove', onPointerMove)
+    window.addEventListener('mouseup', onPointerUp)
+    window.addEventListener('touchmove', onPointerMove, { passive: false })
+    window.addEventListener('touchend', onPointerUp)
+  }
+
+  const handleMouseDown = (e) => {
+    if (e.button !== 0) return
+    startDrag(e.clientX, e.clientY)
+  }
+
+  const handleTouchStart = (e) => {
+    if (e.touches && e.touches.length !== 1) return
+    startDrag(e.touches[0].clientX, e.touches[0].clientY)
   }
 
   const handleContextMenu = (e) => {
@@ -70,16 +109,19 @@ export default function DesktopIcon({
     onContextMenu && onContextMenu(e, id)
   }
 
+  const currentDisplayPos = isDragging && dragPos ? dragPos : position
+
   return (
     <div
       role="button"
       tabIndex={0}
       className={`${styles.iconButton} ${isActive ? styles.iconButtonActive : ''} ${isDragging ? styles.iconButtonDragging : ''}`}
       style={{
-        left: position.x,
-        top: position.y
+        left: currentDisplayPos.x,
+        top: currentDisplayPos.y
       }}
       onMouseDown={handleMouseDown}
+      onTouchStart={handleTouchStart}
       onContextMenu={handleContextMenu}
       title={`${title} (Arraste para mover, clique direito para opções)`}
       aria-label={title}

@@ -7,6 +7,7 @@ export default function DesktopIconsArea({
   focusedWindowId,
   iconPositions = {},
   onSelectSection,
+  onDropIcon,
   onMoveIcon,
   onContextMenu
 }) {
@@ -17,8 +18,8 @@ export default function DesktopIconsArea({
         const isOpen = openWindowIds.includes(section.id)
         // Posição salva ou padrão em coluna no canto esquerdo
         const position = iconPositions[section.id] || {
-          x: 20,
-          y: 20 + (idx * 86)
+          x: 24,
+          y: 24 + (idx * 88)
         }
 
         return (
@@ -31,7 +32,7 @@ export default function DesktopIconsArea({
             isActive={isFocused || isOpen}
             position={position}
             onClick={onSelectSection}
-            onMove={onMoveIcon}
+            onDrop={onDropIcon || onMoveIcon}
             onContextMenu={onContextMenu}
           />
         )
