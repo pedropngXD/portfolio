@@ -1,4 +1,5 @@
 import { SECTIONS } from '../data/sections'
+import { CONTACT_CHANNELS } from '../data/contact'
 import SystemIcon from './SystemIcon'
 import styles from './Dock.module.css'
 
@@ -12,6 +13,10 @@ export default function Dock({
   onToggleTheme
 }) {
   const visibleSections = SECTIONS.filter((sec) => dockAppIds.includes(sec.id))
+
+  const githubChannel = CONTACT_CHANNELS.find((c) => c.id === 'github')
+  const linkedinChannel = CONTACT_CHANNELS.find((c) => c.id === 'linkedin')
+  const emailChannel = CONTACT_CHANNELS.find((c) => c.id === 'email')
 
   return (
     <footer
@@ -40,7 +45,7 @@ export default function Dock({
                 e.stopPropagation()
                 onContextMenu && onContextMenu(e, section.id, 'dock')
               }}
-              aria-label={`Abrir ${section.title} (clique direito para opções)`}
+              aria-label={`Abrir ${section.title}`}
               aria-pressed={isOpen && !isMinimized}
             >
               <div
@@ -64,22 +69,62 @@ export default function Dock({
       <div className={styles.separator} aria-hidden="true" />
 
       {/* Atalho externo direto para o GitHub */}
-      <div className={styles.dockItemWrapper}>
-        <span className={styles.tooltip}>GitHub (pedropngXD)</span>
-        <a
-          href="https://github.com/pedropngXD"
-          target="_blank"
-          rel="noopener noreferrer"
-          className={styles.dockButton}
-          aria-label="Acessar perfil do GitHub de Pedro"
-        >
-          <SystemIcon
-            type="github"
-            size={22}
-            color="var(--window-text-primary)"
-          />
-        </a>
-      </div>
+      {githubChannel && (
+        <div className={styles.dockItemWrapper}>
+          <span className={styles.tooltip}>GitHub ({githubChannel.value})</span>
+          <a
+            href={githubChannel.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.dockButton}
+            aria-label="Acessar perfil do GitHub de Pedro"
+          >
+            <SystemIcon
+              type="github"
+              size={22}
+              color="var(--window-text-primary)"
+            />
+          </a>
+        </div>
+      )}
+
+      {/* Atalho externo direto para o LinkedIn */}
+      {linkedinChannel && (
+        <div className={styles.dockItemWrapper}>
+          <span className={styles.tooltip}>LinkedIn ({linkedinChannel.value})</span>
+          <a
+            href={linkedinChannel.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.dockButton}
+            aria-label="Acessar perfil do LinkedIn de Pedro"
+          >
+            <SystemIcon
+              type="linkedin"
+              size={20}
+              color="var(--window-text-primary)"
+            />
+          </a>
+        </div>
+      )}
+
+      {/* Atalho direto para E-mail */}
+      {emailChannel && (
+        <div className={styles.dockItemWrapper}>
+          <span className={styles.tooltip}>E-mail ({emailChannel.value})</span>
+          <a
+            href={emailChannel.href}
+            className={styles.dockButton}
+            aria-label="Enviar e-mail para Pedro"
+          >
+            <SystemIcon
+              type="mail"
+              size={21}
+              color="var(--window-text-primary)"
+            />
+          </a>
+        </div>
+      )}
 
       {/* Atalho para alternar Modo Claro / Modo Escuro */}
       <div className={styles.dockItemWrapper}>
