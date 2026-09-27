@@ -66,6 +66,7 @@ export default function DesktopIcon({
 
   const handleContextMenu = (e) => {
     e.preventDefault()
+    e.stopPropagation()
     onContextMenu && onContextMenu(e, id)
   }
 

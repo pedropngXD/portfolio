@@ -35,7 +35,7 @@ export default function App() {
     return initial
   })
 
-  // Aplicativos fixados no Dock (barra de tarefas do meio embaixo)
+  // Aplicativos fixados na barra de tarefas (Dock)
   const [dockAppIds, setDockAppIds] = useState(() => {
     const saved = localStorage.getItem('pedro-os-dock-apps')
     if (saved) {
@@ -84,17 +84,17 @@ export default function App() {
     }))
   }
 
-  // Remove um app do Dock
+  // Desafixa um app da barra de tarefas
   const handleRemoveFromDock = (sectionId) => {
     setDockAppIds((prev) => prev.filter((id) => id !== sectionId))
   }
 
-  // Adiciona um app ao Dock
+  // Fixa um app na barra de tarefas
   const handleAddToDock = (sectionId) => {
     setDockAppIds((prev) => (prev.includes(sectionId) ? prev : [...prev, sectionId]))
   }
 
-  // Restaura o Dock com todos os apps padrão
+  // Restaura a barra de tarefas com todos os apps padrão
   const handleResetDock = () => {
     setDockAppIds(SECTIONS.map((s) => s.id))
   }
@@ -124,7 +124,7 @@ export default function App() {
           onClick: () => openWindow(sectionId)
         },
         {
-          label: inDock ? 'Remover do Dock' : 'Fixar no Dock',
+          label: inDock ? 'Desafixar da barra de tarefas' : 'Fixar na barra de tarefas',
           icon: inDock ? '❌' : '📌',
           danger: inDock,
           onClick: () => {
@@ -145,7 +145,7 @@ export default function App() {
     })
   }
 
-  // Menu de contexto com botão direito em ícone do Dock
+  // Menu de contexto com botão direito em ícone da barra de tarefas (Dock)
   const handleDockContextMenu = (e, sectionId) => {
     const section = SECTIONS.find((s) => s.id === sectionId)
 
@@ -160,14 +160,14 @@ export default function App() {
           onClick: () => openWindow(sectionId)
         },
         {
-          label: 'Remover do Dock',
+          label: 'Desafixar da barra de tarefas',
           icon: '❌',
           danger: true,
           onClick: () => handleRemoveFromDock(sectionId)
         },
         { separator: true },
         {
-          label: 'Restaurar todos no Dock',
+          label: 'Restaurar barra de tarefas padrão',
           icon: '🔄',
           onClick: handleResetDock
         }
@@ -191,7 +191,7 @@ export default function App() {
           onClick: handleAlignIcons
         },
         {
-          label: 'Restaurar barra Dock padrão',
+          label: 'Restaurar barra de tarefas padrão',
           icon: '🔄',
           onClick: handleResetDock
         },
@@ -285,7 +285,7 @@ export default function App() {
         })}
       </main>
 
-      {/* Dock com suporte a ocultar quando janela estiver maximizada */}
+      {/* Barra de tarefas (Dock) com suporte a ocultar quando janela estiver maximizada */}
       <Dock
         windows={windows}
         dockAppIds={dockAppIds}

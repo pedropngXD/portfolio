@@ -17,7 +17,7 @@ export default function Dock({
     <footer
       className={`${styles.dockContainer} ${isHidden ? styles.dockHidden : ''}`}
       role="region"
-      aria-label="Dock de aplicativos"
+      aria-label="Barra de tarefas"
     >
       {/* Atalhos para as janelas do sistema operacional */}
       {visibleSections.map((section) => {
@@ -37,9 +37,10 @@ export default function Dock({
               onClick={() => onSelectSection && onSelectSection(section.id)}
               onContextMenu={(e) => {
                 e.preventDefault()
+                e.stopPropagation()
                 onContextMenu && onContextMenu(e, section.id, 'dock')
               }}
-              aria-label={`Abrir ${section.title}`}
+              aria-label={`Abrir ${section.title} (clique direito para opções)`}
               aria-pressed={isOpen && !isMinimized}
             >
               <div
