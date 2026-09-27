@@ -1,17 +1,18 @@
 import { useState, useEffect } from 'react'
 import { SECTIONS } from './data/sections'
+import { useWindowManager } from './hooks/useWindowManager'
 import MenuBar from './components/MenuBar'
 import DesktopIconsArea from './components/DesktopIconsArea'
 import Window from './components/Window'
 import Dock from './components/Dock'
+import ContextMenu from './components/ContextMenu'
 import AboutSection from './components/sections/AboutSection'
 import StackSection from './components/sections/StackSection'
 import ExperienceSection from './components/sections/ExperienceSection'
 import ProjectsSection from './components/sections/ProjectsSection'
 import ContactSection from './components/sections/ContactSection'
 
-function App() {
-  // Inicialização com preferência salva ou detecção automática do SO do usuário
+export default function App() {
   const [theme, setTheme] = useState(() => {
     const saved = localStorage.getItem('pedro-os-theme')
     if (saved) return saved
@@ -21,34 +22,200 @@ function App() {
     return 'light'
   })
 
-  // Janela inicial: abre 'about' por padrão para causar impacto imediato ao recrutador
-  const [activeSection, setActiveSection] = useState('about')
+  // Posições dos ícones da área de trabalho
+  const [iconPositions, setIconPositions] = useState(() => {
+    const saved = localStorage.getItem('pedro-os-desktop-icons')
+    if (saved) {
+      try { return JSON.parse(saved) } catch (e) { /* ignore */ }
+    }
+    const initial = {}
+    SECTIONS.forEach((sec, idx) => {
+      initial[sec.id] = { x: 24, y: 24 + (idx * 88) }
+    })
+    return initial
+  })
+
+  // Aplicativos fixados no Dock (barra de tarefas do meio embaixo)
+  const [dockAppIds, setDockAppIds] = useState(() => {
+    const saved = localStorage.getItem('pedro-os-dock-apps')
+    if (saved) {
+      try { return JSON.parse(saved) } catch (e) { /* ignore */ }
+    }
+    return SECTIONS.map((s) => s.id)
+  })
+
+  // Estado do Menu de Contexto (botão direito)
+  const [contextMenu, setContextMenu] = useState({ isOpen: false, x: 0, y: 0, items: [] })
+
+  const {
+    windows,
+    focusedWindowId,
+    openWindow,
+    closeWindow,
+    minimizeWindow,
+    toggleMaximizeWindow,
+    focusWindow,
+    updateWindowPosition,
+    updateWindowSize
+  } = useWindowManager()
 
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme)
     localStorage.setItem('pedro-os-theme', theme)
   }, [theme])
 
+  useEffect(() => {
+    localStorage.setItem('pedro-os-desktop-icons', JSON.stringify(iconPositions))
+  }, [iconPositions])
+
+  useEffect(() => {
+    localStorage.setItem('pedro-os-dock-apps', JSON.stringify(dockAppIds))
+  }, [dockAppIds])
+
   const toggleTheme = () => {
     setTheme((prev) => (prev === 'light' ? 'dark' : 'light'))
   }
 
-  const handleSelectSection = (sectionId) => {
-    setActiveSection((current) => (current === sectionId ? null : sectionId))
+  // Move o ícone na área de trabalho
+  const handleMoveIcon = (id, newPos) => {
+    setIconPositions((prev) => ({
+      ...prev,
+      [id]: newPos
+    }))
   }
 
-  const handleCloseWindow = () => {
-    setActiveSection(null)
+  // Remove um app do Dock
+  const handleRemoveFromDock = (sectionId) => {
+    setDockAppIds((prev) => prev.filter((id) => id !== sectionId))
   }
 
-  const currentSectionData = SECTIONS.find((sec) => sec.id === activeSection)
+  // Adiciona um app ao Dock
+  const handleAddToDock = (sectionId) => {
+    setDockAppIds((prev) => (prev.includes(sectionId) ? prev : [...prev, sectionId]))
+  }
 
-  const renderWindowContent = () => {
-    if (!currentSectionData) return null
+  // Restaura o Dock com todos os apps padrão
+  const handleResetDock = () => {
+    setDockAppIds(SECTIONS.map((s) => s.id))
+  }
 
-    switch (activeSection) {
+  // Organiza os ícones em coluna limpa no canto esquerdo
+  const handleAlignIcons = () => {
+    const resetPositions = {}
+    SECTIONS.forEach((sec, idx) => {
+      resetPositions[sec.id] = { x: 24, y: 24 + (idx * 88) }
+    })
+    setIconPositions(resetPositions)
+  }
+
+  // Menu de contexto com botão direito em ícone do Desktop
+  const handleDesktopIconContextMenu = (e, sectionId) => {
+    const section = SECTIONS.find((s) => s.id === sectionId)
+    const inDock = dockAppIds.includes(sectionId)
+
+    setContextMenu({
+      isOpen: true,
+      x: e.clientX,
+      y: e.clientY,
+      items: [
+        {
+          label: `Abrir ${section.title}`,
+          icon: '📂',
+          onClick: () => openWindow(sectionId)
+        },
+        {
+          label: inDock ? 'Remover do Dock' : 'Fixar no Dock',
+          icon: inDock ? '❌' : '📌',
+          danger: inDock,
+          onClick: () => {
+            if (inDock) {
+              handleRemoveFromDock(sectionId)
+            } else {
+              handleAddToDock(sectionId)
+            }
+          }
+        },
+        { separator: true },
+        {
+          label: 'Alinhar todos os ícones',
+          icon: '📐',
+          onClick: handleAlignIcons
+        }
+      ]
+    })
+  }
+
+  // Menu de contexto com botão direito em ícone do Dock
+  const handleDockContextMenu = (e, sectionId) => {
+    const section = SECTIONS.find((s) => s.id === sectionId)
+
+    setContextMenu({
+      isOpen: true,
+      x: e.clientX,
+      y: e.clientY,
+      items: [
+        {
+          label: `Abrir ${section.title}`,
+          icon: '📂',
+          onClick: () => openWindow(sectionId)
+        },
+        {
+          label: 'Remover do Dock',
+          icon: '❌',
+          danger: true,
+          onClick: () => handleRemoveFromDock(sectionId)
+        },
+        { separator: true },
+        {
+          label: 'Restaurar todos no Dock',
+          icon: '🔄',
+          onClick: handleResetDock
+        }
+      ]
+    })
+  }
+
+  // Menu de contexto com botão direito no papel de parede
+  const handleWorkspaceContextMenu = (e) => {
+    if (e.target.closest('[role="dialog"]') || e.target.closest('button')) return
+    e.preventDefault()
+
+    setContextMenu({
+      isOpen: true,
+      x: e.clientX,
+      y: e.clientY,
+      items: [
+        {
+          label: 'Alinhar ícones na área de trabalho',
+          icon: '📐',
+          onClick: handleAlignIcons
+        },
+        {
+          label: 'Restaurar barra Dock padrão',
+          icon: '🔄',
+          onClick: handleResetDock
+        },
+        { separator: true },
+        {
+          label: theme === 'dark' ? 'Modo Claro' : 'Modo Escuro',
+          icon: theme === 'dark' ? '☀️' : '🌙',
+          onClick: toggleTheme
+        }
+      ]
+    })
+  }
+
+  const openWindowIds = Object.keys(windows).filter((id) => windows[id].isOpen)
+
+  // Verifica se há alguma janela aberta em modo maximizado
+  const hasMaximizedWindow = Object.values(windows).some(
+    (w) => w.isOpen && !w.isMinimized && w.isMaximized
+  )
+
+  const renderContentForSection = (sectionId) => {
+    switch (sectionId) {
       case 'about':
-        return <AboutSection onNavigate={handleSelectSection} />
+        return <AboutSection onNavigate={openWindow} />
       case 'stack':
         return <StackSection />
       case 'experience':
@@ -63,45 +230,81 @@ function App() {
   }
 
   return (
-    <div className="desktop-workspace">
-      {/* Barra superior de menus */}
+    <div
+      className="desktop-workspace"
+      onContextMenu={handleWorkspaceContextMenu}
+    >
+      {/* Barra superior de menus do SO */}
       <MenuBar
-        activeSection={activeSection}
-        onOpenSection={handleSelectSection}
+        focusedWindowId={focusedWindowId}
+        openWindowIds={openWindowIds}
+        onOpenSection={openWindow}
         theme={theme}
         onToggleTheme={toggleTheme}
       />
 
-      {/* Área central do desktop */}
+      {/* Área central do desktop com ícones livres */}
       <main className="desktop-content-area" style={{ marginTop: 'var(--menubar-height)' }}>
+        {/* Ícones arrastáveis livremente pelo desktop */}
         <DesktopIconsArea
-          activeSection={activeSection}
-          onSelectSection={handleSelectSection}
+          openWindowIds={openWindowIds}
+          focusedWindowId={focusedWindowId}
+          iconPositions={iconPositions}
+          onSelectSection={openWindow}
+          onMoveIcon={handleMoveIcon}
+          onContextMenu={handleDesktopIconContextMenu}
         />
 
-        {/* Janela centralizada */}
-        {currentSectionData && (
-          <Window
-            title={currentSectionData.title}
-            tag={currentSectionData.tag}
-            iconType={currentSectionData.iconType}
-            accentColor={currentSectionData.accentColor}
-            onClose={handleCloseWindow}
-          >
-            {renderWindowContent()}
-          </Window>
-        )}
+        {/* Janelas abertas */}
+        {SECTIONS.map((section) => {
+          const win = windows[section.id]
+          if (!win || !win.isOpen || win.isMinimized) return null
+
+          return (
+            <Window
+              key={section.id}
+              id={section.id}
+              title={section.title}
+              tag={section.tag}
+              iconType={section.iconType}
+              accentColor={section.accentColor}
+              isMaximized={win.isMaximized}
+              zIndex={win.zIndex}
+              position={win.position}
+              size={win.size}
+              onClose={closeWindow}
+              onMinimize={minimizeWindow}
+              onMaximize={toggleMaximizeWindow}
+              onFocus={focusWindow}
+              onMove={updateWindowPosition}
+              onResize={updateWindowSize}
+            >
+              {renderContentForSection(section.id)}
+            </Window>
+          )
+        })}
       </main>
 
-      {/* Dock flutuante fixo na parte inferior da tela */}
+      {/* Dock com suporte a ocultar quando janela estiver maximizada */}
       <Dock
-        activeSection={activeSection}
-        onSelectSection={handleSelectSection}
+        windows={windows}
+        dockAppIds={dockAppIds}
+        isHidden={hasMaximizedWindow}
+        onSelectSection={openWindow}
+        onContextMenu={handleDockContextMenu}
         theme={theme}
         onToggleTheme={toggleTheme}
       />
+
+      {/* Menu de contexto nativo com botão direito */}
+      {contextMenu.isOpen && (
+        <ContextMenu
+          x={contextMenu.x}
+          y={contextMenu.y}
+          items={contextMenu.items}
+          onClose={() => setContextMenu((prev) => ({ ...prev, isOpen: false }))}
+        />
+      )}
     </div>
   )
 }
-
-export default App

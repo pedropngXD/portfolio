@@ -3,27 +3,44 @@ import SystemIcon from './SystemIcon'
 import styles from './Dock.module.css'
 
 export default function Dock({
-  activeSection,
+  windows = {},
+  dockAppIds = [],
+  isHidden = false,
   onSelectSection,
+  onContextMenu,
   theme,
   onToggleTheme
 }) {
+  const visibleSections = SECTIONS.filter((sec) => dockAppIds.includes(sec.id))
+
   return (
-    <footer className={styles.dockContainer} role="region" aria-label="Dock de aplicativos">
+    <footer
+      className={`${styles.dockContainer} ${isHidden ? styles.dockHidden : ''}`}
+      role="region"
+      aria-label="Dock de aplicativos"
+    >
       {/* Atalhos para as janelas do sistema operacional */}
-      {SECTIONS.map((section) => {
-        const isActive = activeSection === section.id
+      {visibleSections.map((section) => {
+        const win = windows[section.id]
+        const isOpen = win?.isOpen
+        const isMinimized = win?.isMinimized
 
         return (
           <div key={section.id} className={styles.dockItemWrapper}>
-            <span className={styles.tooltip}>{section.title}</span>
+            <span className={styles.tooltip}>
+              {section.title} {isMinimized ? '(Minimizada)' : isOpen ? '(Aberta)' : ''}
+            </span>
 
             <button
               type="button"
               className={styles.dockButton}
               onClick={() => onSelectSection && onSelectSection(section.id)}
+              onContextMenu={(e) => {
+                e.preventDefault()
+                onContextMenu && onContextMenu(e, section.id, 'dock')
+              }}
               aria-label={`Abrir ${section.title}`}
-              aria-pressed={isActive}
+              aria-pressed={isOpen && !isMinimized}
             >
               <div
                 className={styles.dockButtonGlow}
@@ -36,8 +53,8 @@ export default function Dock({
               />
             </button>
 
-            {/* Pontinho indicador de aplicativo aberto */}
-            {isActive && <span className={styles.activeDot} />}
+            {/* Pontinho indicador de aplicativo em execução no SO */}
+            {isOpen && <span className={styles.activeDot} />}
           </div>
         )
       })}
