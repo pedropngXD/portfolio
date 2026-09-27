@@ -1,8 +1,10 @@
 import { useState } from 'react'
+import MenuBar from './components/MenuBar'
 
 function App() {
-  // Estado preliminar de tema para testar os tokens
   const [theme, setTheme] = useState('light')
+  // Controla qual seção/janela está ativa (apenas uma por vez, conforme especificado)
+  const [activeSection, setActiveSection] = useState(null)
 
   const toggleTheme = () => {
     const nextTheme = theme === 'light' ? 'dark' : 'light'
@@ -10,11 +12,24 @@ function App() {
     document.documentElement.setAttribute('data-theme', nextTheme)
   }
 
+  const handleOpenSection = (sectionId) => {
+    // Clique simples: se já estiver aberta, fecha; caso contrário, abre a nova (fechando a anterior)
+    setActiveSection((current) => (current === sectionId ? null : sectionId))
+  }
+
   return (
     <div className="desktop-workspace">
-      {/* Área central do Desktop (onde entrarão ícones, janelas e dock) */}
-      <main className="desktop-content-area">
-        {/* Placeholder visual temporário da Etapa 2 para validação de tokens */}
+      {/* Barra de Menu Superior Fixa */}
+      <MenuBar
+        activeSection={activeSection}
+        onOpenSection={handleOpenSection}
+        theme={theme}
+        onToggleTheme={toggleTheme}
+      />
+
+      {/* Área Central de Trabalho do Desktop */}
+      <main className="desktop-content-area" style={{ marginTop: 'var(--menubar-height)' }}>
+        {/* Feedback visual provisório para testar cliques no MenuBar */}
         <div style={{
           position: 'absolute',
           top: '50%',
@@ -34,33 +49,24 @@ function App() {
           <h1 style={{ fontSize: 'var(--text-2xl)', fontWeight: 'var(--weight-bold)', marginBottom: '0.75rem', color: 'var(--window-text-primary)' }}>
             Pedro OS v1.0
           </h1>
-          <p style={{ fontSize: 'var(--text-base)', color: 'var(--window-text-secondary)', marginBottom: '1.5rem', lineHeight: 1.5 }}>
-            Layout base ativo: viewport travada sem rolagem global, papel de parede dinâmico e paleta de acentos configurada.
+          <p style={{ fontSize: 'var(--text-base)', color: 'var(--window-text-secondary)', marginBottom: '1.25rem', lineHeight: 1.5 }}>
+            MenuBar fixado no topo com relógio em tempo real, menus de atalho e alternador de tema.
           </p>
 
-          {/* Teste das cores de acento de cada seção futura */}
-          <div style={{ display: 'flex', justifyContent: 'center', gap: '0.75rem', marginBottom: '1.5rem' }}>
-            <span title="Sobre Mim" style={{ width: 14, height: 14, borderRadius: '50%', background: 'var(--accent-about)' }} />
-            <span title="Projetos" style={{ width: 14, height: 14, borderRadius: '50%', background: 'var(--accent-projects)' }} />
-            <span title="Stack Técnica" style={{ width: 14, height: 14, borderRadius: '50%', background: 'var(--accent-stack)' }} />
-            <span title="Experiência" style={{ width: 14, height: 14, borderRadius: '50%', background: 'var(--accent-experience)' }} />
-            <span title="Contato" style={{ width: 14, height: 14, borderRadius: '50%', background: 'var(--accent-contact)' }} />
+          <div style={{
+            display: 'inline-flex',
+            alignItems: 'center',
+            gap: '0.5rem',
+            padding: '0.5rem 1rem',
+            background: 'var(--window-surface)',
+            borderRadius: 'var(--radius-md)',
+            border: '1px solid var(--window-border)',
+            fontSize: 'var(--text-sm)',
+            color: 'var(--window-text-primary)'
+          }}>
+            <span>Seção selecionada no menu:</span>
+            <strong>{activeSection ? activeSection.toUpperCase() : 'NENHUMA (Área limpa)'}</strong>
           </div>
-
-          <button
-            onClick={toggleTheme}
-            style={{
-              padding: '0.6rem 1.2rem',
-              fontSize: 'var(--text-sm)',
-              fontWeight: 'var(--weight-medium)',
-              background: 'var(--accent-experience)',
-              color: '#ffffff',
-              borderRadius: 'var(--radius-md)',
-              boxShadow: '0 2px 8px rgba(0,0,0,0.15)'
-            }}
-          >
-            Alternar Tema: {theme === 'light' ? '🌙 Modo Escuro' : '☀️ Modo Claro'}
-          </button>
         </div>
       </main>
     </div>
