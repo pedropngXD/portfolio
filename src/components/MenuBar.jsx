@@ -3,7 +3,8 @@ import { SECTIONS } from '../data/sections'
 import styles from './MenuBar.module.css'
 
 export default function MenuBar({
-  activeSection,
+  focusedWindowId,
+  openWindowIds = [],
   onOpenSection,
   theme,
   onToggleTheme
@@ -39,16 +40,25 @@ export default function MenuBar({
         </div>
 
         <nav aria-label="Navegação do sistema">
-          {SECTIONS.map((section) => (
-            <button
-              key={section.id}
-              type="button"
-              className={`${styles.menuItem} ${activeSection === section.id ? styles.menuItemActive : ''}`}
-              onClick={() => onOpenSection && onOpenSection(section.id)}
-            >
-              {section.shortLabel}
-            </button>
-          ))}
+          {SECTIONS.map((section) => {
+            const isFocused = focusedWindowId === section.id
+            const isOpen = openWindowIds.includes(section.id)
+
+            return (
+              <button
+                key={section.id}
+                type="button"
+                className={`${styles.menuItem} ${isFocused ? styles.menuItemActive : ''}`}
+                onClick={() => onOpenSection && onOpenSection(section.id)}
+                title={`${section.title} ${isOpen ? '(Aberta)' : ''}`}
+              >
+                {section.shortLabel}
+                {isOpen && !isFocused && (
+                  <span style={{ fontSize: '0.6rem', opacity: 0.6, marginLeft: '3px' }}>•</span>
+                )}
+              </button>
+            )
+          })}
         </nav>
       </div>
 

@@ -14,14 +14,14 @@
   transition: background 0.4s ease;
 }
 
-/* Área central de trabalho (entre a MenuBar e a base) */
+/* Área central de trabalho (logo abaixo da MenuBar até a base) */
 .desktop-content-area {
   flex: 1;
   position: relative;
   width: 100%;
   height: calc(100% - var(--menubar-height));
   overflow: hidden;
-  padding: 1.25rem;
+  padding: 0; /* Padding zerado para que janelas maximizadas encostem perfeitamente nas bordas */
 }
 
 /* Scrollbar refinada para quando as janelas tiverem rolagem interna */
