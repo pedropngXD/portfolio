@@ -1,0 +1,88 @@
+:root {
+  /* Tipografia do Ecossistema Apple */
+  --font-family-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", "Segoe UI", Roboto, sans-serif;
+  --font-family-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+
+  /* Escala Tipográfica Fluida (Clamped) */
+  --text-display: clamp(2.75rem, 6vw, 4.75rem);   /* Títulos de impacto (Hero) */
+  --text-title: clamp(2rem, 4vw, 3rem);           /* Títulos de seção */
+  --text-headline: clamp(1.25rem, 2.5vw, 1.75rem);/* Subtítulos e destaques */
+  --text-body: clamp(1rem, 1.2vw, 1.125rem);      /* Parágrafos e leitura */
+  --text-caption: 0.875rem;                       /* Metadados, tags, datas */
+
+  /* Pesos de Fonte */
+  --weight-regular: 400;
+  --weight-medium: 500;
+  --weight-semibold: 600;
+  --weight-bold: 700;
+
+  /* Entrelinha e Espaçamento de Caracteres (Apple-style tracking) */
+  --line-height-tight: 1.08;
+  --line-height-heading: 1.15;
+  --line-height-body: 1.5;
+  --letter-spacing-display: -0.035em;
+  --letter-spacing-title: -0.025em;
+  --letter-spacing-headline: -0.015em;
+  --letter-spacing-body: -0.005em;
+
+  /* Paleta Neutra e Acento Único (Light Mode Padrão) */
+  --bg-primary: #ffffff;
+  --bg-secondary: #f5f5f7;       /* O cinza neutro característico da Apple */
+  --bg-card: #ffffff;
+  --bg-card-hover: #fafafa;
+  --bg-subtle: #fbfbfd;
+
+  --text-primary: #1d1d1f;       /* Preto suave de alto contraste */
+  --text-secondary: #6e6e73;     /* Cinza médio de leitura / hierarquia secundária */
+  --text-tertiary: #86868b;      /* Cinza claro para detalhes e rótulos */
+
+  --border-subtle: rgba(0, 0, 0, 0.08);
+  --border-card: rgba(0, 0, 0, 0.06);
+
+  /* Acento de Cor Único (Apple Blue) */
+  --accent: #0071e3;
+  --accent-hover: #0077ed;
+  --accent-subtle: rgba(0, 113, 227, 0.08);
+  --accent-contrast: #ffffff;
+
+  /* Espaçamento e Ritmo Visual */
+  --spacing-section: clamp(4.5rem, 10vw, 8rem);
+  --spacing-grid-gap: clamp(1.25rem, 2.5vw, 2.5rem);
+
+  /* Curvaturas de Borda (Apple Squircles) */
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-card: 20px;
+  --radius-pill: 9999px;
+
+  /* Sombras Sutis e Transições */
+  --shadow-subtle: 0 4px 20px rgba(0, 0, 0, 0.04);
+  --shadow-card: 0 8px 30px rgba(0, 0, 0, 0.06);
+  --shadow-card-hover: 0 14px 40px rgba(0, 0, 0, 0.1);
+  --transition-smooth: all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+}
+
+/* Suporte preliminar a Dark Mode via classe ou preferência do sistema */
+[data-theme="dark"] {
+  --bg-primary: #000000;
+  --bg-secondary: #161617;
+  --bg-card: #1c1c1e;
+  --bg-card-hover: #242426;
+  --bg-subtle: #0d0d0d;
+
+  --text-primary: #f5f5f7;
+  --text-secondary: #a1a1a6;
+  --text-tertiary: #6e6e73;
+
+  --border-subtle: rgba(255, 255, 255, 0.12);
+  --border-card: rgba(255, 255, 255, 0.08);
+
+  --accent: #2997ff;
+  --accent-hover: #47a6ff;
+  --accent-subtle: rgba(41, 151, 255, 0.15);
+  --accent-contrast: #000000;
+
+  --shadow-subtle: 0 4px 20px rgba(0, 0, 0, 0.5);
+  --shadow-card: 0 8px 30px rgba(0, 0, 0, 0.6);
+  --shadow-card-hover: 0 14px 40px rgba(0, 0, 0, 0.8);
+}
