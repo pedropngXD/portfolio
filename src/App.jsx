@@ -1,9 +1,10 @@
 import { useState } from 'react'
 import MenuBar from './components/MenuBar'
+import DesktopIconsArea from './components/DesktopIconsArea'
 
 function App() {
   const [theme, setTheme] = useState('light')
-  // Controla qual seção/janela está ativa (apenas uma por vez, conforme especificado)
+  // Controla qual seção/janela está ativa (apenas uma por vez, fechando a anterior ao abrir outra)
   const [activeSection, setActiveSection] = useState(null)
 
   const toggleTheme = () => {
@@ -12,24 +13,30 @@ function App() {
     document.documentElement.setAttribute('data-theme', nextTheme)
   }
 
-  const handleOpenSection = (sectionId) => {
-    // Clique simples: se já estiver aberta, fecha; caso contrário, abre a nova (fechando a anterior)
+  const handleSelectSection = (sectionId) => {
+    // Clique simples: se clicar no mesmo que já está aberto, fecha; se clicar em outro, abre o novo
     setActiveSection((current) => (current === sectionId ? null : sectionId))
   }
 
   return (
     <div className="desktop-workspace">
-      {/* Barra de Menu Superior Fixa */}
+      {/* Barra superior de menus do SO */}
       <MenuBar
         activeSection={activeSection}
-        onOpenSection={handleOpenSection}
+        onOpenSection={handleSelectSection}
         theme={theme}
         onToggleTheme={toggleTheme}
       />
 
-      {/* Área Central de Trabalho do Desktop */}
+      {/* Área central do desktop */}
       <main className="desktop-content-area" style={{ marginTop: 'var(--menubar-height)' }}>
-        {/* Feedback visual provisório para testar cliques no MenuBar */}
+        {/* Coluna de ícones de atalho das seções no canto esquerdo */}
+        <DesktopIconsArea
+          activeSection={activeSection}
+          onSelectSection={handleSelectSection}
+        />
+
+        {/* Card temporário no centro indicando o estado selecionado (será substituído pela Window na Etapa 5) */}
         <div style={{
           position: 'absolute',
           top: '50%',
@@ -43,20 +50,20 @@ function App() {
           borderRadius: 'var(--radius-xl)',
           padding: '2rem 2.5rem',
           boxShadow: 'var(--dock-shadow)',
-          maxWidth: '520px',
+          maxWidth: '500px',
           width: '90%'
         }}>
-          <h1 style={{ fontSize: 'var(--text-2xl)', fontWeight: 'var(--weight-bold)', marginBottom: '0.75rem', color: 'var(--window-text-primary)' }}>
-            Pedro OS v1.0
+          <h1 style={{ fontSize: 'var(--text-xl)', fontWeight: 'var(--weight-bold)', marginBottom: '0.5rem', color: 'var(--window-text-primary)' }}>
+            Área de Ícones Ativa
           </h1>
-          <p style={{ fontSize: 'var(--text-base)', color: 'var(--window-text-secondary)', marginBottom: '1.25rem', lineHeight: 1.5 }}>
-            MenuBar fixado no topo com relógio em tempo real, menus de atalho e alternador de tema.
+          <p style={{ fontSize: 'var(--text-sm)', color: 'var(--window-text-secondary)', marginBottom: '1.25rem', lineHeight: 1.5 }}>
+            Clique em qualquer ícone à esquerda ou item no MenuBar para testar a seleção unificada.
           </p>
 
           <div style={{
             display: 'inline-flex',
             alignItems: 'center',
-            gap: '0.5rem',
+            gap: '0.6rem',
             padding: '0.5rem 1rem',
             background: 'var(--window-surface)',
             borderRadius: 'var(--radius-md)',
@@ -64,8 +71,8 @@ function App() {
             fontSize: 'var(--text-sm)',
             color: 'var(--window-text-primary)'
           }}>
-            <span>Seção selecionada no menu:</span>
-            <strong>{activeSection ? activeSection.toUpperCase() : 'NENHUMA (Área limpa)'}</strong>
+            <span>Janela ativa:</span>
+            <strong>{activeSection ? activeSection.toUpperCase() : 'NENHUMA (Área de trabalho limpa)'}</strong>
           </div>
         </div>
       </main>

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { SECTIONS } from '../data/sections'
 import styles from './MenuBar.module.css'
 
 export default function MenuBar({
@@ -12,7 +13,6 @@ export default function MenuBar({
   useEffect(() => {
     const updateTime = () => {
       const now = new Date()
-      // Formata data e hora no estilo de menu de SO (ex: "dom., 27 de set. 19:20")
       const formatted = new Intl.DateTimeFormat('pt-BR', {
         weekday: 'short',
         day: '2-digit',
@@ -21,7 +21,6 @@ export default function MenuBar({
         minute: '2-digit',
       }).format(now)
 
-      // Remove pontos finais das abreviações de dias/meses para visual limpo
       setTime(formatted.replace(/\./g, ''))
     }
 
@@ -29,13 +28,6 @@ export default function MenuBar({
     const timer = setInterval(updateTime, 1000)
     return () => clearInterval(timer)
   }, [])
-
-  const navItems = [
-    { id: 'about', label: 'Sobre' },
-    { id: 'projects', label: 'Projetos' },
-    { id: 'stack', label: 'Stack' },
-    { id: 'contact', label: 'Contato' }
-  ]
 
   return (
     <header className={styles.menuBar} role="banner">
@@ -47,14 +39,14 @@ export default function MenuBar({
         </div>
 
         <nav aria-label="Navegação do sistema">
-          {navItems.map((item) => (
+          {SECTIONS.map((section) => (
             <button
-              key={item.id}
+              key={section.id}
               type="button"
-              className={`${styles.menuItem} ${activeSection === item.id ? styles.menuItemActive : ''}`}
-              onClick={() => onOpenSection && onOpenSection(item.id)}
+              className={`${styles.menuItem} ${activeSection === section.id ? styles.menuItemActive : ''}`}
+              onClick={() => onOpenSection && onOpenSection(section.id)}
             >
-              {item.label}
+              {section.shortLabel}
             </button>
           ))}
         </nav>

@@ -1,0 +1,19 @@
+.iconsArea {
+  position: absolute;
+  top: 1.5rem;
+  left: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  align-items: center;
+  z-index: 10;
+  pointer-events: auto;
+}
+
+@media (max-width: 640px) {
+  .iconsArea {
+    top: 1rem;
+    left: 0.75rem;
+    gap: 1rem;
+  }
+}
