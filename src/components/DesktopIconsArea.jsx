@@ -9,13 +9,15 @@ export default function DesktopIconsArea({
   onSelectSection,
   onDropIcon,
   onMoveIcon,
-  onContextMenu
+  onContextMenu,
+  t
 }) {
   return (
-    <nav className={styles.iconsArea} aria-label="Atalhos da Área de Trabalho">
+    <nav className={styles.iconsArea} aria-label={t?.system?.desktopAria || "Atalhos da Área de Trabalho"}>
       {SECTIONS.map((section, idx) => {
         const isFocused = focusedWindowId === section.id
         const isOpen = openWindowIds.includes(section.id)
+        const title = t?.sections?.[section.id]?.title || section.title
         // Posição salva ou padrão em coluna no canto esquerdo
         const position = iconPositions[section.id] || {
           x: 24,
@@ -26,7 +28,7 @@ export default function DesktopIconsArea({
           <DesktopIcon
             key={section.id}
             id={section.id}
-            title={section.title}
+            title={title}
             iconType={section.iconType}
             accentColor={section.accentColor}
             isActive={isFocused || isOpen}

@@ -1,7 +1,12 @@
 import { ABOUT_DATA } from '../../data/about'
 import styles from './AboutSection.module.css'
 
-export default function AboutSection({ onNavigate }) {
+export default function AboutSection({ onNavigate, t }) {
+  const data = t?.about || ABOUT_DATA
+  const paragraphs = data.paragraphs || ABOUT_DATA.paragraphs
+  const quickInfo = data.quickInfo || ABOUT_DATA.quickInfo
+  const isEn = t?.system?.langLabel === 'EN'
+
   return (
     <div className={styles.container}>
       {/* Cabeçalho de Perfil */}
@@ -11,14 +16,14 @@ export default function AboutSection({ onNavigate }) {
         </div>
         <div className={styles.headerText}>
           <h1 className={styles.name}>{ABOUT_DATA.name}</h1>
-          <span className={styles.role}>{ABOUT_DATA.role}</span>
-          <span className={styles.subInfo}>{ABOUT_DATA.education} • {ABOUT_DATA.location}</span>
+          <span className={styles.role}>{data.role || ABOUT_DATA.role}</span>
+          <span className={styles.subInfo}>{(data.education || ABOUT_DATA.education)} • {(data.location || ABOUT_DATA.location)}</span>
         </div>
       </div>
 
       {/* Grid de Pílulas Rápidas para Recrutadores Técnicos */}
       <div className={styles.quickInfoGrid}>
-        {ABOUT_DATA.quickInfo.map((item, idx) => (
+        {quickInfo.map((item, idx) => (
           <div key={idx} className={styles.infoCard}>
             <span className={styles.infoLabel}>{item.label}</span>
             <span className={styles.infoValue}>{item.value}</span>
@@ -28,9 +33,9 @@ export default function AboutSection({ onNavigate }) {
 
       {/* Bio Técnica Direta ao Ponto */}
       <div className={styles.bioSection}>
-        <h2 className={styles.headline}>{ABOUT_DATA.headline}</h2>
+        <h2 className={styles.headline}>{data.headline || ABOUT_DATA.headline}</h2>
 
-        {ABOUT_DATA.paragraphs.map((p, idx) => (
+        {paragraphs.map((p, idx) => (
           <p key={idx} className={styles.paragraph}>
             {p}
           </p>
@@ -44,14 +49,14 @@ export default function AboutSection({ onNavigate }) {
           className={styles.actionBtnPrimary}
           onClick={() => onNavigate && onNavigate('experience')}
         >
-          💼 Ver Experiência na Credware
+          {isEn ? '💼 View Credware Experience' : '💼 Ver Experiência na Credware'}
         </button>
         <button
           type="button"
           className={styles.actionBtnSecondary}
           onClick={() => onNavigate && onNavigate('stack')}
         >
-          ⚡ Explorar Stack Técnica
+          {isEn ? '⚡ Explore Tech Stack' : '⚡ Explorar Stack Técnica'}
         </button>
       </div>
     </div>

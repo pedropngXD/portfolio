@@ -13,6 +13,7 @@ import ExperienceSection from './components/sections/ExperienceSection'
 import ProjectsSection from './components/sections/ProjectsSection'
 import ContactSection from './components/sections/ContactSection'
 import StatusCheckSection from './components/sections/StatusCheckSection'
+import { TRANSLATIONS } from './data/translations'
 import { getAvailableGridPosition, sanitizeAllPositions, gridToCoords } from './utils/desktopGrid'
 
 export default function App() {
@@ -24,6 +25,22 @@ export default function App() {
     }
     return 'light'
   })
+
+  // Idioma do sistema (Português 'pt' ou Inglês 'en')
+  const [language, setLanguage] = useState(() => {
+    return localStorage.getItem('pedro-os-lang') || 'pt'
+  })
+
+  useEffect(() => {
+    localStorage.setItem('pedro-os-lang', language)
+    document.documentElement.setAttribute('lang', language === 'pt' ? 'pt-BR' : 'en')
+  }, [language])
+
+  const toggleLanguage = () => {
+    setLanguage((prev) => (prev === 'pt' ? 'en' : 'pt'))
+  }
+
+  const t = TRANSLATIONS[language] || TRANSLATIONS.pt
 
   // Posições dos ícones da área de trabalho (alinhados em grade e com prevenção total de sobreposição)
   const [iconPositions, setIconPositions] = useState(() => {
@@ -140,11 +157,14 @@ export default function App() {
   // Abre o aplicativo ou link externo correspondente
   const handleOpenApp = (sectionId) => {
     const section = SECTIONS.find((s) => s.id === sectionId)
+    const sys = t?.system || {}
+    const secTitle = t?.sections?.[sectionId]?.title || section?.title
+
     if (section?.externalUrl) {
       window.open(section.externalUrl, '_blank', 'noopener,noreferrer')
       showNotification({
-        title: section.title,
-        message: 'Abrindo projeto em uma nova aba...',
+        title: secTitle,
+        message: sys.externalToastMessage || 'Abrindo projeto em uma nova aba...',
         icon: '↗'
       })
       return
@@ -156,34 +176,36 @@ export default function App() {
   const handleDesktopIconContextMenu = (e, sectionId) => {
     const section = SECTIONS.find((s) => s.id === sectionId)
     const inDock = dockAppIds.includes(sectionId)
+    const sys = t?.system || {}
+    const secTitle = t?.sections?.[sectionId]?.title || section?.title
 
     const items = []
     if (section?.externalUrl) {
       items.push({
-        label: `Abrir no Navegador ↗`,
+        label: sys.openInBrowser || `Abrir no Navegador ↗`,
         icon: '↗',
         onClick: () => window.open(section.externalUrl, '_blank', 'noopener,noreferrer')
       })
       items.push({
-        label: `Abrir como Janela no Desktop 🪟`,
+        label: sys.openAsWindow || `Abrir como Janela no Desktop 🪟`,
         icon: '📂',
         onClick: () => openWindow(sectionId)
       })
       items.push({
-        label: 'Copiar link do projeto',
+        label: sys.copyProjectLink || 'Copiar link do projeto',
         icon: '📋',
         onClick: () => {
           navigator.clipboard.writeText(section.externalUrl)
           showNotification({
-            title: section.title,
-            message: 'Link copiado para a área de transferência!',
+            title: secTitle,
+            message: sys.emailToastMessage ? 'Link copiado!' : 'Link copiado para a área de transferência!',
             icon: '📋'
           })
         }
       })
     } else {
       items.push({
-        label: `Abrir ${section.title}`,
+        label: `${language === 'pt' ? 'Abrir' : 'Open'} ${secTitle}`,
         icon: '📂',
         onClick: () => openWindow(sectionId)
       })
@@ -191,7 +213,7 @@ export default function App() {
 
     items.push({ separator: true })
     items.push({
-      label: inDock ? 'Desafixar da barra de tarefas' : 'Fixar na barra de tarefas',
+      label: inDock ? (sys.unpinFromDock || 'Desafixar da barra de tarefas') : (sys.pinToDock || 'Fixar na barra de tarefas'),
       icon: inDock ? '❌' : '📌',
       danger: inDock,
       onClick: () => {
@@ -204,7 +226,7 @@ export default function App() {
     })
     items.push({ separator: true })
     items.push({
-      label: 'Alinhar todos os ícones',
+      label: sys.alignIcons || 'Alinhar todos os ícones',
       icon: '📐',
       onClick: handleAlignIcons
     })
@@ -220,34 +242,36 @@ export default function App() {
   // Menu de contexto com botão direito em ícone da barra de tarefas (Dock)
   const handleDockContextMenu = (e, sectionId) => {
     const section = SECTIONS.find((s) => s.id === sectionId)
+    const sys = t?.system || {}
+    const secTitle = t?.sections?.[sectionId]?.title || section?.title
 
     const items = []
     if (section?.externalUrl) {
       items.push({
-        label: `Abrir no Navegador ↗`,
+        label: sys.openInBrowser || `Abrir no Navegador ↗`,
         icon: '↗',
         onClick: () => window.open(section.externalUrl, '_blank', 'noopener,noreferrer')
       })
       items.push({
-        label: `Abrir como Janela no Desktop 🪟`,
+        label: sys.openAsWindow || `Abrir como Janela no Desktop 🪟`,
         icon: '📂',
         onClick: () => openWindow(sectionId)
       })
       items.push({
-        label: 'Copiar link do projeto',
+        label: sys.copyProjectLink || 'Copiar link do projeto',
         icon: '📋',
         onClick: () => {
           navigator.clipboard.writeText(section.externalUrl)
           showNotification({
-            title: section.title,
-            message: 'Link copiado para a área de transferência!',
+            title: secTitle,
+            message: 'Link copiado!',
             icon: '📋'
           })
         }
       })
     } else {
       items.push({
-        label: `Abrir ${section.title}`,
+        label: `${language === 'pt' ? 'Abrir' : 'Open'} ${secTitle}`,
         icon: '📂',
         onClick: () => openWindow(sectionId)
       })
@@ -255,14 +279,14 @@ export default function App() {
 
     items.push({ separator: true })
     items.push({
-      label: 'Desafixar da barra de tarefas',
+      label: sys.unpinFromDock || 'Desafixar da barra de tarefas',
       icon: '❌',
       danger: true,
       onClick: () => handleRemoveFromDock(sectionId)
     })
     items.push({ separator: true })
     items.push({
-      label: 'Restaurar barra de tarefas padrão',
+      label: sys.resetDock || 'Restaurar barra de tarefas padrão',
       icon: '🔄',
       onClick: handleResetDock
     })
@@ -280,24 +304,32 @@ export default function App() {
     if (e.target.closest('[role="dialog"]') || e.target.closest('button')) return
     e.preventDefault()
 
+    const sys = t?.system || {}
+
     setContextMenu({
       isOpen: true,
       x: e.clientX,
       y: e.clientY,
       items: [
         {
-          label: 'Alinhar ícones na área de trabalho',
+          label: language === 'pt' ? '🌐 Idioma: Inglês (EN)' : '🌐 Language: Portuguese (PT)',
+          icon: '🌐',
+          onClick: toggleLanguage
+        },
+        { separator: true },
+        {
+          label: sys.alignIcons || 'Alinhar ícones na área de trabalho',
           icon: '📐',
           onClick: handleAlignIcons
         },
         {
-          label: 'Restaurar barra de tarefas padrão',
+          label: sys.resetDock || 'Restaurar barra de tarefas padrão',
           icon: '🔄',
           onClick: handleResetDock
         },
         { separator: true },
         {
-          label: theme === 'dark' ? 'Modo Claro' : 'Modo Escuro',
+          label: theme === 'dark' ? (sys.switchThemeLight || 'Modo Claro') : (sys.switchThemeDark || 'Modo Escuro'),
           icon: theme === 'dark' ? '☀️' : '🌙',
           onClick: toggleTheme
         }
@@ -315,15 +347,15 @@ export default function App() {
   const renderContentForSection = (sectionId) => {
     switch (sectionId) {
       case 'about':
-        return <AboutSection onNavigate={openWindow} />
+        return <AboutSection onNavigate={openWindow} t={t} />
       case 'stack':
-        return <StackSection />
+        return <StackSection t={t} />
       case 'experience':
-        return <ExperienceSection />
+        return <ExperienceSection t={t} />
       case 'projects':
-        return <ProjectsSection />
+        return <ProjectsSection t={t} />
       case 'contact':
-        return <ContactSection />
+        return <ContactSection t={t} />
       case 'status-check':
         return <StatusCheckSection />
       default:
@@ -336,18 +368,21 @@ export default function App() {
       className="desktop-workspace"
       onContextMenu={handleWorkspaceContextMenu}
     >
-      {/* Barra superior de menus do SO */}
+      {/* Barra superior de menus do SO com toggle de idioma */}
       <MenuBar
         focusedWindowId={focusedWindowId}
         openWindowIds={openWindowIds}
         onOpenSection={handleOpenApp}
         theme={theme}
         onToggleTheme={toggleTheme}
+        lang={language}
+        onToggleLang={toggleLanguage}
+        t={t}
       />
 
       {/* Área central do desktop com ícones livres */}
       <main className="desktop-content-area" style={{ marginTop: 'var(--menubar-height)' }}>
-        {/* Ícones arrastáveis livremente pelo desktop */}
+        {/* Ícones arrastáveis livremente pelo desktop com títulos traduzidos */}
         <DesktopIconsArea
           openWindowIds={openWindowIds}
           focusedWindowId={focusedWindowId}
@@ -355,6 +390,7 @@ export default function App() {
           onSelectSection={handleOpenApp}
           onDropIcon={handleDropIcon}
           onContextMenu={handleDesktopIconContextMenu}
+          t={t}
         />
 
         {/* Janelas abertas */}
@@ -362,12 +398,15 @@ export default function App() {
           const win = windows[section.id]
           if (!win || !win.isOpen || win.isMinimized) return null
 
+          const sectionTitle = t?.sections?.[section.id]?.title || section.title
+          const sectionTag = t?.sections?.[section.id]?.tag || section.tag
+
           return (
             <Window
               key={section.id}
               id={section.id}
-              title={section.title}
-              tag={section.tag}
+              title={sectionTitle}
+              tag={sectionTag}
               iconType={section.iconType}
               accentColor={section.accentColor}
               isMaximized={win.isMaximized}
@@ -400,6 +439,7 @@ export default function App() {
         onToggleTheme={toggleTheme}
         onReorderLeft={setDockAppIds}
         onReorderRight={setDockRightIds}
+        t={t}
       />
 
       {/* Menu de contexto nativo com botão direito */}

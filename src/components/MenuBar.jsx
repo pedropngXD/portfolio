@@ -7,14 +7,18 @@ export default function MenuBar({
   openWindowIds = [],
   onOpenSection,
   theme,
-  onToggleTheme
+  onToggleTheme,
+  lang = 'pt',
+  onToggleLang,
+  t
 }) {
   const [time, setTime] = useState('')
 
   useEffect(() => {
     const updateTime = () => {
       const now = new Date()
-      const formatted = new Intl.DateTimeFormat('pt-BR', {
+      const locale = lang === 'pt' ? 'pt-BR' : 'en-US'
+      const formatted = new Intl.DateTimeFormat(locale, {
         weekday: 'short',
         day: '2-digit',
         month: 'short',
@@ -28,7 +32,9 @@ export default function MenuBar({
     updateTime()
     const timer = setInterval(updateTime, 1000)
     return () => clearInterval(timer)
-  }, [])
+  }, [lang])
+
+  const sys = t?.system || {}
 
   return (
     <header className={styles.menuBar} role="banner">
@@ -36,13 +42,15 @@ export default function MenuBar({
       <div className={styles.leftGroup}>
         <div className={styles.brand}>
           <span className={styles.brandIcon} aria-hidden="true">💻</span>
-          <span>Pedro</span>
+          <span>{sys.brand || 'Pedro'}</span>
         </div>
 
         <nav aria-label="Navegação do sistema">
           {SECTIONS.map((section) => {
             const isFocused = focusedWindowId === section.id
             const isOpen = openWindowIds.includes(section.id)
+            const sectionLabel = t?.sections?.[section.id]?.shortLabel || section.shortLabel
+            const sectionTitle = t?.sections?.[section.id]?.title || section.title
 
             return (
               <button
@@ -50,9 +58,9 @@ export default function MenuBar({
                 type="button"
                 className={`${styles.menuItem} ${isFocused ? styles.menuItemActive : ''}`}
                 onClick={() => onOpenSection && onOpenSection(section.id)}
-                title={`${section.title} ${isOpen ? '(Aberta)' : ''}`}
+                title={`${sectionTitle} ${isOpen ? `(${sys.open || 'Aberta'})` : ''}`}
               >
-                {section.shortLabel}
+                {sectionLabel}
                 {isOpen && !isFocused && (
                   <span style={{ fontSize: '0.6rem', opacity: 0.6, marginLeft: '3px' }}>•</span>
                 )}
@@ -62,18 +70,30 @@ export default function MenuBar({
         </nav>
       </div>
 
-      {/* Lado Direito: Status profissional, Toggle de Tema e Relógio */}
+      {/* Lado Direito: Status profissional, Toggle de Idioma, Toggle de Tema e Relógio */}
       <div className={styles.rightGroup}>
         <div className={styles.statusBadge} title="Unisinos • Credware Tecnologia">
           <span className={styles.statusDot} />
-          <span>Credware Tech</span>
+          <span>{sys.statusWork || 'Credware Tech'}</span>
         </div>
+
+        {/* Botão de Sistema para Trocar de Idioma (PT / EN) */}
+        <button
+          type="button"
+          className={styles.langToggle}
+          onClick={onToggleLang}
+          title={lang === 'pt' ? 'Switch to English (US)' : 'Mudar para Português (BR)'}
+          aria-label="Alternar idioma do sistema"
+        >
+          <span className={styles.langFlag}>{lang === 'pt' ? '🇧🇷' : '🇺🇸'}</span>
+          <span className={styles.langCode}>{lang === 'pt' ? 'PT' : 'EN'}</span>
+        </button>
 
         <button
           type="button"
           className={styles.themeToggle}
           onClick={onToggleTheme}
-          title={theme === 'dark' ? 'Mudar para modo claro' : 'Mudar para modo escuro'}
+          title={theme === 'dark' ? (sys.switchThemeLight || 'Modo Claro') : (sys.switchThemeDark || 'Modo Escuro')}
           aria-label="Alternar tema de cores"
         >
           {theme === 'dark' ? '☀️' : '🌙'}

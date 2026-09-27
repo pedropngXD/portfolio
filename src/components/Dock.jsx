@@ -25,12 +25,15 @@ export default function Dock({
   theme,
   onToggleTheme,
   onReorderLeft,
-  onReorderRight
+  onReorderRight,
+  t
 }) {
   const [isEmailCopied, setIsEmailCopied] = useState(false)
   const [dragState, setDragState] = useState(null)
   const isDraggingRef = useRef(false)
   const blockClickRef = useRef(false)
+
+  const sys = t?.system || {}
 
   // Seções da esquerda ordenadas de acordo com dockAppIds
   const orderedSections = dockAppIds
@@ -46,8 +49,8 @@ export default function Dock({
     navigator.clipboard.writeText(emailChannel.value).then(() => {
       setIsEmailCopied(true)
       onNotify && onNotify({
-        title: 'Área de Transferência',
-        message: 'E-mail copiado para a área de transferência!',
+        title: sys.emailToastTitle || 'Área de Transferência',
+        message: sys.emailToastMessage || 'E-mail copiado para a área de transferência!',
         icon: '📋'
       })
       setTimeout(() => setIsEmailCopied(false), 2400)
@@ -254,7 +257,7 @@ export default function Dock({
             onPointerDown={(e) => handlePointerDown(e, index, 'right', dockRightIds.length)}
           >
             <span className={styles.tooltip}>
-              {isEmailCopied ? '✓ Copiado!' : `Copiar E-mail (${emailChannel.value})`}
+              {isEmailCopied ? (sys.copySuccess || '✓ Copiado!') : `${sys.copyEmail || 'Copiar E-mail'} (${emailChannel.value})`}
             </span>
             <button
               type="button"
@@ -280,7 +283,7 @@ export default function Dock({
             onPointerDown={(e) => handlePointerDown(e, index, 'right', dockRightIds.length)}
           >
             <span className={styles.tooltip}>
-              {theme === 'dark' ? 'Modo Claro' : 'Modo Escuro'}
+              {theme === 'dark' ? (sys.switchThemeLight || 'Modo Claro') : (sys.switchThemeDark || 'Modo Escuro')}
             </span>
             <button
               type="button"
@@ -313,6 +316,7 @@ export default function Dock({
         const isMinimized = win?.isMinimized
         const itemStyle = getItemStyle(index, 'left')
         const isThisItemDragging = dragState?.section === 'left' && dragState?.dragIndex === index
+        const sectionTitle = t?.sections?.[section.id]?.title || section.title
 
         return (
           <div
@@ -322,7 +326,7 @@ export default function Dock({
             onPointerDown={(e) => handlePointerDown(e, index, 'left', orderedSections.length)}
           >
             <span className={styles.tooltip}>
-              {section.title} {isMinimized ? '(Minimizada)' : isOpen ? '(Aberta)' : ''}
+              {sectionTitle} {isMinimized ? `(${sys.minimized || 'Minimizada'})` : isOpen ? `(${sys.open || 'Aberta'})` : ''}
             </span>
 
             <button
