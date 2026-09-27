@@ -6,6 +6,7 @@ import Window from './components/Window'
 import AboutSection from './components/sections/AboutSection'
 import StackSection from './components/sections/StackSection'
 import ExperienceSection from './components/sections/ExperienceSection'
+import ProjectsSection from './components/sections/ProjectsSection'
 
 function App() {
   const [theme, setTheme] = useState('light')
@@ -37,8 +38,10 @@ function App() {
         return <StackSection />
       case 'experience':
         return <ExperienceSection />
+      case 'projects':
+        return <ProjectsSection />
       default:
-        // Placeholder provisório para as próximas etapas (9 e 10)
+        // Placeholder provisório para a etapa 10 (Contato & Formação)
         return (
           <div style={{ maxWidth: '640px' }}>
             <div style={{
@@ -72,7 +75,7 @@ function App() {
               color: 'var(--window-text-secondary)',
               marginBottom: '1.5rem'
             }}>
-              O conteúdo específico desta janela será implementado nas etapas seguintes do roteiro.
+              O conteúdo desta janela será implementado na Etapa 10 (Formação e Contato).
             </p>
 
             <button

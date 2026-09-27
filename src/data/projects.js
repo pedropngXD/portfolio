@@ -1,0 +1,17 @@
+export const PROJECTS_DATA = [
+  {
+    id: 'desktop-portfolio',
+    title: 'Portfólio Pessoal Desktop OS',
+    tag: 'Frontend & UI',
+    status: 'Concluído',
+    description: 'Simulação interativa de sistema operacional para apresentação de stack real, experiência prática e projetos técnicos.',
+    highlights: [
+      'Arquitetura modular de componentes em React com Vite',
+      'Design tokens nativos em CSS puro (dark/light mode e blur translúcido)',
+      'Gestão de estado para janelas com controles reais e navegação por atalhos'
+    ],
+    techStack: ['React', 'JavaScript', 'CSS Modules', 'Vite', 'Git'],
+    githubUrl: 'https://github.com/pedropngXD',
+    liveUrl: '#'
+  },
+]
