@@ -1,37 +1,44 @@
 @import './styles/tokens.css';
 @import './styles/reset.css';
 
-/* Utilitários tipográficos e de layout globais */
-.eyebrow {
-  display: inline-block;
-  font-size: var(--text-caption);
-  font-weight: var(--weight-semibold);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: var(--accent);
-  margin-bottom: 0.75rem;
+/* Container principal de tela inteira do Desktop OS */
+.desktop-workspace {
+  width: 100vw;
+  height: 100vh;
+  height: 100dvh;
+  position: relative;
+  background: var(--wallpaper);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  transition: background 0.4s ease;
 }
 
-.title-display {
-  font-size: var(--text-display);
-  font-weight: var(--weight-bold);
-  line-height: var(--line-height-tight);
-  letter-spacing: var(--letter-spacing-display);
-  color: var(--text-primary);
+/* Área central de trabalho (entre a MenuBar e a base) */
+.desktop-content-area {
+  flex: 1;
+  position: relative;
+  width: 100%;
+  height: calc(100% - var(--menubar-height));
+  overflow: hidden;
+  padding: 1.25rem;
 }
 
-.title-section {
-  font-size: var(--text-title);
-  font-weight: var(--weight-semibold);
-  line-height: var(--line-height-heading);
-  letter-spacing: var(--letter-spacing-title);
-  color: var(--text-primary);
+/* Scrollbar refinada para quando as janelas tiverem rolagem interna */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
 }
 
-.lead-text {
-  font-size: var(--text-headline);
-  font-weight: var(--weight-regular);
-  color: var(--text-secondary);
-  line-height: var(--line-height-body);
-  letter-spacing: var(--letter-spacing-headline);
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.4);
+  border-radius: var(--radius-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(100, 116, 139, 0.6);
 }

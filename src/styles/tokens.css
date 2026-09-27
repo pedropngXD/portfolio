@@ -1,88 +1,94 @@
 :root {
-  /* Tipografia do Ecossistema Apple */
-  --font-family-sans: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", "Segoe UI", Roboto, sans-serif;
-  --font-family-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+  /* Tipografia Moderna e Limpa */
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', Menlo, Consolas, monospace;
 
-  /* Escala Tipográfica Fluida (Clamped) */
-  --text-display: clamp(2.75rem, 6vw, 4.75rem);   /* Títulos de impacto (Hero) */
-  --text-title: clamp(2rem, 4vw, 3rem);           /* Títulos de seção */
-  --text-headline: clamp(1.25rem, 2.5vw, 1.75rem);/* Subtítulos e destaques */
-  --text-body: clamp(1rem, 1.2vw, 1.125rem);      /* Parágrafos e leitura */
-  --text-caption: 0.875rem;                       /* Metadados, tags, datas */
+  /* Escala Tipográfica */
+  --text-xs: 0.75rem;    /* 12px - relógio, legendas de ícones */
+  --text-sm: 0.875rem;   /* 14px - menu bar, botões, metadados */
+  --text-base: 1rem;     /* 16px - parágrafos de janelas */
+  --text-lg: 1.125rem;   /* 18px - subtítulos */
+  --text-xl: 1.25rem;    /* 20px - títulos de seções */
+  --text-2xl: 1.5rem;    /* 24px - cabeçalhos internos */
+  --text-3xl: 2rem;      /* 32px - título principal de boas-vindas/destaques */
 
-  /* Pesos de Fonte */
+  /* Pesos */
   --weight-regular: 400;
   --weight-medium: 500;
   --weight-semibold: 600;
   --weight-bold: 700;
 
-  /* Entrelinha e Espaçamento de Caracteres (Apple-style tracking) */
-  --line-height-tight: 1.08;
-  --line-height-heading: 1.15;
-  --line-height-body: 1.5;
-  --letter-spacing-display: -0.035em;
-  --letter-spacing-title: -0.025em;
-  --letter-spacing-headline: -0.015em;
-  --letter-spacing-body: -0.005em;
+  /* Acentos de Cor por Seção */
+  --accent-projects: #f97316;   /* Laranja para Projetos */
+  --accent-stack: #10b981;      /* Verde para Stack Técnica */
+  --accent-experience: #3b82f6; /* Azul para Experiência (Credware) */
+  --accent-about: #8b5cf6;      /* Roxo para Sobre Mim */
+  --accent-contact: #06b6d4;    /* Ciano para Contato e Formação */
 
-  /* Paleta Neutra e Acento Único (Light Mode Padrão) */
-  --bg-primary: #ffffff;
-  --bg-secondary: #f5f5f7;       /* O cinza neutro característico da Apple */
-  --bg-card: #ffffff;
-  --bg-card-hover: #fafafa;
-  --bg-subtle: #fbfbfd;
+  /* Botões de Controle de Janela do SO */
+  --window-btn-close: #ff5f56;
+  --window-btn-minimize: #ffbd2e;
+  --window-btn-maximize: #27c93f;
 
-  --text-primary: #1d1d1f;       /* Preto suave de alto contraste */
-  --text-secondary: #6e6e73;     /* Cinza médio de leitura / hierarquia secundária */
-  --text-tertiary: #86868b;      /* Cinza claro para detalhes e rótulos */
+  /* Curvaturas (Squircles de SO) */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 14px;
+  --radius-xl: 20px;
+  --radius-full: 9999px;
 
-  --border-subtle: rgba(0, 0, 0, 0.08);
-  --border-card: rgba(0, 0, 0, 0.06);
+  /* Transições suaves */
+  --transition-fast: 0.15s ease;
+  --transition-normal: 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  --transition-bounce: 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
 
-  /* Acento de Cor Único (Apple Blue) */
-  --accent: #0071e3;
-  --accent-hover: #0077ed;
-  --accent-subtle: rgba(0, 113, 227, 0.08);
-  --accent-contrast: #ffffff;
+  /* Dimensões do SO */
+  --menubar-height: 32px;
+  --dock-height: 64px;
 
-  /* Espaçamento e Ritmo Visual */
-  --spacing-section: clamp(4.5rem, 10vw, 8rem);
-  --spacing-grid-gap: clamp(1.25rem, 2.5vw, 2.5rem);
+  /* TEMA LIGHT (Padrão) */
+  --wallpaper: radial-gradient(circle at 50% 30%, #e2e8f0 0%, #cbd5e1 50%, #94a3b8 100%);
+  --desktop-text: #0f172a;
+  --desktop-text-shadow: 0 1px 2px rgba(255, 255, 255, 0.7);
 
-  /* Curvaturas de Borda (Apple Squircles) */
-  --radius-sm: 8px;
-  --radius-md: 14px;
-  --radius-card: 20px;
-  --radius-pill: 9999px;
+  --menubar-bg: rgba(255, 255, 255, 0.72);
+  --menubar-border: rgba(0, 0, 0, 0.08);
+  --menubar-text: #1e293b;
 
-  /* Sombras Sutis e Transições */
-  --shadow-subtle: 0 4px 20px rgba(0, 0, 0, 0.04);
-  --shadow-card: 0 8px 30px rgba(0, 0, 0, 0.06);
-  --shadow-card-hover: 0 14px 40px rgba(0, 0, 0, 0.1);
-  --transition-smooth: all 0.3s cubic-bezier(0.25, 0.1, 0.25, 1);
+  --dock-bg: rgba(255, 255, 255, 0.65);
+  --dock-border: rgba(255, 255, 255, 0.5);
+  --dock-shadow: 0 12px 30px rgba(0, 0, 0, 0.12);
+
+  --window-bg: #ffffff;
+  --window-header-bg: #f8fafc;
+  --window-border: rgba(0, 0, 0, 0.12);
+  --window-shadow: 0 20px 50px -10px rgba(15, 23, 42, 0.25), 0 0 0 1px rgba(0, 0, 0, 0.05);
+  --window-text-primary: #0f172a;
+  --window-text-secondary: #475569;
+  --window-text-muted: #64748b;
+  --window-surface: #f1f5f9;
 }
 
-/* Suporte preliminar a Dark Mode via classe ou preferência do sistema */
+/* TEMA DARK */
 [data-theme="dark"] {
-  --bg-primary: #000000;
-  --bg-secondary: #161617;
-  --bg-card: #1c1c1e;
-  --bg-card-hover: #242426;
-  --bg-subtle: #0d0d0d;
+  --wallpaper: radial-gradient(circle at 50% 20%, #1e293b 0%, #0f172a 60%, #020617 100%);
+  --desktop-text: #f8fafc;
+  --desktop-text-shadow: 0 1px 3px rgba(0, 0, 0, 0.8);
 
-  --text-primary: #f5f5f7;
-  --text-secondary: #a1a1a6;
-  --text-tertiary: #6e6e73;
+  --menubar-bg: rgba(15, 23, 42, 0.75);
+  --menubar-border: rgba(255, 255, 255, 0.08);
+  --menubar-text: #f1f5f9;
 
-  --border-subtle: rgba(255, 255, 255, 0.12);
-  --border-card: rgba(255, 255, 255, 0.08);
+  --dock-bg: rgba(30, 41, 59, 0.65);
+  --dock-border: rgba(255, 255, 255, 0.12);
+  --dock-shadow: 0 16px 36px rgba(0, 0, 0, 0.45);
 
-  --accent: #2997ff;
-  --accent-hover: #47a6ff;
-  --accent-subtle: rgba(41, 151, 255, 0.15);
-  --accent-contrast: #000000;
-
-  --shadow-subtle: 0 4px 20px rgba(0, 0, 0, 0.5);
-  --shadow-card: 0 8px 30px rgba(0, 0, 0, 0.6);
-  --shadow-card-hover: 0 14px 40px rgba(0, 0, 0, 0.8);
+  --window-bg: #0f172a;
+  --window-header-bg: #1e293b;
+  --window-border: rgba(255, 255, 255, 0.1);
+  --window-shadow: 0 25px 60px -10px rgba(0, 0, 0, 0.7), 0 0 0 1px rgba(255, 255, 255, 0.08);
+  --window-text-primary: #f8fafc;
+  --window-text-secondary: #cbd5e1;
+  --window-text-muted: #94a3b8;
+  --window-surface: #1e293b;
 }

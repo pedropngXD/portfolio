@@ -1,47 +1,47 @@
-/* Reset moderno e normalização base */
+/* Reset para Sistema Operacional Desktop */
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
   padding: 0;
 }
 
-html {
-  scroll-behavior: smooth;
-  -webkit-text-size-adjust: 100%;
+html, body, #root {
+  width: 100%;
+  height: 100%;
+  height: 100dvh;
+  margin: 0;
+  padding: 0;
+  overflow: hidden; /* Desktop real não rola a tela inteira; janelas rolam internamente */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 body {
-  font-family: var(--font-family-sans);
-  background-color: var(--bg-primary);
-  color: var(--text-primary);
-  line-height: var(--line-height-body);
-  font-size: var(--text-body);
-  letter-spacing: var(--letter-spacing-body);
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  font-family: var(--font-sans);
+  background: var(--wallpaper);
+  color: var(--desktop-text);
+  user-select: none; /* Sensação de aplicação de sistema operacional */
 }
 
-img, svg, picture {
-  display: block;
-  max-width: 100%;
-}
-
-a {
-  color: var(--accent);
-  text-decoration: none;
-  transition: color 0.2s ease;
-}
-
-a:hover {
-  color: var(--accent-hover);
+/* Permitir seleção de texto dentro das janelas */
+.selectable-text, .window-content, p, span, h1, h2, h3, h4, code, pre {
+  user-select: text;
 }
 
 button {
   font-family: inherit;
-  cursor: pointer;
   border: none;
   background: none;
+  cursor: pointer;
+  outline: none;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+img, svg {
+  display: block;
+  user-select: none;
 }
