@@ -14,4 +14,19 @@ export const PROJECTS_DATA = [
     githubUrl: 'https://github.com/pedropngXD',
     liveUrl: '#'
   },
+  {
+    id: 'status-check',
+    title: 'Status Check — Telemetria de IA & Cloud',
+    tag: 'Fullstack & Monitoramento',
+    status: 'Online',
+    description: 'Dashboard em tempo real de monitoramento de saúde e telemetria para as principais plataformas de IA e serviços em nuvem.',
+    highlights: [
+      'Monitoramento contínuo de status, latência e uptime de serviços de IA',
+      'Interface moderna e responsiva com suporte a temas e telemetria ao vivo',
+      'Deploy contínuo e hospedagem de alta performance na Vercel'
+    ],
+    techStack: ['React', 'TypeScript', 'Tailwind CSS', 'Vite', 'APIs'],
+    githubUrl: 'https://github.com/pedropngXD',
+    liveUrl: 'https://status-check-eosin.vercel.app'
+  }
 ]

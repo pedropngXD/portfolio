@@ -12,6 +12,7 @@ import StackSection from './components/sections/StackSection'
 import ExperienceSection from './components/sections/ExperienceSection'
 import ProjectsSection from './components/sections/ProjectsSection'
 import ContactSection from './components/sections/ContactSection'
+import StatusCheckSection from './components/sections/StatusCheckSection'
 import { getAvailableGridPosition, sanitizeAllPositions, gridToCoords } from './utils/desktopGrid'
 
 export default function App() {
@@ -136,40 +137,83 @@ export default function App() {
     setIconPositions(resetPositions)
   }
 
+  // Abre o aplicativo ou link externo correspondente
+  const handleOpenApp = (sectionId) => {
+    const section = SECTIONS.find((s) => s.id === sectionId)
+    if (section?.externalUrl) {
+      window.open(section.externalUrl, '_blank', 'noopener,noreferrer')
+      showNotification({
+        title: section.title,
+        message: 'Abrindo projeto em uma nova aba...',
+        icon: '↗'
+      })
+      return
+    }
+    openWindow(sectionId)
+  }
+
   // Menu de contexto com botão direito em ícone do Desktop
   const handleDesktopIconContextMenu = (e, sectionId) => {
     const section = SECTIONS.find((s) => s.id === sectionId)
     const inDock = dockAppIds.includes(sectionId)
 
+    const items = []
+    if (section?.externalUrl) {
+      items.push({
+        label: `Abrir no Navegador ↗`,
+        icon: '↗',
+        onClick: () => window.open(section.externalUrl, '_blank', 'noopener,noreferrer')
+      })
+      items.push({
+        label: `Abrir como Janela no Desktop 🪟`,
+        icon: '📂',
+        onClick: () => openWindow(sectionId)
+      })
+      items.push({
+        label: 'Copiar link do projeto',
+        icon: '📋',
+        onClick: () => {
+          navigator.clipboard.writeText(section.externalUrl)
+          showNotification({
+            title: section.title,
+            message: 'Link copiado para a área de transferência!',
+            icon: '📋'
+          })
+        }
+      })
+    } else {
+      items.push({
+        label: `Abrir ${section.title}`,
+        icon: '📂',
+        onClick: () => openWindow(sectionId)
+      })
+    }
+
+    items.push({ separator: true })
+    items.push({
+      label: inDock ? 'Desafixar da barra de tarefas' : 'Fixar na barra de tarefas',
+      icon: inDock ? '❌' : '📌',
+      danger: inDock,
+      onClick: () => {
+        if (inDock) {
+          handleRemoveFromDock(sectionId)
+        } else {
+          handleAddToDock(sectionId)
+        }
+      }
+    })
+    items.push({ separator: true })
+    items.push({
+      label: 'Alinhar todos os ícones',
+      icon: '📐',
+      onClick: handleAlignIcons
+    })
+
     setContextMenu({
       isOpen: true,
       x: e.clientX,
       y: e.clientY,
-      items: [
-        {
-          label: `Abrir ${section.title}`,
-          icon: '📂',
-          onClick: () => openWindow(sectionId)
-        },
-        {
-          label: inDock ? 'Desafixar da barra de tarefas' : 'Fixar na barra de tarefas',
-          icon: inDock ? '❌' : '📌',
-          danger: inDock,
-          onClick: () => {
-            if (inDock) {
-              handleRemoveFromDock(sectionId)
-            } else {
-              handleAddToDock(sectionId)
-            }
-          }
-        },
-        { separator: true },
-        {
-          label: 'Alinhar todos os ícones',
-          icon: '📐',
-          onClick: handleAlignIcons
-        }
-      ]
+      items
     })
   }
 
@@ -177,29 +221,57 @@ export default function App() {
   const handleDockContextMenu = (e, sectionId) => {
     const section = SECTIONS.find((s) => s.id === sectionId)
 
+    const items = []
+    if (section?.externalUrl) {
+      items.push({
+        label: `Abrir no Navegador ↗`,
+        icon: '↗',
+        onClick: () => window.open(section.externalUrl, '_blank', 'noopener,noreferrer')
+      })
+      items.push({
+        label: `Abrir como Janela no Desktop 🪟`,
+        icon: '📂',
+        onClick: () => openWindow(sectionId)
+      })
+      items.push({
+        label: 'Copiar link do projeto',
+        icon: '📋',
+        onClick: () => {
+          navigator.clipboard.writeText(section.externalUrl)
+          showNotification({
+            title: section.title,
+            message: 'Link copiado para a área de transferência!',
+            icon: '📋'
+          })
+        }
+      })
+    } else {
+      items.push({
+        label: `Abrir ${section.title}`,
+        icon: '📂',
+        onClick: () => openWindow(sectionId)
+      })
+    }
+
+    items.push({ separator: true })
+    items.push({
+      label: 'Desafixar da barra de tarefas',
+      icon: '❌',
+      danger: true,
+      onClick: () => handleRemoveFromDock(sectionId)
+    })
+    items.push({ separator: true })
+    items.push({
+      label: 'Restaurar barra de tarefas padrão',
+      icon: '🔄',
+      onClick: handleResetDock
+    })
+
     setContextMenu({
       isOpen: true,
       x: e.clientX,
       y: e.clientY,
-      items: [
-        {
-          label: `Abrir ${section.title}`,
-          icon: '📂',
-          onClick: () => openWindow(sectionId)
-        },
-        {
-          label: 'Desafixar da barra de tarefas',
-          icon: '❌',
-          danger: true,
-          onClick: () => handleRemoveFromDock(sectionId)
-        },
-        { separator: true },
-        {
-          label: 'Restaurar barra de tarefas padrão',
-          icon: '🔄',
-          onClick: handleResetDock
-        }
-      ]
+      items
     })
   }
 
@@ -252,6 +324,8 @@ export default function App() {
         return <ProjectsSection />
       case 'contact':
         return <ContactSection />
+      case 'status-check':
+        return <StatusCheckSection />
       default:
         return null
     }
@@ -266,7 +340,7 @@ export default function App() {
       <MenuBar
         focusedWindowId={focusedWindowId}
         openWindowIds={openWindowIds}
-        onOpenSection={openWindow}
+        onOpenSection={handleOpenApp}
         theme={theme}
         onToggleTheme={toggleTheme}
       />
@@ -278,7 +352,7 @@ export default function App() {
           openWindowIds={openWindowIds}
           focusedWindowId={focusedWindowId}
           iconPositions={iconPositions}
-          onSelectSection={openWindow}
+          onSelectSection={handleOpenApp}
           onDropIcon={handleDropIcon}
           onContextMenu={handleDesktopIconContextMenu}
         />
@@ -319,7 +393,7 @@ export default function App() {
         dockAppIds={dockAppIds}
         dockRightIds={dockRightIds}
         isHidden={hasMaximizedWindow}
-        onSelectSection={openWindow}
+        onSelectSection={handleOpenApp}
         onContextMenu={handleDockContextMenu}
         onNotify={showNotification}
         theme={theme}

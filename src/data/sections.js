@@ -16,6 +16,15 @@ export const SECTIONS = [
     iconType: 'folder'
   },
   {
+    id: 'status-check',
+    title: 'Status Check',
+    shortLabel: 'Status Check',
+    accentColor: '#10b981',
+    tag: 'Telemetria & IA',
+    iconType: 'activity',
+    externalUrl: 'https://status-check-eosin.vercel.app'
+  },
+  {
     id: 'stack',
     title: 'Stack Técnica',
     shortLabel: 'Stack',
