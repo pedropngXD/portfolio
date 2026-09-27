@@ -4,6 +4,7 @@ import MenuBar from './components/MenuBar'
 import DesktopIconsArea from './components/DesktopIconsArea'
 import Window from './components/Window'
 import AboutSection from './components/sections/AboutSection'
+import StackSection from './components/sections/StackSection'
 
 function App() {
   const [theme, setTheme] = useState('light')
@@ -25,15 +26,16 @@ function App() {
 
   const currentSectionData = SECTIONS.find((sec) => sec.id === activeSection)
 
-  // Renderiza o conteúdo interno de acordo com a seção ativa
   const renderWindowContent = () => {
     if (!currentSectionData) return null
 
     switch (activeSection) {
       case 'about':
         return <AboutSection onNavigate={handleSelectSection} />
+      case 'stack':
+        return <StackSection />
       default:
-        // Placeholder provisório para as próximas etapas (7 a 10)
+        // Placeholder provisório para as próximas etapas (8 a 10)
         return (
           <div style={{ maxWidth: '640px' }}>
             <div style={{
@@ -91,7 +93,6 @@ function App() {
 
   return (
     <div className="desktop-workspace">
-      {/* Barra superior de menus */}
       <MenuBar
         activeSection={activeSection}
         onOpenSection={handleSelectSection}
@@ -99,7 +100,6 @@ function App() {
         onToggleTheme={toggleTheme}
       />
 
-      {/* Área de trabalho */}
       <main className="desktop-content-area" style={{ marginTop: 'var(--menubar-height)' }}>
         <DesktopIconsArea
           activeSection={activeSection}
