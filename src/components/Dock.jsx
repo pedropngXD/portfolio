@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { SECTIONS } from '../data/sections'
 import { CONTACT_CHANNELS } from '../data/contact'
 import SystemIcon from './SystemIcon'
@@ -9,14 +10,30 @@ export default function Dock({
   isHidden = false,
   onSelectSection,
   onContextMenu,
+  onNotify,
   theme,
   onToggleTheme
 }) {
+  const [isEmailCopied, setIsEmailCopied] = useState(false)
+
   const visibleSections = SECTIONS.filter((sec) => dockAppIds.includes(sec.id))
 
   const githubChannel = CONTACT_CHANNELS.find((c) => c.id === 'github')
   const linkedinChannel = CONTACT_CHANNELS.find((c) => c.id === 'linkedin')
   const emailChannel = CONTACT_CHANNELS.find((c) => c.id === 'email')
+
+  const handleCopyEmail = () => {
+    if (!emailChannel) return
+    navigator.clipboard.writeText(emailChannel.value).then(() => {
+      setIsEmailCopied(true)
+      onNotify && onNotify({
+        title: 'Área de Transferência',
+        message: 'E-mail copiado para a área de transferência!',
+        icon: '📋'
+      })
+      setTimeout(() => setIsEmailCopied(false), 2400)
+    })
+  }
 
   return (
     <footer
@@ -108,21 +125,24 @@ export default function Dock({
         </div>
       )}
 
-      {/* Atalho direto para E-mail */}
+      {/* Atalho direto para copiar E-mail com notificação */}
       {emailChannel && (
         <div className={styles.dockItemWrapper}>
-          <span className={styles.tooltip}>E-mail ({emailChannel.value})</span>
-          <a
-            href={emailChannel.href}
+          <span className={styles.tooltip}>
+            {isEmailCopied ? '✓ Copiado!' : `Copiar E-mail (${emailChannel.value})`}
+          </span>
+          <button
+            type="button"
             className={styles.dockButton}
-            aria-label="Enviar e-mail para Pedro"
+            onClick={handleCopyEmail}
+            aria-label="Copiar e-mail de Pedro para a área de transferência"
           >
             <SystemIcon
               type="mail"
               size={21}
-              color="var(--window-text-primary)"
+              color={isEmailCopied ? 'var(--accent-stack)' : 'var(--window-text-primary)'}
             />
-          </a>
+          </button>
         </div>
       )}
 

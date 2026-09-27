@@ -6,6 +6,7 @@ import DesktopIconsArea from './components/DesktopIconsArea'
 import Window from './components/Window'
 import Dock from './components/Dock'
 import ContextMenu from './components/ContextMenu'
+import NotificationToast from './components/NotificationToast'
 import AboutSection from './components/sections/AboutSection'
 import StackSection from './components/sections/StackSection'
 import ExperienceSection from './components/sections/ExperienceSection'
@@ -47,6 +48,9 @@ export default function App() {
   // Estado do Menu de Contexto (botão direito)
   const [contextMenu, setContextMenu] = useState({ isOpen: false, x: 0, y: 0, items: [] })
 
+  // Estado da Notificação Toast de Sistema
+  const [notification, setNotification] = useState({ isOpen: false, title: '', message: '', icon: '✓' })
+
   const {
     windows,
     focusedWindowId,
@@ -74,6 +78,16 @@ export default function App() {
 
   const toggleTheme = () => {
     setTheme((prev) => (prev === 'light' ? 'dark' : 'light'))
+  }
+
+  // Dispara um toast de notificação
+  const showNotification = ({ title, message, icon = '✓' }) => {
+    setNotification({
+      isOpen: true,
+      title,
+      message,
+      icon
+    })
   }
 
   // Move o ícone na área de trabalho
@@ -292,6 +306,7 @@ export default function App() {
         isHidden={hasMaximizedWindow}
         onSelectSection={openWindow}
         onContextMenu={handleDockContextMenu}
+        onNotify={showNotification}
         theme={theme}
         onToggleTheme={toggleTheme}
       />
@@ -303,6 +318,16 @@ export default function App() {
           y={contextMenu.y}
           items={contextMenu.items}
           onClose={() => setContextMenu((prev) => ({ ...prev, isOpen: false }))}
+        />
+      )}
+
+      {/* Notificação Toast do Sistema */}
+      {notification.isOpen && (
+        <NotificationToast
+          title={notification.title}
+          message={notification.message}
+          icon={notification.icon}
+          onClose={() => setNotification((prev) => ({ ...prev, isOpen: false }))}
         />
       )}
     </div>
