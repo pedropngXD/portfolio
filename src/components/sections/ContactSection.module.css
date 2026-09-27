@@ -1,14 +1,15 @@
 .container {
   display: flex;
   flex-direction: column;
-  gap: 1.5rem;
-  max-width: 700px;
+  gap: 1.75rem;
+  width: 100%;
 }
 
 .header {
   display: flex;
   flex-direction: column;
   gap: 0.35rem;
+  width: 100%;
 }
 
 .title {
@@ -25,7 +26,8 @@
 .sectionBlock {
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 0.85rem;
+  width: 100%;
 }
 
 .blockTitle {
@@ -44,10 +46,11 @@
   border: 1px solid var(--window-border);
   border-left: 4px solid var(--accent-contact);
   border-radius: var(--radius-lg);
-  padding: 1.25rem;
+  padding: 1.5rem;
   display: flex;
   flex-direction: column;
-  gap: 0.75rem;
+  gap: 1rem;
+  width: 100%;
 }
 
 .eduHeader {
@@ -56,16 +59,17 @@
   align-items: flex-start;
   flex-wrap: wrap;
   gap: 0.5rem;
+  width: 100%;
 }
 
 .courseTitle {
-  font-size: var(--text-base);
+  font-size: var(--text-lg);
   font-weight: var(--weight-bold);
   color: var(--window-text-primary);
 }
 
 .institution {
-  font-size: var(--text-xs);
+  font-size: var(--text-sm);
   font-weight: var(--weight-medium);
   color: var(--accent-contact);
   margin-top: 0.15rem;
@@ -74,7 +78,7 @@
 .statusBadge {
   font-size: 0.65rem;
   font-weight: var(--weight-semibold);
-  padding: 0.2rem 0.55rem;
+  padding: 0.25rem 0.65rem;
   border-radius: var(--radius-sm);
   background: rgba(6, 182, 212, 0.12);
   color: var(--accent-contact);
@@ -82,7 +86,7 @@
 }
 
 .graduationDate {
-  font-size: var(--text-xs);
+  font-size: var(--text-sm);
   color: var(--window-text-secondary);
   font-weight: var(--weight-medium);
 }
@@ -90,9 +94,10 @@
 .subjectsSection {
   display: flex;
   flex-direction: column;
-  gap: 0.4rem;
-  padding-top: 0.6rem;
+  gap: 0.5rem;
+  padding-top: 0.75rem;
   border-top: 1px solid var(--window-border);
+  width: 100%;
 }
 
 .subjectsLabel {
@@ -106,7 +111,7 @@
 .subjectsList {
   display: flex;
   flex-wrap: wrap;
-  gap: 0.4rem;
+  gap: 0.5rem;
   list-style: none;
   padding: 0;
   margin: 0;
@@ -114,7 +119,7 @@
 
 .subjectTag {
   font-size: var(--text-xs);
-  padding: 0.2rem 0.55rem;
+  padding: 0.25rem 0.65rem;
   border-radius: var(--radius-sm);
   background: var(--window-bg);
   border: 1px solid var(--window-border);
@@ -123,19 +128,20 @@
 
 .contactsGrid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-  gap: 0.85rem;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem;
+  width: 100%;
 }
 
 .contactCard {
   background: var(--window-surface);
   border: 1px solid var(--window-border);
   border-radius: var(--radius-md);
-  padding: 1rem;
+  padding: 1.15rem;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap: 0.75rem;
+  gap: 1rem;
   transition: transform var(--transition-fast), border-color var(--transition-fast), box-shadow var(--transition-fast);
 }
 
@@ -152,12 +158,12 @@
 .cardTop {
   display: flex;
   align-items: center;
-  gap: 0.6rem;
+  gap: 0.75rem;
 }
 
 .iconWrapper {
-  width: 36px;
-  height: 36px;
+  width: 40px;
+  height: 40px;
   border-radius: var(--radius-md);
   background: var(--window-bg);
   border: 1px solid var(--window-border);
@@ -174,7 +180,7 @@
 }
 
 .contactValue {
-  font-size: 0.75rem;
+  font-size: var(--text-xs);
   color: var(--window-text-muted);
   word-break: break-all;
 }
@@ -183,8 +189,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.35rem;
-  padding: 0.45rem 0.8rem;
+  gap: 0.4rem;
+  padding: 0.55rem 0.9rem;
   border-radius: var(--radius-sm);
   font-size: var(--text-xs);
   font-weight: var(--weight-semibold);
@@ -214,11 +220,12 @@
 .footerCallout {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  padding: 0.85rem 1rem;
+  gap: 0.6rem;
+  padding: 1rem 1.25rem;
   background: rgba(6, 182, 212, 0.08);
   border-left: 3px solid var(--accent-contact);
   border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
   font-size: var(--text-xs);
   color: var(--window-text-secondary);
+  width: 100%;
 }
