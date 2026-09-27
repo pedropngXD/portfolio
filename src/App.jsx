@@ -35,13 +35,22 @@ export default function App() {
     return sanitizeAllPositions(parsed, sectionIds)
   })
 
-  // Aplicativos fixados na barra de tarefas (Dock)
+  // Aplicativos fixados na barra de tarefas (Dock) - seção esquerda
   const [dockAppIds, setDockAppIds] = useState(() => {
     const saved = localStorage.getItem('pedro-os-dock-apps')
     if (saved) {
       try { return JSON.parse(saved) } catch (e) { /* ignore */ }
     }
     return SECTIONS.map((s) => s.id)
+  })
+
+  // Atalhos do lado direito da barra de tarefas (Dock) - seção direita
+  const [dockRightIds, setDockRightIds] = useState(() => {
+    const saved = localStorage.getItem('pedro-os-dock-right-apps')
+    if (saved) {
+      try { return JSON.parse(saved) } catch (e) { /* ignore */ }
+    }
+    return ['github', 'linkedin', 'email', 'theme']
   })
 
   // Estado do Menu de Contexto (botão direito)
@@ -74,6 +83,10 @@ export default function App() {
   useEffect(() => {
     localStorage.setItem('pedro-os-dock-apps', JSON.stringify(dockAppIds))
   }, [dockAppIds])
+
+  useEffect(() => {
+    localStorage.setItem('pedro-os-dock-right-apps', JSON.stringify(dockRightIds))
+  }, [dockRightIds])
 
   const toggleTheme = () => {
     setTheme((prev) => (prev === 'light' ? 'dark' : 'light'))
@@ -108,9 +121,10 @@ export default function App() {
     setDockAppIds((prev) => (prev.includes(sectionId) ? prev : [...prev, sectionId]))
   }
 
-  // Restaura a barra de tarefas com todos os apps padrão
+  // Restaura a barra de tarefas com todos os apps e atalhos padrão
   const handleResetDock = () => {
     setDockAppIds(SECTIONS.map((s) => s.id))
+    setDockRightIds(['github', 'linkedin', 'email', 'theme'])
   }
 
   // Organiza os ícones em coluna limpa na grade do canto esquerdo
@@ -299,16 +313,19 @@ export default function App() {
         })}
       </main>
 
-      {/* Barra de tarefas (Dock) com suporte a ocultar quando janela estiver maximizada */}
+      {/* Barra de tarefas (Dock) com suporte a ocultar quando janela estiver maximizada e reordenação isolada */}
       <Dock
         windows={windows}
         dockAppIds={dockAppIds}
+        dockRightIds={dockRightIds}
         isHidden={hasMaximizedWindow}
         onSelectSection={openWindow}
         onContextMenu={handleDockContextMenu}
         onNotify={showNotification}
         theme={theme}
         onToggleTheme={toggleTheme}
+        onReorderLeft={setDockAppIds}
+        onReorderRight={setDockRightIds}
       />
 
       {/* Menu de contexto nativo com botão direito */}

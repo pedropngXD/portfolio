@@ -25,11 +25,34 @@
   pointer-events: none !important;
 }
 
+/* Oculta tooltips durante o arraste */
+.dockContainerDragging .tooltip {
+  display: none !important;
+}
+
+.dockContainerDragging .dockButton:hover {
+  transform: none;
+}
+
 .dockItemWrapper {
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
+  touch-action: none;
+  cursor: grab;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.dockItemWrapperActiveDrag {
+  cursor: grabbing !important;
+  z-index: 60 !important;
+}
+
+.dockItemWrapperActiveDrag .dockButton {
+  transform: scale(1.18) !important;
+  box-shadow: 0 14px 30px rgba(0, 0, 0, 0.38) !important;
 }
 
 .dockButton {
@@ -42,7 +65,7 @@
   position: relative;
   background: var(--window-surface);
   border: 1px solid var(--window-border);
-  cursor: pointer;
+  cursor: inherit;
   transition: transform var(--transition-bounce), box-shadow var(--transition-fast);
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
 }
@@ -103,6 +126,8 @@
   height: 32px;
   background: var(--window-border);
   margin: 0 0.25rem;
+  flex-shrink: 0;
+  pointer-events: none;
 }
 
 @media (max-width: 640px) {

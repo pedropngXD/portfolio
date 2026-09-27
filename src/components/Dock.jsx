@@ -1,22 +1,41 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { SECTIONS } from '../data/sections'
 import { CONTACT_CHANNELS } from '../data/contact'
 import SystemIcon from './SystemIcon'
 import styles from './Dock.module.css'
 
+/**
+ * Move um elemento de uma posição para outra dentro de um array
+ */
+function arrayMove(array, fromIndex, toIndex) {
+  const newArray = [...array]
+  const [removed] = newArray.splice(fromIndex, 1)
+  newArray.splice(toIndex, 0, removed)
+  return newArray
+}
+
 export default function Dock({
   windows = {},
   dockAppIds = [],
+  dockRightIds = ['github', 'linkedin', 'email', 'theme'],
   isHidden = false,
   onSelectSection,
   onContextMenu,
   onNotify,
   theme,
-  onToggleTheme
+  onToggleTheme,
+  onReorderLeft,
+  onReorderRight
 }) {
   const [isEmailCopied, setIsEmailCopied] = useState(false)
+  const [dragState, setDragState] = useState(null)
+  const isDraggingRef = useRef(false)
+  const blockClickRef = useRef(false)
 
-  const visibleSections = SECTIONS.filter((sec) => dockAppIds.includes(sec.id))
+  // Seções da esquerda ordenadas de acordo com dockAppIds
+  const orderedSections = dockAppIds
+    .map((id) => SECTIONS.find((sec) => sec.id === id))
+    .filter(Boolean)
 
   const githubChannel = CONTACT_CHANNELS.find((c) => c.id === 'github')
   const linkedinChannel = CONTACT_CHANNELS.find((c) => c.id === 'linkedin')
@@ -35,20 +54,273 @@ export default function Dock({
     })
   }
 
+  // Previne clique acidental ao soltar um arraste
+  const handleItemClick = (e, callback) => {
+    if (blockClickRef.current) {
+      e.preventDefault()
+      e.stopPropagation()
+      return
+    }
+    callback()
+  }
+
+  // Inicia o arraste isolado por seção
+  const handlePointerDown = (e, index, sectionType, itemsCount) => {
+    if (e.button !== 0 && e.pointerType === 'mouse') return
+
+    const startX = e.clientX
+    const startY = e.clientY
+    const rect = e.currentTarget.getBoundingClientRect()
+    // Pitch do item (largura + gap de 8px)
+    const itemPitch = rect.width + 8
+
+    isDraggingRef.current = false
+
+    const onPointerMove = (moveEvent) => {
+      const deltaX = moveEvent.clientX - startX
+      const deltaY = moveEvent.clientY - startY
+
+      if (!isDraggingRef.current && (Math.abs(deltaX) > 4 || Math.abs(deltaY) > 4)) {
+        isDraggingRef.current = true
+        blockClickRef.current = true
+      }
+
+      if (isDraggingRef.current) {
+        setDragState({
+          section: sectionType,
+          dragIndex: index,
+          deltaX,
+          itemPitch,
+          itemsCount
+        })
+      }
+    }
+
+    const onPointerUp = (upEvent) => {
+      window.removeEventListener('pointermove', onPointerMove)
+      window.removeEventListener('pointerup', onPointerUp)
+      window.removeEventListener('pointercancel', onPointerUp)
+
+      if (isDraggingRef.current) {
+        const deltaX = upEvent.clientX - startX
+        const minDeltaX = -index * itemPitch
+        const maxDeltaX = (itemsCount - 1 - index) * itemPitch
+        const clampedDeltaX = Math.max(minDeltaX, Math.min(maxDeltaX, deltaX))
+        const slotShift = Math.round(clampedDeltaX / itemPitch)
+        const targetIndex = Math.max(0, Math.min(itemsCount - 1, index + slotShift))
+
+        if (targetIndex !== index) {
+          if (sectionType === 'left') {
+            const next = arrayMove(dockAppIds, index, targetIndex)
+            onReorderLeft && onReorderLeft(next)
+          } else if (sectionType === 'right') {
+            const next = arrayMove(dockRightIds, index, targetIndex)
+            onReorderRight && onReorderRight(next)
+          }
+        }
+
+        setDragState(null)
+        setTimeout(() => {
+          blockClickRef.current = false
+          isDraggingRef.current = false
+        }, 80)
+      } else {
+        setDragState(null)
+        blockClickRef.current = false
+        isDraggingRef.current = false
+      }
+    }
+
+    window.addEventListener('pointermove', onPointerMove)
+    window.addEventListener('pointerup', onPointerUp)
+    window.addEventListener('pointercancel', onPointerUp)
+  }
+
+  // Calcula o deslocamento visual de cada item durante o arraste
+  const getItemStyle = (i, sectionType) => {
+    if (!dragState || dragState.section !== sectionType) {
+      return {
+        transform: 'translateX(0px)',
+        transition: 'transform 0.22s cubic-bezier(0.2, 0.9, 0.4, 1)',
+        zIndex: 1
+      }
+    }
+
+    const { dragIndex, deltaX, itemPitch, itemsCount } = dragState
+    const minDeltaX = -dragIndex * itemPitch
+    const maxDeltaX = (itemsCount - 1 - dragIndex) * itemPitch
+    const clampedDeltaX = Math.max(minDeltaX, Math.min(maxDeltaX, deltaX))
+    const slotShift = Math.round(clampedDeltaX / itemPitch)
+    const targetIndex = Math.max(0, Math.min(itemsCount - 1, dragIndex + slotShift))
+
+    if (i === dragIndex) {
+      return {
+        transform: `translateX(${clampedDeltaX}px) scale(1.15)`,
+        zIndex: 50,
+        transition: 'none',
+        pointerEvents: 'none'
+      }
+    }
+
+    let shift = 0
+    if (dragIndex < targetIndex) {
+      if (i > dragIndex && i <= targetIndex) {
+        shift = -itemPitch
+      }
+    } else if (dragIndex > targetIndex) {
+      if (i >= targetIndex && i < dragIndex) {
+        shift = itemPitch
+      }
+    }
+
+    return {
+      transform: `translateX(${shift}px)`,
+      transition: 'transform 0.22s cubic-bezier(0.2, 0.9, 0.4, 1)',
+      zIndex: 1
+    }
+  }
+
+  // Renderiza cada um dos itens da seção direita
+  const renderRightItem = (actionId, index) => {
+    const itemStyle = getItemStyle(index, 'right')
+    const isThisItemDragging = dragState?.section === 'right' && dragState?.dragIndex === index
+
+    switch (actionId) {
+      case 'github':
+        if (!githubChannel) return null
+        return (
+          <div
+            key="github"
+            className={`${styles.dockItemWrapper} ${isThisItemDragging ? styles.dockItemWrapperActiveDrag : ''}`}
+            style={itemStyle}
+            onPointerDown={(e) => handlePointerDown(e, index, 'right', dockRightIds.length)}
+          >
+            <span className={styles.tooltip}>GitHub ({githubChannel.value})</span>
+            <button
+              type="button"
+              className={styles.dockButton}
+              onClick={(e) =>
+                handleItemClick(e, () =>
+                  window.open(githubChannel.href, '_blank', 'noopener,noreferrer')
+                )
+              }
+              aria-label="Acessar perfil do GitHub de Pedro"
+            >
+              <SystemIcon
+                type="github"
+                size={22}
+                color="var(--window-text-primary)"
+              />
+            </button>
+          </div>
+        )
+
+      case 'linkedin':
+        if (!linkedinChannel) return null
+        return (
+          <div
+            key="linkedin"
+            className={`${styles.dockItemWrapper} ${isThisItemDragging ? styles.dockItemWrapperActiveDrag : ''}`}
+            style={itemStyle}
+            onPointerDown={(e) => handlePointerDown(e, index, 'right', dockRightIds.length)}
+          >
+            <span className={styles.tooltip}>LinkedIn ({linkedinChannel.value})</span>
+            <button
+              type="button"
+              className={styles.dockButton}
+              onClick={(e) =>
+                handleItemClick(e, () =>
+                  window.open(linkedinChannel.href, '_blank', 'noopener,noreferrer')
+                )
+              }
+              aria-label="Acessar perfil do LinkedIn de Pedro"
+            >
+              <SystemIcon
+                type="linkedin"
+                size={20}
+                color="var(--window-text-primary)"
+              />
+            </button>
+          </div>
+        )
+
+      case 'email':
+        if (!emailChannel) return null
+        return (
+          <div
+            key="email"
+            className={`${styles.dockItemWrapper} ${isThisItemDragging ? styles.dockItemWrapperActiveDrag : ''}`}
+            style={itemStyle}
+            onPointerDown={(e) => handlePointerDown(e, index, 'right', dockRightIds.length)}
+          >
+            <span className={styles.tooltip}>
+              {isEmailCopied ? '✓ Copiado!' : `Copiar E-mail (${emailChannel.value})`}
+            </span>
+            <button
+              type="button"
+              className={styles.dockButton}
+              onClick={(e) => handleItemClick(e, handleCopyEmail)}
+              aria-label="Copiar e-mail de Pedro para a área de transferência"
+            >
+              <SystemIcon
+                type="mail"
+                size={21}
+                color={isEmailCopied ? 'var(--accent-stack)' : 'var(--window-text-primary)'}
+              />
+            </button>
+          </div>
+        )
+
+      case 'theme':
+        return (
+          <div
+            key="theme"
+            className={`${styles.dockItemWrapper} ${isThisItemDragging ? styles.dockItemWrapperActiveDrag : ''}`}
+            style={itemStyle}
+            onPointerDown={(e) => handlePointerDown(e, index, 'right', dockRightIds.length)}
+          >
+            <span className={styles.tooltip}>
+              {theme === 'dark' ? 'Modo Claro' : 'Modo Escuro'}
+            </span>
+            <button
+              type="button"
+              className={styles.dockButton}
+              onClick={(e) => handleItemClick(e, onToggleTheme)}
+              aria-label="Alternar tema de cores"
+            >
+              <span style={{ fontSize: '1.25rem' }}>
+                {theme === 'dark' ? '☀️' : '🌙'}
+              </span>
+            </button>
+          </div>
+        )
+
+      default:
+        return null
+    }
+  }
+
   return (
     <footer
-      className={`${styles.dockContainer} ${isHidden ? styles.dockHidden : ''}`}
+      className={`${styles.dockContainer} ${isHidden ? styles.dockHidden : ''} ${dragState ? styles.dockContainerDragging : ''}`}
       role="region"
       aria-label="Barra de tarefas"
     >
-      {/* Atalhos para as janelas do sistema operacional */}
-      {visibleSections.map((section) => {
+      {/* SEÇÃO ESQUERDA: Atalhos para as janelas do sistema operacional (reordenáveis apenas entre si) */}
+      {orderedSections.map((section, index) => {
         const win = windows[section.id]
         const isOpen = win?.isOpen
         const isMinimized = win?.isMinimized
+        const itemStyle = getItemStyle(index, 'left')
+        const isThisItemDragging = dragState?.section === 'left' && dragState?.dragIndex === index
 
         return (
-          <div key={section.id} className={styles.dockItemWrapper}>
+          <div
+            key={section.id}
+            className={`${styles.dockItemWrapper} ${isThisItemDragging ? styles.dockItemWrapperActiveDrag : ''}`}
+            style={itemStyle}
+            onPointerDown={(e) => handlePointerDown(e, index, 'left', orderedSections.length)}
+          >
             <span className={styles.tooltip}>
               {section.title} {isMinimized ? '(Minimizada)' : isOpen ? '(Aberta)' : ''}
             </span>
@@ -56,7 +328,9 @@ export default function Dock({
             <button
               type="button"
               className={styles.dockButton}
-              onClick={() => onSelectSection && onSelectSection(section.id)}
+              onClick={(e) =>
+                handleItemClick(e, () => onSelectSection && onSelectSection(section.id))
+              }
               onContextMenu={(e) => {
                 e.preventDefault()
                 e.stopPropagation()
@@ -82,86 +356,11 @@ export default function Dock({
         )
       })}
 
-      {/* Divisor vertical */}
+      {/* DIVISOR VERTICAL: Barreira rígida entre as duas seções */}
       <div className={styles.separator} aria-hidden="true" />
 
-      {/* Atalho externo direto para o GitHub */}
-      {githubChannel && (
-        <div className={styles.dockItemWrapper}>
-          <span className={styles.tooltip}>GitHub ({githubChannel.value})</span>
-          <a
-            href={githubChannel.href}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.dockButton}
-            aria-label="Acessar perfil do GitHub de Pedro"
-          >
-            <SystemIcon
-              type="github"
-              size={22}
-              color="var(--window-text-primary)"
-            />
-          </a>
-        </div>
-      )}
-
-      {/* Atalho externo direto para o LinkedIn */}
-      {linkedinChannel && (
-        <div className={styles.dockItemWrapper}>
-          <span className={styles.tooltip}>LinkedIn ({linkedinChannel.value})</span>
-          <a
-            href={linkedinChannel.href}
-            target="_blank"
-            rel="noopener noreferrer"
-            className={styles.dockButton}
-            aria-label="Acessar perfil do LinkedIn de Pedro"
-          >
-            <SystemIcon
-              type="linkedin"
-              size={20}
-              color="var(--window-text-primary)"
-            />
-          </a>
-        </div>
-      )}
-
-      {/* Atalho direto para copiar E-mail com notificação */}
-      {emailChannel && (
-        <div className={styles.dockItemWrapper}>
-          <span className={styles.tooltip}>
-            {isEmailCopied ? '✓ Copiado!' : `Copiar E-mail (${emailChannel.value})`}
-          </span>
-          <button
-            type="button"
-            className={styles.dockButton}
-            onClick={handleCopyEmail}
-            aria-label="Copiar e-mail de Pedro para a área de transferência"
-          >
-            <SystemIcon
-              type="mail"
-              size={21}
-              color={isEmailCopied ? 'var(--accent-stack)' : 'var(--window-text-primary)'}
-            />
-          </button>
-        </div>
-      )}
-
-      {/* Atalho para alternar Modo Claro / Modo Escuro */}
-      <div className={styles.dockItemWrapper}>
-        <span className={styles.tooltip}>
-          {theme === 'dark' ? 'Modo Claro' : 'Modo Escuro'}
-        </span>
-        <button
-          type="button"
-          className={styles.dockButton}
-          onClick={onToggleTheme}
-          aria-label="Alternar tema de cores"
-        >
-          <span style={{ fontSize: '1.25rem' }}>
-            {theme === 'dark' ? '☀️' : '🌙'}
-          </span>
-        </button>
-      </div>
+      {/* SEÇÃO DIREITA: Atalhos e utilitários (reordenáveis apenas entre si) */}
+      {dockRightIds.map((actionId, index) => renderRightItem(actionId, index))}
     </footer>
   )
 }
