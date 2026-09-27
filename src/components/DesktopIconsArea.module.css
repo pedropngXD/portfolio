@@ -1,19 +1,11 @@
 .iconsArea {
   position: absolute;
-  top: 1.5rem;
-  left: 1.5rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1.25rem;
-  align-items: center;
+  inset: 0;
+  pointer-events: none;
   z-index: 10;
-  pointer-events: auto;
+  overflow: hidden;
 }
 
-@media (max-width: 640px) {
-  .iconsArea {
-    top: 1rem;
-    left: 0.75rem;
-    gap: 1rem;
-  }
+.iconsArea > * {
+  pointer-events: auto;
 }
