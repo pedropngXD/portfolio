@@ -4,7 +4,7 @@
   left: 50%;
   transform: translate(-50%, -50%);
   width: min(800px, 92vw);
-  height: min(540px, 76vh);
+  height: min(540px, 74vh);
   background: var(--window-bg);
   border: 1px solid var(--window-border);
   border-radius: var(--radius-xl);
@@ -92,7 +92,6 @@
 }
 
 .headerSpacer {
-  /* Espaçador simétrico para centralizar o título perfeitamente */
   display: flex;
   justify-content: flex-end;
 }
@@ -116,11 +115,25 @@
 
 @media (max-width: 640px) {
   .windowContainer {
-    width: 95vw;
-    height: 80vh;
+    width: 94vw;
+    height: auto;
+    max-height: calc(100dvh - var(--menubar-height) - var(--dock-height) - 28px);
+    top: calc(var(--menubar-height) + 12px);
+    transform: translateX(-50%);
+  }
+
+  @keyframes windowOpen {
+    from {
+      opacity: 0;
+      transform: translate(-50%, 8px) scale(0.97);
+    }
+    to {
+      opacity: 1;
+      transform: translate(-50%, 0) scale(1);
+    }
   }
 
   .windowBody {
-    padding: 1.25rem;
+    padding: 1.25rem 1rem;
   }
 }

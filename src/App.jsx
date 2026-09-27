@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { SECTIONS } from './data/sections'
 import MenuBar from './components/MenuBar'
 import DesktopIconsArea from './components/DesktopIconsArea'
@@ -11,13 +11,26 @@ import ProjectsSection from './components/sections/ProjectsSection'
 import ContactSection from './components/sections/ContactSection'
 
 function App() {
-  const [theme, setTheme] = useState('light')
-  const [activeSection, setActiveSection] = useState(null)
+  // Inicialização com preferência salva ou detecção automática do SO do usuário
+  const [theme, setTheme] = useState(() => {
+    const saved = localStorage.getItem('pedro-os-theme')
+    if (saved) return saved
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      return 'dark'
+    }
+    return 'light'
+  })
+
+  // Janela inicial: abre 'about' por padrão para causar impacto imediato ao recrutador
+  const [activeSection, setActiveSection] = useState('about')
+
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme)
+    localStorage.setItem('pedro-os-theme', theme)
+  }, [theme])
 
   const toggleTheme = () => {
-    const nextTheme = theme === 'light' ? 'dark' : 'light'
-    setTheme(nextTheme)
-    document.documentElement.setAttribute('data-theme', nextTheme)
+    setTheme((prev) => (prev === 'light' ? 'dark' : 'light'))
   }
 
   const handleSelectSection = (sectionId) => {
