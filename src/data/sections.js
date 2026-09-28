@@ -33,11 +33,11 @@ export const SECTIONS = [
   },
   {
     id: 'contact',
-    title: 'Contato & Formação',
-    shortLabel: 'Contato',
+    title: 'Formação',
+    shortLabel: 'Formação',
     accentColor: 'var(--accent-contact)',
-    tag: 'Unisinos & Redes',
-    iconType: 'mail'
+    tag: 'Unisinos',
+    iconType: 'graduation'
   },
   {
     id: 'projects',

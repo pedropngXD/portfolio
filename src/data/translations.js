@@ -67,9 +67,9 @@ export const TRANSLATIONS = {
         tag: 'Credware Tecnologia'
       },
       contact: {
-        title: 'Contato & Formação',
-        shortLabel: 'Contato',
-        tag: 'Unisinos & Redes'
+        title: 'Formação',
+        shortLabel: 'Formação',
+        tag: 'Unisinos'
       }
     },
     about: {
@@ -188,13 +188,9 @@ export const TRANSLATIONS = {
       footerText: 'Mais projetos de estudos e scripts estão disponíveis diretamente no meu perfil do GitHub.'
     },
     contact: {
-      title: 'Contato & Formação Acadêmica',
-      subtitle: 'Canais profissionais e trajetória acadêmica universitária.',
-      academicCardTitle: 'Formação Acadêmica',
-      channelsCardTitle: 'Canais de Contato',
-      copyBtn: 'Copiar',
-      copiedBtn: 'Copiado!',
-      openBtn: 'Acessar'
+      title: 'Formação',
+      subtitle: 'Graduação em andamento e fundamentos de engenharia de software na Unisinos.',
+      academicCardTitle: 'Formação'
     },
     wifi: {
       title: 'Wi-Fi',
@@ -274,9 +270,9 @@ export const TRANSLATIONS = {
         tag: 'Credware Tecnologia'
       },
       contact: {
-        title: 'Contact & Education',
-        shortLabel: 'Contact',
-        tag: 'Unisinos & Links'
+        title: 'Education',
+        shortLabel: 'Education',
+        tag: 'Unisinos'
       }
     },
     about: {
@@ -393,13 +389,9 @@ export const TRANSLATIONS = {
       footerText: 'More study projects and scripts are available directly on my GitHub profile.'
     },
     contact: {
-      title: 'Contact & Education',
-      subtitle: 'Professional channels and university academic background.',
-      academicCardTitle: 'Academic Background',
-      channelsCardTitle: 'Contact Channels',
-      copyBtn: 'Copy',
-      copiedBtn: 'Copied!',
-      openBtn: 'Visit'
+      title: 'Education',
+      subtitle: 'Undergraduate degree in progress and computer science foundations at Unisinos.',
+      academicCardTitle: 'Education'
     },
     wifi: {
       title: 'Wi-Fi',
