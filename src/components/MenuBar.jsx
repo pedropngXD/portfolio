@@ -62,11 +62,6 @@ export default function MenuBar({
 
       {/* Lado Direito: Status, Controles e Relógio */}
       <div className={styles.rightGroup}>
-        <div className={styles.statusBadge} title="Unisinos • Credware Tecnologia">
-          <span className={styles.statusDot} />
-          <span>{sys.statusWork || 'Credware Tech'}</span>
-        </div>
-
         {/* Controle de Volume macOS */}
         <VolumeControl
           volume={volume}

@@ -5,7 +5,6 @@ export const TRANSLATIONS = {
   pt: {
     system: {
       brand: 'Pedro',
-      statusWork: 'Credware Tech',
       statusAvailable: 'Disponível para Projetos',
       clockLocale: 'pt-BR',
       switchThemeLight: 'Mudar para modo claro',
@@ -210,7 +209,6 @@ export const TRANSLATIONS = {
   en: {
     system: {
       brand: 'Pedro',
-      statusWork: 'Credware Tech',
       statusAvailable: 'Available for Work',
       clockLocale: 'en-US',
       switchThemeLight: 'Switch to light mode',
