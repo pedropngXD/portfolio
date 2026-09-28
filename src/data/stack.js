@@ -1,9 +1,10 @@
 export const STACK_CATEGORIES = [
   { id: 'all', label: 'Todas' },
   { id: 'backend', label: 'Backend & APIs' },
+  { id: 'tools', label: 'Ferramentas & Git' },
   { id: 'frontend', label: 'Frontend' },
-  { id: 'database', label: 'Bancos de Dados' },
-  { id: 'tools', label: 'Ferramentas & Git' }
+  { id: 'database', label: 'Bancos de Dados' }
+
 ]
 
 export const STACK_DATA = [

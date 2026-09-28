@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import { STACK_CATEGORIES, STACK_DATA } from '../../data/stack'
 import SectionHeader from '../common/SectionHeader'
-import Callout from '../common/Callout'
 import styles from './StackSection.module.css'
 
 export default function StackSection({ t }) {
@@ -55,23 +54,6 @@ export default function StackSection({ t }) {
           </article>
         ))}
       </div>
-
-      {/* Callout Reutilizável de Rodapé */}
-      <Callout
-        icon="💡"
-        borderColor="var(--accent-stack)"
-        bgColor="rgba(16, 185, 129, 0.08)"
-      >
-        {isEn ? (
-          <span>
-            Focusing on <strong>maintainable code</strong>, optimized SQL queries, and consistent communication via REST endpoints.
-          </span>
-        ) : (
-          <span>
-            Prioridade em <strong>código manutenível</strong>, consultas SQL otimizadas e comunicação consistente via endpoints REST.
-          </span>
-        )}
-      </Callout>
     </div>
   )
 }
