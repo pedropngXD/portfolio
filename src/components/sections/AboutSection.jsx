@@ -46,17 +46,19 @@ export default function AboutSection({ onNavigate, t }) {
       <div className={styles.actionsBar}>
         <button
           type="button"
-          className={styles.actionBtnPrimary}
+          className={`${styles.actionBtn} ${styles.actionBtnExperience}`}
           onClick={() => onNavigate && onNavigate('experience')}
         >
-          {isEn ? '💼 View Credware Experience' : '💼 Ver Experiência na Credware'}
+          <span>💼</span>
+          <span>{data.btnExperience || (isEn ? 'View Professional Experience' : 'Ver Experiências Profissionais')}</span>
         </button>
         <button
           type="button"
-          className={styles.actionBtnSecondary}
+          className={`${styles.actionBtn} ${styles.actionBtnStack}`}
           onClick={() => onNavigate && onNavigate('stack')}
         >
-          {isEn ? '⚡ Explore Tech Stack' : '⚡ Explorar Stack Técnica'}
+          <span>⚡</span>
+          <span>{data.btnStack || (isEn ? 'Explore Tech Stack' : 'Explorar Stack Técnica')}</span>
         </button>
       </div>
     </div>

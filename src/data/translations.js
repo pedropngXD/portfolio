@@ -88,7 +88,9 @@ export const TRANSLATIONS = {
         { label: 'Conclusão', value: 'Dezembro / 2026' },
         { label: 'Experiência Atual', value: 'Desenvolvedor Júnior @ Credware Tecnologia' },
         { label: 'Foco Técnico', value: 'Backend (PHP / Node / APIs) & Frontend (React)' }
-      ]
+      ],
+      btnExperience: 'Ver Experiências Profissionais',
+      btnStack: 'Explorar Stack Técnica'
     },
     experience: {
       title: 'Experiência Profissional',
@@ -291,7 +293,9 @@ export const TRANSLATIONS = {
         { label: 'Graduation', value: 'December / 2026' },
         { label: 'Current Role', value: 'Junior Developer @ Credware Tecnologia' },
         { label: 'Technical Focus', value: 'Backend (PHP / Node / APIs) & Frontend (React)' }
-      ]
+      ],
+      btnExperience: 'View Professional Experience',
+      btnStack: 'Explore Tech Stack'
     },
     experience: {
       title: 'Professional Experience',
