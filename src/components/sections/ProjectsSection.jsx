@@ -1,4 +1,5 @@
 import { PROJECTS_DATA } from '../../data/projects'
+import SectionHeader from '../common/SectionHeader'
 import styles from './ProjectsSection.module.css'
 
 export default function ProjectsSection({ t }) {
@@ -44,13 +45,14 @@ export default function ProjectsSection({ t }) {
 
   return (
     <div className={styles.container}>
-      {/* Cabeçalho */}
-      <div className={styles.header}>
-        <h2 className={styles.title}>{t?.projects?.title || 'Projetos & Código'}</h2>
-        <p className={styles.subtitle}>
-          {t?.projects?.subtitle || 'Aplicações práticas com código real, regras de negócio e boas práticas de arquitetura.'}
-        </p>
-      </div>
+      {/* Cabeçalho Reutilizável */}
+      <SectionHeader
+        title={t?.projects?.title || 'Projetos & Código'}
+        subtitle={
+          t?.projects?.subtitle ||
+          'Aplicações práticas com código real, regras de negócio e boas práticas de arquitetura.'
+        }
+      />
 
       {/* Grid de Cards de Projetos */}
       <div className={styles.grid}>

@@ -1,24 +1,28 @@
 import { useState } from 'react'
 import { STACK_CATEGORIES, STACK_DATA } from '../../data/stack'
+import SectionHeader from '../common/SectionHeader'
+import Callout from '../common/Callout'
 import styles from './StackSection.module.css'
 
 export default function StackSection({ t }) {
   const [activeCategory, setActiveCategory] = useState('all')
   const isEn = t?.system?.langLabel === 'EN'
 
-  const filteredStack = activeCategory === 'all'
-    ? STACK_DATA
-    : STACK_DATA.filter((tech) => tech.category === activeCategory)
+  const filteredStack =
+    activeCategory === 'all'
+      ? STACK_DATA
+      : STACK_DATA.filter((tech) => tech.category === activeCategory)
 
   return (
     <div className={styles.container}>
-      {/* Cabeçalho da Seção */}
-      <div className={styles.intro}>
-        <h2 className={styles.title}>{t?.stack?.title || 'Tecnologias & Ferramentas'}</h2>
-        <p className={styles.subtitle}>
-          {t?.stack?.subtitle || 'Stack real aplicada no desenvolvimento diário de APIs, sistemas internos e projetos práticos.'}
-        </p>
-      </div>
+      {/* Cabeçalho Reutilizável */}
+      <SectionHeader
+        title={t?.stack?.title || 'Tecnologias & Ferramentas'}
+        subtitle={
+          t?.stack?.subtitle ||
+          'Stack real aplicada no desenvolvimento diário de APIs, sistemas internos e projetos práticos.'
+        }
+      />
 
       {/* Barra de Filtro por Categoria */}
       <div className={styles.filterBar} role="tablist" aria-label="Categorias de tecnologias">
@@ -52,9 +56,12 @@ export default function StackSection({ t }) {
         ))}
       </div>
 
-      {/* Nota de rodapé técnica para recrutadores */}
-      <div className={styles.footerNote}>
-        <span aria-hidden="true">💡</span>
+      {/* Callout Reutilizável de Rodapé */}
+      <Callout
+        icon="💡"
+        borderColor="var(--accent-stack)"
+        bgColor="rgba(16, 185, 129, 0.08)"
+      >
         {isEn ? (
           <span>
             Focusing on <strong>maintainable code</strong>, optimized SQL queries, and consistent communication via REST endpoints.
@@ -64,7 +71,7 @@ export default function StackSection({ t }) {
             Prioridade em <strong>código manutenível</strong>, consultas SQL otimizadas e comunicação consistente via endpoints REST.
           </span>
         )}
-      </div>
+      </Callout>
     </div>
   )
 }

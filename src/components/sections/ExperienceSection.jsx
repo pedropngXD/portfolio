@@ -1,4 +1,5 @@
 import { EXPERIENCE_DATA } from '../../data/experience'
+import SectionHeader from '../common/SectionHeader'
 import styles from './ExperienceSection.module.css'
 
 export default function ExperienceSection({ t }) {
@@ -9,13 +10,14 @@ export default function ExperienceSection({ t }) {
 
   return (
     <div className={styles.container}>
-      {/* Cabeçalho da Seção */}
-      <div className={styles.header}>
-        <h2 className={styles.title}>{exp.title || 'Experiência Profissional'}</h2>
-        <p className={styles.subtitle}>
-          {exp.subtitle || 'Atuação prática em ambiente corporativo, sustentação de microsserviços e produtos internos.'}
-        </p>
-      </div>
+      {/* Cabeçalho Reutilizável */}
+      <SectionHeader
+        title={exp.title || 'Experiência Profissional'}
+        subtitle={
+          exp.subtitle ||
+          'Atuação prática em ambiente corporativo, sustentação de microsserviços e produtos internos.'
+        }
+      />
 
       {/* Card Principal da Experiência na Credware */}
       <article className={styles.experienceCard}>

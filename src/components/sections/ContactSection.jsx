@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { EDUCATION_DATA, CONTACT_CHANNELS } from '../../data/contact'
 import SystemIcon from '../SystemIcon'
+import SectionHeader from '../common/SectionHeader'
 import styles from './ContactSection.module.css'
 
 export default function ContactSection({ t }) {
@@ -26,13 +27,14 @@ export default function ContactSection({ t }) {
 
   return (
     <div className={styles.container}>
-      {/* Cabeçalho */}
-      <div className={styles.header}>
-        <h2 className={styles.title}>{t?.contact?.title || 'Formação Acadêmica & Contato'}</h2>
-        <p className={styles.subtitle}>
-          {t?.contact?.subtitle || 'Graduação em andamento e canais diretos para oportunidades de estágio e desenvolvimento de software.'}
-        </p>
-      </div>
+      {/* Cabeçalho Reutilizável */}
+      <SectionHeader
+        title={t?.contact?.title || 'Formação Acadêmica & Contato'}
+        subtitle={
+          t?.contact?.subtitle ||
+          'Graduação em andamento e canais diretos para oportunidades de estágio e desenvolvimento de software.'
+        }
+      />
 
       {/* Bloco 1: Formação Acadêmica */}
       <section className={styles.sectionBlock} aria-label={t?.contact?.academicCardTitle || 'Formação Acadêmica'}>
