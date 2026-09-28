@@ -13,6 +13,7 @@
   cursor: pointer;
   user-select: none;
   touch-action: none;
+  outline: none;
   z-index: 10;
   transition: left 0.22s cubic-bezier(0.2, 0.9, 0.4, 1),
               top 0.22s cubic-bezier(0.2, 0.9, 0.4, 1),
@@ -40,9 +41,9 @@
 }
 
 .iconButtonActive {
-  background: rgba(59, 130, 246, 0.28) !important;
-  border-color: rgba(59, 130, 246, 0.55);
-  box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.4);
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
 }
 
 .iconBadge {
