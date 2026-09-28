@@ -235,22 +235,8 @@ export default function App() {
     setIconPositions(resetPositions)
   }
 
-  // Abre o aplicativo ou link externo correspondente
+  // Abre o aplicativo correspondente diretamente dentro do sistema operacional (Pedro OS)
   const handleOpenApp = (sectionId) => {
-    const section = SECTIONS.find((s) => s.id === sectionId)
-    const sys = t?.system || {}
-    const secTitle = t?.sections?.[sectionId]?.title || section?.title
-
-    if (section?.externalUrl) {
-      playToggle()
-      window.open(section.externalUrl, '_blank', 'noopener,noreferrer')
-      showNotification({
-        title: secTitle,
-        message: sys.externalToastMessage || 'Abrindo projeto em uma nova aba...',
-        icon: '↗'
-      })
-      return
-    }
     handleOpenWindow(sectionId)
   }
 
@@ -264,14 +250,14 @@ export default function App() {
     const items = []
     if (section?.externalUrl) {
       items.push({
+        label: `${language === 'pt' ? 'Abrir' : 'Open'} ${secTitle}`,
+        icon: '📂',
+        onClick: () => handleOpenWindow(sectionId)
+      })
+      items.push({
         label: sys.openInBrowser || `Abrir no Navegador ↗`,
         icon: '↗',
         onClick: () => window.open(section.externalUrl, '_blank', 'noopener,noreferrer')
-      })
-      items.push({
-        label: sys.openAsWindow || `Abrir como Janela no Desktop 🪟`,
-        icon: '📂',
-        onClick: () => handleOpenWindow(sectionId)
       })
       items.push({
         label: sys.copyProjectLink || 'Copiar link do projeto',
@@ -330,14 +316,14 @@ export default function App() {
     const items = []
     if (section?.externalUrl) {
       items.push({
+        label: `${language === 'pt' ? 'Abrir' : 'Open'} ${secTitle} 🪟`,
+        icon: '📂',
+        onClick: () => handleOpenWindow(sectionId)
+      })
+      items.push({
         label: sys.openInBrowser || `Abrir no Navegador ↗`,
         icon: '↗',
         onClick: () => window.open(section.externalUrl, '_blank', 'noopener,noreferrer')
-      })
-      items.push({
-        label: sys.openAsWindow || `Abrir como Janela no Desktop 🪟`,
-        icon: '📂',
-        onClick: () => handleOpenWindow(sectionId)
       })
       items.push({
         label: sys.copyProjectLink || 'Copiar link do projeto',
