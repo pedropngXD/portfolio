@@ -289,11 +289,13 @@ export default function Dock({
               type="button"
               className={styles.dockButton}
               onClick={(e) => handleItemClick(e, onToggleTheme)}
-              aria-label="Alternar tema de cores"
+              aria-label={theme === 'dark' ? (sys.switchThemeLight || 'Mudar para modo claro') : (sys.switchThemeDark || 'Mudar para modo escuro')}
             >
-              <span style={{ fontSize: '1.25rem' }}>
-                {theme === 'dark' ? '☀️' : '🌙'}
-              </span>
+              <SystemIcon
+                type={theme === 'dark' ? 'sun' : 'moon'}
+                size={20}
+                color="var(--window-text-primary)"
+              />
             </button>
           </div>
         )

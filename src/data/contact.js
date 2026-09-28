@@ -33,8 +33,8 @@ export const CONTACT_CHANNELS = [
   {
     id: 'linkedin',
     label: 'LinkedIn',
-    value: 'linkedin.com/in/pedropng',
-    href: 'https://www.linkedin.com',
+    value: 'linkedin.com/in/pedro-moser',
+    href: 'https://www.linkedin.com/in/pedro-moser/',
     actionType: 'link',
     icon: 'linkedin'
   }

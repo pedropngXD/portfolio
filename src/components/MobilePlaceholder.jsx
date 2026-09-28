@@ -109,7 +109,7 @@ export default function MobilePlaceholder({
             <div className={styles.contactsChips}>
               {githubChannel && (
                 <a
-                  href={githubChannel.value}
+                  href={githubChannel.href}
                   target="_blank"
                   rel="noopener noreferrer"
                   className={styles.chip}
@@ -120,7 +120,7 @@ export default function MobilePlaceholder({
               )}
               {linkedinChannel && (
                 <a
-                  href={linkedinChannel.value}
+                  href={linkedinChannel.href}
                   target="_blank"
                   rel="noopener noreferrer"
                   className={styles.chip}

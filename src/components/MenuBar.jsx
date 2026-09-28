@@ -108,17 +108,6 @@ export default function MenuBar({
           <span className={styles.statusLabel}>{lang === 'pt' ? 'PT' : 'EN'}</span>
         </button>
 
-        {/* Alternador de Tema */}
-        <button
-          type="button"
-          className={styles.statusItem}
-          onClick={onToggleTheme}
-          title={theme === 'dark' ? sys.switchThemeLight || 'Modo Claro' : sys.switchThemeDark || 'Modo Escuro'}
-          aria-label="Alternar tema de cores"
-        >
-          <span style={{ fontSize: '0.85rem', lineHeight: 1 }}>{theme === 'dark' ? '☀️' : '🌙'}</span>
-        </button>
-
         {/* Relógio do Sistema */}
         <Clock lang={lang} className={styles.clock} />
       </div>
