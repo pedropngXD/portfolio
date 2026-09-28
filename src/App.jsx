@@ -13,8 +13,24 @@ import ExperienceSection from './components/sections/ExperienceSection'
 import ProjectsSection from './components/sections/ProjectsSection'
 import ContactSection from './components/sections/ContactSection'
 import StatusCheckSection from './components/sections/StatusCheckSection'
+import DeviceModeModal from './components/DeviceModeModal'
+import MobilePlaceholder from './components/MobilePlaceholder'
 import { TRANSLATIONS } from './data/translations'
 import { getAvailableGridPosition, sanitizeAllPositions, gridToCoords } from './utils/desktopGrid'
+import {
+  getSystemVolume,
+  setSystemVolume,
+  isSystemMuted,
+  toggleSystemMute,
+  playVolumeFeedback,
+  playWindowOpen,
+  playWindowClose,
+  playWindowMinimize,
+  playWindowMaximize,
+  playSnap,
+  playNotification,
+  playToggle
+} from './utils/soundEffects'
 
 export default function App() {
   const [theme, setTheme] = useState(() => {
@@ -37,10 +53,27 @@ export default function App() {
   }, [language])
 
   const toggleLanguage = () => {
+    playToggle()
     setLanguage((prev) => (prev === 'pt' ? 'en' : 'pt'))
   }
 
   const t = TRANSLATIONS[language] || TRANSLATIONS.pt
+
+  // Modo de visualização: 'desktop' | 'mobile' | null (exibe modal de escolha inicial)
+  const [deviceMode, setDeviceMode] = useState(() => {
+    return localStorage.getItem('pedro-os-device-mode') || null
+  })
+
+  const handleSelectMode = (mode) => {
+    localStorage.setItem('pedro-os-device-mode', mode)
+    setDeviceMode(mode)
+  }
+
+  const handleExitMode = () => {
+    localStorage.removeItem('pedro-os-device-mode')
+    setDeviceMode(null)
+    playToggle()
+  }
 
   // Posições dos ícones da área de trabalho (alinhados em grade e com prevenção total de sobreposição)
   const [iconPositions, setIconPositions] = useState(() => {
@@ -106,12 +139,74 @@ export default function App() {
     localStorage.setItem('pedro-os-dock-right-apps', JSON.stringify(dockRightIds))
   }, [dockRightIds])
 
+  // Volume do sistema e estado mudo
+  const [volume, setVolume] = useState(getSystemVolume)
+  const [isMuted, setIsMuted] = useState(isSystemMuted)
+
+  const handleIncreaseVolume = () => {
+    const next = Math.min(1, Math.round((volume + 0.1) * 10) / 10)
+    setSystemVolume(next)
+    setVolume(next)
+    setIsMuted(false)
+    playVolumeFeedback()
+  }
+
+  const handleDecreaseVolume = () => {
+    const next = Math.max(0, Math.round((volume - 0.1) * 10) / 10)
+    setSystemVolume(next)
+    setVolume(next)
+    playVolumeFeedback()
+  }
+
+  const handleSetVolume = (newVol) => {
+    setSystemVolume(newVol)
+    setVolume(newVol)
+    if (newVol > 0 && isMuted) {
+      setIsMuted(false)
+    }
+    playVolumeFeedback()
+  }
+
+  const handleToggleMute = () => {
+    const muted = toggleSystemMute()
+    setIsMuted(muted)
+    if (!muted) {
+      playVolumeFeedback()
+    }
+  }
+
+  const handleTestSound = () => {
+    playWindowOpen()
+  }
+
+  const handleOpenWindow = (id) => {
+    playWindowOpen()
+    openWindow(id)
+  }
+
+  const handleCloseWindow = (id) => {
+    playWindowClose()
+    closeWindow(id)
+  }
+
+  const handleMinimizeWindow = (id) => {
+    playWindowMinimize()
+    minimizeWindow(id)
+  }
+
+  const handleToggleMaximizeWindow = (id) => {
+    playWindowMaximize()
+    toggleMaximizeWindow(id)
+  }
+
   const toggleTheme = () => {
+    playToggle()
     setTheme((prev) => (prev === 'light' ? 'dark' : 'light'))
   }
 
   // Dispara um toast de notificação
   const showNotification = ({ title, message, icon = '✓' }) => {
+    playNotification()
     setNotification({
       isOpen: true,
       title,
@@ -122,6 +217,7 @@ export default function App() {
 
   // Posiciona o ícone garantindo alinhamento na grade e prevenindo sobreposição com outros ícones
   const handleDropIcon = (id, rawPos) => {
+    playSnap()
     const cleanPos = getAvailableGridPosition(rawPos, id, iconPositions)
     setIconPositions((prev) => ({
       ...prev,
@@ -141,12 +237,14 @@ export default function App() {
 
   // Restaura a barra de tarefas com todos os apps e atalhos padrão
   const handleResetDock = () => {
+    playSnap()
     setDockAppIds(SECTIONS.map((s) => s.id))
     setDockRightIds(['github', 'linkedin', 'email', 'theme'])
   }
 
   // Organiza os ícones em coluna limpa na grade do canto esquerdo
   const handleAlignIcons = () => {
+    playSnap()
     const resetPositions = {}
     SECTIONS.forEach((sec, idx) => {
       resetPositions[sec.id] = gridToCoords(0, idx)
@@ -161,6 +259,7 @@ export default function App() {
     const secTitle = t?.sections?.[sectionId]?.title || section?.title
 
     if (section?.externalUrl) {
+      playToggle()
       window.open(section.externalUrl, '_blank', 'noopener,noreferrer')
       showNotification({
         title: secTitle,
@@ -169,7 +268,7 @@ export default function App() {
       })
       return
     }
-    openWindow(sectionId)
+    handleOpenWindow(sectionId)
   }
 
   // Menu de contexto com botão direito em ícone do Desktop
@@ -189,7 +288,7 @@ export default function App() {
       items.push({
         label: sys.openAsWindow || `Abrir como Janela no Desktop 🪟`,
         icon: '📂',
-        onClick: () => openWindow(sectionId)
+        onClick: () => handleOpenWindow(sectionId)
       })
       items.push({
         label: sys.copyProjectLink || 'Copiar link do projeto',
@@ -207,7 +306,7 @@ export default function App() {
       items.push({
         label: `${language === 'pt' ? 'Abrir' : 'Open'} ${secTitle}`,
         icon: '📂',
-        onClick: () => openWindow(sectionId)
+        onClick: () => handleOpenWindow(sectionId)
       })
     }
 
@@ -255,7 +354,7 @@ export default function App() {
       items.push({
         label: sys.openAsWindow || `Abrir como Janela no Desktop 🪟`,
         icon: '📂',
-        onClick: () => openWindow(sectionId)
+        onClick: () => handleOpenWindow(sectionId)
       })
       items.push({
         label: sys.copyProjectLink || 'Copiar link do projeto',
@@ -273,7 +372,7 @@ export default function App() {
       items.push({
         label: `${language === 'pt' ? 'Abrir' : 'Open'} ${secTitle}`,
         icon: '📂',
-        onClick: () => openWindow(sectionId)
+        onClick: () => handleOpenWindow(sectionId)
       })
     }
 
@@ -332,6 +431,12 @@ export default function App() {
           label: theme === 'dark' ? (sys.switchThemeLight || 'Modo Claro') : (sys.switchThemeDark || 'Modo Escuro'),
           icon: theme === 'dark' ? '☀️' : '🌙',
           onClick: toggleTheme
+        },
+        { separator: true },
+        {
+          label: language === 'pt' ? '💻⇄📱 Mudar Modo (Desktop / Mobile)' : '💻⇄📱 Switch Mode (Desktop / Mobile)',
+          icon: '📱',
+          onClick: handleExitMode
         }
       ]
     })
@@ -347,7 +452,7 @@ export default function App() {
   const renderContentForSection = (sectionId) => {
     switch (sectionId) {
       case 'about':
-        return <AboutSection onNavigate={openWindow} t={t} />
+        return <AboutSection onNavigate={handleOpenWindow} t={t} />
       case 'stack':
         return <StackSection t={t} />
       case 'experience':
@@ -363,12 +468,62 @@ export default function App() {
     }
   }
 
+  // Se o usuário ainda não escolheu ou se clicou em sair para voltar ao menu de seleção
+  if (!deviceMode) {
+    return (
+      <div className="desktop-workspace" style={{ overflow: 'auto' }}>
+        <DeviceModeModal
+          onSelectMode={handleSelectMode}
+          lang={language}
+          onToggleLang={toggleLanguage}
+          theme={theme}
+          onToggleTheme={toggleTheme}
+          t={t}
+        />
+        {notification.isOpen && (
+          <NotificationToast
+            title={notification.title}
+            message={notification.message}
+            icon={notification.icon}
+            onClose={() => setNotification((prev) => ({ ...prev, isOpen: false }))}
+          />
+        )}
+      </div>
+    )
+  }
+
+  // Se o usuário selecionou a versão mobile (em desenvolvimento)
+  if (deviceMode === 'mobile') {
+    return (
+      <div className="desktop-workspace" style={{ overflow: 'auto' }}>
+        <MobilePlaceholder
+          onGoToDesktop={() => handleSelectMode('desktop')}
+          onBackToSelect={handleExitMode}
+          lang={language}
+          onToggleLang={toggleLanguage}
+          theme={theme}
+          onToggleTheme={toggleTheme}
+          onNotify={showNotification}
+          t={t}
+        />
+        {notification.isOpen && (
+          <NotificationToast
+            title={notification.title}
+            message={notification.message}
+            icon={notification.icon}
+            onClose={() => setNotification((prev) => ({ ...prev, isOpen: false }))}
+          />
+        )}
+      </div>
+    )
+  }
+
   return (
     <div
       className="desktop-workspace"
       onContextMenu={handleWorkspaceContextMenu}
     >
-      {/* Barra superior de menus do SO com toggle de idioma */}
+      {/* Barra superior de menus do SO com toggle de idioma e controle de volume */}
       <MenuBar
         focusedWindowId={focusedWindowId}
         openWindowIds={openWindowIds}
@@ -377,6 +532,14 @@ export default function App() {
         onToggleTheme={toggleTheme}
         lang={language}
         onToggleLang={toggleLanguage}
+        volume={volume}
+        isMuted={isMuted}
+        onIncreaseVolume={handleIncreaseVolume}
+        onDecreaseVolume={handleDecreaseVolume}
+        onSetVolume={handleSetVolume}
+        onToggleMute={handleToggleMute}
+        onTestSound={handleTestSound}
+        onExitMode={handleExitMode}
         t={t}
       />
 
@@ -413,9 +576,9 @@ export default function App() {
               zIndex={win.zIndex}
               position={win.position}
               size={win.size}
-              onClose={closeWindow}
-              onMinimize={minimizeWindow}
-              onMaximize={toggleMaximizeWindow}
+              onClose={handleCloseWindow}
+              onMinimize={handleMinimizeWindow}
+              onMaximize={handleToggleMaximizeWindow}
               onFocus={focusWindow}
               onMove={updateWindowPosition}
               onResize={updateWindowSize}
@@ -437,8 +600,14 @@ export default function App() {
         onNotify={showNotification}
         theme={theme}
         onToggleTheme={toggleTheme}
-        onReorderLeft={setDockAppIds}
-        onReorderRight={setDockRightIds}
+        onReorderLeft={(newOrder) => {
+          playSnap()
+          setDockAppIds(newOrder)
+        }}
+        onReorderRight={(newOrder) => {
+          playSnap()
+          setDockRightIds(newOrder)
+        }}
         t={t}
       />
 

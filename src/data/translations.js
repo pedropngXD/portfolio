@@ -27,7 +27,13 @@ export const TRANSLATIONS = {
       alignIcons: 'Alinhar todos os ícones',
       resetDock: 'Restaurar barra de tarefas padrão',
       minimized: 'Minimizada',
-      open: 'Aberta'
+      open: 'Aberta',
+      decreaseVolume: 'Diminuir volume (-10%)',
+      increaseVolume: 'Aumentar volume (+10%)',
+      systemVolume: 'Volume do Sistema',
+      mute: 'Silenciar',
+      unmute: 'Ativar som',
+      testSound: 'Testar som'
     },
     sections: {
       about: {
@@ -133,6 +139,31 @@ export const TRANSLATIONS = {
       copyBtn: 'Copiar',
       copiedBtn: 'Copiado!',
       openBtn: 'Acessar'
+    },
+    modeSelector: {
+      modalTitle: 'Como você deseja visualizar?',
+      modalSubtitle: 'Selecione a experiência que melhor se adapta ao seu dispositivo',
+      desktopTitle: 'Desktop OS',
+      desktopBadge: 'Experiência Completa',
+      desktopDesc: 'Sistema operacional interativo para computadores e telas amplas com janelas flutuantes, efeitos sonoros e dock.',
+      desktopBtn: 'Acessar Desktop OS ➔',
+      mobileTitle: 'Versão Mobile',
+      mobileBadge: 'Em Desenvolvimento 🚧',
+      mobileDesc: 'Interface planejada para smartphones e telas de toque verticais.',
+      mobileBtn: 'Acessar Versão Mobile ➔',
+      changeModeTooltip: 'Mudar modo de visualização (Desktop / Mobile)',
+      exitToSelector: 'Mudar Modo',
+      underDevTitle: 'Versão Mobile em Desenvolvimento',
+      underDevSubtitle: 'Estamos construindo uma experiência mobile dedicada com navegação por gestos e gavetas táteis.',
+      underDevNotice: 'Em breve disponível! Enquanto isso, aproveite a experiência completa no modo Desktop.',
+      goToDesktop: 'Acessar Modo Desktop 💻',
+      backToSelect: '⬅ Voltar ao Menu de Seleção',
+      featureWindows: 'Janelas arrastáveis e redimensionáveis',
+      featureSounds: 'Efeitos sonoros nativos e controle de volume',
+      featureDock: 'Barra de tarefas personalizável',
+      featureMobileTouch: 'Interface adaptada para telas verticais',
+      featureMobileUnderDev: 'Em fase ativa de implementação',
+      rememberChoiceTip: '💡 Sua escolha fica salva no navegador. Você pode alternar a qualquer momento.'
     }
   },
   en: {
@@ -160,7 +191,13 @@ export const TRANSLATIONS = {
       alignIcons: 'Align all icons',
       resetDock: 'Reset taskbar to default',
       minimized: 'Minimized',
-      open: 'Open'
+      open: 'Open',
+      decreaseVolume: 'Decrease volume (-10%)',
+      increaseVolume: 'Increase volume (+10%)',
+      systemVolume: 'System Volume',
+      mute: 'Mute',
+      unmute: 'Unmute',
+      testSound: 'Test sound'
     },
     sections: {
       about: {
@@ -266,6 +303,31 @@ export const TRANSLATIONS = {
       copyBtn: 'Copy',
       copiedBtn: 'Copied!',
       openBtn: 'Visit'
+    },
+    modeSelector: {
+      modalTitle: 'How would you like to view?',
+      modalSubtitle: 'Select the experience that best suits your device',
+      desktopTitle: 'Desktop OS',
+      desktopBadge: 'Full Experience',
+      desktopDesc: 'Interactive desktop operating system with floating windows, sound effects and customizable dock.',
+      desktopBtn: 'Enter Desktop OS ➔',
+      mobileTitle: 'Mobile Version',
+      mobileBadge: 'Under Development 🚧',
+      mobileDesc: 'Interface designed for smartphones and vertical touch screens.',
+      mobileBtn: 'Enter Mobile Version ➔',
+      changeModeTooltip: 'Switch viewing mode (Desktop / Mobile)',
+      exitToSelector: 'Switch Mode',
+      underDevTitle: 'Mobile Version Under Development',
+      underDevSubtitle: 'We are crafting a dedicated mobile experience with gesture navigation and touch drawers.',
+      underDevNotice: 'Coming soon! In the meantime, enjoy the full experience in Desktop mode.',
+      goToDesktop: 'Go to Desktop Mode 💻',
+      backToSelect: '⬅ Back to Mode Selection',
+      featureWindows: 'Draggable and resizable windows',
+      featureSounds: 'Native sound effects and volume control',
+      featureDock: 'Customizable taskbar and quick shortcuts',
+      featureMobileTouch: 'Tailored for smartphone touchscreens',
+      featureMobileUnderDev: 'Currently under active construction',
+      rememberChoiceTip: '💡 Your choice is saved in your browser. You can switch at any time.'
     }
   }
 }
