@@ -164,6 +164,18 @@ export const TRANSLATIONS = {
       featureMobileTouch: 'Interface adaptada para telas verticais',
       featureMobileUnderDev: 'Em fase ativa de implementação',
       rememberChoiceTip: '💡 Sua escolha fica salva no navegador. Você pode alternar a qualquer momento.'
+    },
+    wifi: {
+      title: 'Wi-Fi',
+      connected: 'Conectado',
+      disconnected: 'Desconectado',
+      connectedTo: 'Conectado a',
+      knownNetworks: 'Redes Conhecidas',
+      privateIp: 'IP Local',
+      statusOnline: 'Acesso à Internet Ativo',
+      networkSettings: 'Ajustes de Rede...',
+      turnOff: 'Desativar Wi-Fi',
+      turnOn: 'Ativar Wi-Fi'
     }
   },
   en: {
@@ -328,6 +340,18 @@ export const TRANSLATIONS = {
       featureMobileTouch: 'Tailored for smartphone touchscreens',
       featureMobileUnderDev: 'Currently under active construction',
       rememberChoiceTip: '💡 Your choice is saved in your browser. You can switch at any time.'
+    },
+    wifi: {
+      title: 'Wi-Fi',
+      connected: 'Connected',
+      disconnected: 'Disconnected',
+      connectedTo: 'Connected to',
+      knownNetworks: 'Known Networks',
+      privateIp: 'Local IP',
+      statusOnline: 'Internet Access Active',
+      networkSettings: 'Network Settings...',
+      turnOff: 'Turn Wi-Fi Off',
+      turnOn: 'Turn Wi-Fi On'
     }
   }
 }
