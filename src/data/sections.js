@@ -52,7 +52,7 @@ export const SECTIONS = [
     title: 'Status Check',
     shortLabel: 'Status Check',
     accentColor: '#10b981',
-    tag: 'Telemetria & IA',
+    tag: 'Telemetria',
     iconType: 'activity',
     externalUrl: 'https://status-check-eosin.vercel.app'
   }

@@ -55,7 +55,7 @@ export const TRANSLATIONS = {
       'status-check': {
         title: 'Status Check',
         shortLabel: 'Status Check',
-        tag: 'Telemetria & IA'
+        tag: 'Telemetria'
       },
       stack: {
         title: 'Stack Técnica',
@@ -261,7 +261,7 @@ export const TRANSLATIONS = {
       'status-check': {
         title: 'Status Check',
         shortLabel: 'Status Check',
-        tag: 'AI & Telemetry'
+        tag: 'Telemetry'
       },
       stack: {
         title: 'Tech Stack',
