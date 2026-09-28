@@ -48,12 +48,12 @@
 .windowControls {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
 }
 
 .controlButton {
-  width: 12px;
-  height: 12px;
+  width: 17px;
+  height: 17px;
   border-radius: 50%;
   padding: 0;
   display: flex;
