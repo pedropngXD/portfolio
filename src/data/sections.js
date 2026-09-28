@@ -8,23 +8,6 @@ export const SECTIONS = [
     iconType: 'user'
   },
   {
-    id: 'projects',
-    title: 'Projetos',
-    shortLabel: 'Projetos',
-    accentColor: 'var(--accent-projects)',
-    tag: 'Portfólio & Código',
-    iconType: 'folder'
-  },
-  {
-    id: 'status-check',
-    title: 'Status Check',
-    shortLabel: 'Status Check',
-    accentColor: '#10b981',
-    tag: 'Telemetria & IA',
-    iconType: 'activity',
-    externalUrl: 'https://status-check-eosin.vercel.app'
-  },
-  {
     id: 'stack',
     title: 'Stack Técnica',
     shortLabel: 'Stack',
@@ -47,5 +30,22 @@ export const SECTIONS = [
     accentColor: 'var(--accent-contact)',
     tag: 'Unisinos & Redes',
     iconType: 'mail'
+  },
+  {
+    id: 'projects',
+    title: 'Projetos',
+    shortLabel: 'Projetos',
+    accentColor: 'var(--accent-projects)',
+    tag: 'Portfólio & Código',
+    iconType: 'folder'
+  },
+  {
+    id: 'status-check',
+    title: 'Status Check',
+    shortLabel: 'Status Check',
+    accentColor: '#10b981',
+    tag: 'Telemetria & IA',
+    iconType: 'activity',
+    externalUrl: 'https://status-check-eosin.vercel.app'
   }
 ]
