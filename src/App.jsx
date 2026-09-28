@@ -453,9 +453,9 @@ export default function App() {
         )}
       </div>
 
-      {/* Versão Desktop: ativada via media query Tailwind (visível a partir de 'md') */}
+      {/* Versão Desktop: ativada via media query Tailwind (visível apenas a partir de 'md') */}
       <div
-        className="hidden md:flex desktop-workspace"
+        className="hidden md:flex md:flex-col desktop-workspace"
         onContextMenu={handleWorkspaceContextMenu}
       >
         {/* Barra superior de menus do SO com toggle de idioma e controle de volume */}
