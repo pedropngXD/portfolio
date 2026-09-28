@@ -37,9 +37,9 @@ export const TRANSLATIONS = {
     },
     sections: {
       resume: {
-        title: 'currículo.txt',
-        shortLabel: 'currículo.txt',
-        tag: 'Documento • TXT'
+        title: 'currículo.pdf',
+        shortLabel: 'currículo.pdf',
+        tag: 'Documento • PDF'
       },
       about: {
         title: 'Sobre Mim',
@@ -193,9 +193,9 @@ export const TRANSLATIONS = {
     },
     sections: {
       resume: {
-        title: 'resume.txt',
-        shortLabel: 'resume.txt',
-        tag: 'Document • TXT'
+        title: 'resume.pdf',
+        shortLabel: 'resume.pdf',
+        tag: 'Document • PDF'
       },
       about: {
         title: 'About Me',

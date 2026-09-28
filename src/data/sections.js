@@ -1,10 +1,10 @@
 export const SECTIONS = [
   {
     id: 'resume',
-    title: 'currículo.txt',
-    shortLabel: 'currículo.txt',
-    accentColor: '#38bdf8',
-    tag: 'Documento • TXT',
+    title: 'currículo.pdf',
+    shortLabel: 'currículo.pdf',
+    accentColor: '#ef4444',
+    tag: 'Documento • PDF',
     iconType: 'file-text'
   },
   {
