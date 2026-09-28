@@ -198,7 +198,7 @@ export default function Dock({
             style={itemStyle}
             onPointerDown={(e) => handlePointerDown(e, index, 'right', dockRightIds.length)}
           >
-            <span className={styles.tooltip}>GitHub ({githubChannel.value})</span>
+            <span className={styles.tooltip}>GitHub</span>
             <button
               type="button"
               className={styles.dockButton}
@@ -227,7 +227,7 @@ export default function Dock({
             style={itemStyle}
             onPointerDown={(e) => handlePointerDown(e, index, 'right', dockRightIds.length)}
           >
-            <span className={styles.tooltip}>LinkedIn ({linkedinChannel.value})</span>
+            <span className={styles.tooltip}>LinkedIn</span>
             <button
               type="button"
               className={styles.dockButton}
@@ -257,7 +257,7 @@ export default function Dock({
             onPointerDown={(e) => handlePointerDown(e, index, 'right', dockRightIds.length)}
           >
             <span className={styles.tooltip}>
-              {isEmailCopied ? (sys.copySuccess || '✓ Copiado!') : `${sys.sendEmail || 'Enviar E-mail'} (${emailChannel.value})`}
+              {isEmailCopied ? (sys.copySuccess || '✓ Copiado!') : (sys.emailLabel || 'Email')}
             </span>
             <a
               href={emailChannel.href}
@@ -301,7 +301,7 @@ export default function Dock({
               type="button"
               className={styles.dockButton}
               onClick={(e) => handleItemClick(e, onToggleTheme)}
-              aria-label={theme === 'dark' ? (sys.switchThemeLight || 'Mudar para modo claro') : (sys.switchThemeDark || 'Mudar para modo escuro')}
+              aria-label={theme === 'dark' ? (sys.switchThemeLight || 'Modo Claro') : (sys.switchThemeDark || 'Modo Escuro')}
             >
               <SystemIcon
                 type={theme === 'dark' ? 'sun' : 'moon'}
