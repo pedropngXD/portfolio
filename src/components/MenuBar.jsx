@@ -150,7 +150,6 @@ export default function MenuBar({
   onSetVolume,
   onToggleMute,
   onTestSound,
-  onExitMode,
   t
 }) {
   const [time, setTime] = useState('')
@@ -384,23 +383,6 @@ export default function MenuBar({
             </div>
           )}
         </div>
-
-        {/* Botão de Trocar Modo (Desktop / Mobile) - Estilo macOS */}
-        <button
-          type="button"
-          className={styles.statusItem}
-          onClick={onExitMode}
-          title={t?.modeSelector?.changeModeTooltip || 'Mudar modo de visualização (Desktop / Mobile)'}
-          aria-label="Mudar modo de visualização"
-        >
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-            <rect x="2" y="3" width="13" height="10" rx="2" />
-            <path d="M5 17h7" />
-            <rect x="14" y="7" width="8" height="14" rx="2" />
-            <path d="M18 17h.01" />
-          </svg>
-          <span className={styles.statusLabel}>Mobile</span>
-        </button>
 
         {/* Botão de Idioma (PT / EN) - Estilo macOS */}
         <button

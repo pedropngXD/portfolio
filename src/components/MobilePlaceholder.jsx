@@ -4,8 +4,6 @@ import { CONTACT_CHANNELS } from '../data/contact'
 import { playToggle, playWindowOpen, playNotification } from '../utils/soundEffects'
 
 export default function MobilePlaceholder({
-  onGoToDesktop,
-  onBackToSelect,
   lang = 'pt',
   onToggleLang,
   theme = 'dark',
@@ -30,16 +28,6 @@ export default function MobilePlaceholder({
         icon: '📋'
       })
     })
-  }
-
-  const handleGoDesktopInternal = () => {
-    playWindowOpen()
-    onGoToDesktop && onGoToDesktop()
-  }
-
-  const handleBackToSelectInternal = () => {
-    playToggle()
-    onBackToSelect && onBackToSelect()
   }
 
   const handleToggleLangInternal = () => {
@@ -78,14 +66,6 @@ export default function MobilePlaceholder({
           >
             <span>{theme === 'dark' ? '☀️' : '🌙'}</span>
           </button>
-          <button
-            type="button"
-            className={styles.actionBtn}
-            onClick={handleBackToSelectInternal}
-            title={modeData.backToSelect || 'Voltar à Seleção'}
-          >
-            <span>🚪 {modeData.exitToSelector || 'Mudar Modo'}</span>
-          </button>
         </div>
       </header>
 
@@ -102,41 +82,65 @@ export default function MobilePlaceholder({
           <div className={styles.textGroup}>
             <span className={styles.statusTag}>
               <span>🚧</span>
-              <span>{modeData.mobileBadge || 'Em Desenvolvimento'}</span>
+              <span>{lang === 'pt' ? 'Em Construção' : 'Under Construction'}</span>
             </span>
 
             <h1 className={styles.title}>
-              {modeData.underDevTitle || 'Versão Mobile em Desenvolvimento'}
+              {lang === 'pt' ? 'Sistema mobile em construção' : 'Mobile version under construction'}
             </h1>
 
             <p className={styles.description}>
-              {modeData.underDevSubtitle ||
-                'Estamos construindo uma experiência mobile dedicada com navegação por gestos e gavetas táteis.'}
+              {lang === 'pt'
+                ? 'Estamos construindo uma experiência mobile dedicada adaptada para smartphones e telas verticais.'
+                : 'We are developing a dedicated mobile experience tailored for smartphones and vertical touch screens.'}
             </p>
 
             <div className={styles.notice}>
-              {modeData.underDevNotice ||
-                'Em breve disponível! Enquanto isso, aproveite a experiência completa no modo Desktop.'}
+              {lang === 'pt'
+                ? '💡 Para acessar o sistema operacional completo com janelas, efeitos sonoros e dock, visite este portfólio através de um computador ou desktop.'
+                : '💡 To explore the full operating system experience with floating windows and dock, please visit this portfolio on a desktop computer.'}
             </div>
           </div>
 
-          {/* Botões de Ação */}
-          <div className={styles.actionButtonGroup}>
-            <button
-              type="button"
-              className={styles.primaryBtn}
-              onClick={handleGoDesktopInternal}
-            >
-              <span>{modeData.goToDesktop || 'Acessar Modo Desktop 💻'}</span>
-            </button>
-
-            <button
-              type="button"
-              className={styles.secondaryBtn}
-              onClick={handleBackToSelectInternal}
-            >
-              <span>{modeData.backToSelect || '⬅ Voltar ao Menu de Seleção'}</span>
-            </button>
+          {/* Atalhos rápidos de contato */}
+          <div className={styles.contactsRow}>
+            <span className={styles.contactsLabel}>
+              {lang === 'pt' ? 'Contatos Diretos' : 'Direct Contacts'}
+            </span>
+            <div className={styles.contactsChips}>
+              {githubChannel && (
+                <a
+                  href={githubChannel.value}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={styles.chip}
+                >
+                  <span>🐙</span>
+                  <span>GitHub</span>
+                </a>
+              )}
+              {linkedinChannel && (
+                <a
+                  href={linkedinChannel.value}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={styles.chip}
+                >
+                  <span>💼</span>
+                  <span>LinkedIn</span>
+                </a>
+              )}
+              {emailChannel && (
+                <button
+                  type="button"
+                  className={styles.chip}
+                  onClick={handleCopyEmail}
+                >
+                  <span>✉️</span>
+                  <span>{lang === 'pt' ? 'Copiar E-mail' : 'Copy Email'}</span>
+                </button>
+              )}
+            </div>
           </div>
         </div>
       </main>

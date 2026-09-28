@@ -13,7 +13,6 @@ import ExperienceSection from './components/sections/ExperienceSection'
 import ProjectsSection from './components/sections/ProjectsSection'
 import ContactSection from './components/sections/ContactSection'
 import StatusCheckSection from './components/sections/StatusCheckSection'
-import DeviceModeModal from './components/DeviceModeModal'
 import MobilePlaceholder from './components/MobilePlaceholder'
 import { TRANSLATIONS } from './data/translations'
 import { getAvailableGridPosition, sanitizeAllPositions, gridToCoords } from './utils/desktopGrid'
@@ -58,22 +57,6 @@ export default function App() {
   }
 
   const t = TRANSLATIONS[language] || TRANSLATIONS.pt
-
-  // Modo de visualização: 'desktop' | 'mobile' | null (exibe modal de escolha inicial)
-  const [deviceMode, setDeviceMode] = useState(() => {
-    return localStorage.getItem('pedro-os-device-mode') || null
-  })
-
-  const handleSelectMode = (mode) => {
-    localStorage.setItem('pedro-os-device-mode', mode)
-    setDeviceMode(mode)
-  }
-
-  const handleExitMode = () => {
-    localStorage.removeItem('pedro-os-device-mode')
-    setDeviceMode(null)
-    playToggle()
-  }
 
   // Posições dos ícones da área de trabalho (alinhados em grade e com prevenção total de sobreposição)
   const [iconPositions, setIconPositions] = useState(() => {
@@ -431,12 +414,6 @@ export default function App() {
           label: theme === 'dark' ? (sys.switchThemeLight || 'Modo Claro') : (sys.switchThemeDark || 'Modo Escuro'),
           icon: theme === 'dark' ? '☀️' : '🌙',
           onClick: toggleTheme
-        },
-        { separator: true },
-        {
-          label: language === 'pt' ? '💻⇄📱 Mudar Modo (Desktop / Mobile)' : '💻⇄📱 Switch Mode (Desktop / Mobile)',
-          icon: '📱',
-          onClick: handleExitMode
         }
       ]
     })
@@ -468,37 +445,11 @@ export default function App() {
     }
   }
 
-  // Se o usuário ainda não escolheu ou se clicou em sair para voltar ao menu de seleção
-  if (!deviceMode) {
-    return (
-      <div className="desktop-workspace" style={{ overflow: 'auto' }}>
-        <DeviceModeModal
-          onSelectMode={handleSelectMode}
-          lang={language}
-          onToggleLang={toggleLanguage}
-          theme={theme}
-          onToggleTheme={toggleTheme}
-          t={t}
-        />
-        {notification.isOpen && (
-          <NotificationToast
-            title={notification.title}
-            message={notification.message}
-            icon={notification.icon}
-            onClose={() => setNotification((prev) => ({ ...prev, isOpen: false }))}
-          />
-        )}
-      </div>
-    )
-  }
-
-  // Se o usuário selecionou a versão mobile (em desenvolvimento)
-  if (deviceMode === 'mobile') {
-    return (
-      <div className="desktop-workspace" style={{ overflow: 'auto' }}>
+  return (
+    <>
+      {/* Versão Mobile: ativada via media query Tailwind (visível em telas menores que 'md') */}
+      <div className="block md:hidden w-full min-h-screen min-h-[100dvh] overflow-y-auto">
         <MobilePlaceholder
-          onGoToDesktop={() => handleSelectMode('desktop')}
-          onBackToSelect={handleExitMode}
           lang={language}
           onToggleLang={toggleLanguage}
           theme={theme}
@@ -515,33 +466,30 @@ export default function App() {
           />
         )}
       </div>
-    )
-  }
 
-  return (
-    <div
-      className="desktop-workspace"
-      onContextMenu={handleWorkspaceContextMenu}
-    >
-      {/* Barra superior de menus do SO com toggle de idioma e controle de volume */}
-      <MenuBar
-        focusedWindowId={focusedWindowId}
-        openWindowIds={openWindowIds}
-        onOpenSection={handleOpenApp}
-        theme={theme}
-        onToggleTheme={toggleTheme}
-        lang={language}
-        onToggleLang={toggleLanguage}
-        volume={volume}
-        isMuted={isMuted}
-        onIncreaseVolume={handleIncreaseVolume}
-        onDecreaseVolume={handleDecreaseVolume}
-        onSetVolume={handleSetVolume}
-        onToggleMute={handleToggleMute}
-        onTestSound={handleTestSound}
-        onExitMode={handleExitMode}
-        t={t}
-      />
+      {/* Versão Desktop: ativada via media query Tailwind (visível a partir de 'md') */}
+      <div
+        className="hidden md:flex desktop-workspace"
+        onContextMenu={handleWorkspaceContextMenu}
+      >
+        {/* Barra superior de menus do SO com toggle de idioma e controle de volume */}
+        <MenuBar
+          focusedWindowId={focusedWindowId}
+          openWindowIds={openWindowIds}
+          onOpenSection={handleOpenApp}
+          theme={theme}
+          onToggleTheme={toggleTheme}
+          lang={language}
+          onToggleLang={toggleLanguage}
+          volume={volume}
+          isMuted={isMuted}
+          onIncreaseVolume={handleIncreaseVolume}
+          onDecreaseVolume={handleDecreaseVolume}
+          onSetVolume={handleSetVolume}
+          onToggleMute={handleToggleMute}
+          onTestSound={handleTestSound}
+          t={t}
+        />
 
       {/* Área central do desktop com ícones livres */}
       <main className="desktop-content-area" style={{ marginTop: 'var(--menubar-height)' }}>
@@ -621,15 +569,16 @@ export default function App() {
         />
       )}
 
-      {/* Notificação Toast do Sistema */}
-      {notification.isOpen && (
-        <NotificationToast
-          title={notification.title}
-          message={notification.message}
-          icon={notification.icon}
-          onClose={() => setNotification((prev) => ({ ...prev, isOpen: false }))}
-        />
-      )}
-    </div>
+        {/* Notificação Toast do Sistema */}
+        {notification.isOpen && (
+          <NotificationToast
+            title={notification.title}
+            message={notification.message}
+            icon={notification.icon}
+            onClose={() => setNotification((prev) => ({ ...prev, isOpen: false }))}
+          />
+        )}
+      </div>
+    </>
   )
 }
