@@ -32,7 +32,7 @@ export default function MenuBar({
           <span className={styles.brandIcon} aria-hidden="true">
             💻
           </span>
-          <span>{sys.brand || 'Pedro'}</span>
+          <span>{sys.brand || 'pedroOs'}</span>
         </div>
 
         <nav aria-label="Navegação do sistema">

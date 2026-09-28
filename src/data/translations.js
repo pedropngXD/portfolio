@@ -4,7 +4,7 @@
 export const TRANSLATIONS = {
   pt: {
     system: {
-      brand: 'Pedro',
+      brand: 'pedroOs',
       statusAvailable: 'Disponível para Projetos',
       clockLocale: 'pt-BR',
       switchThemeLight: 'Mudar para modo claro',
@@ -208,7 +208,7 @@ export const TRANSLATIONS = {
   },
   en: {
     system: {
-      brand: 'Pedro',
+      brand: 'pedroOs',
       statusAvailable: 'Available for Work',
       clockLocale: 'en-US',
       switchThemeLight: 'Switch to light mode',
