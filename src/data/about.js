@@ -1,5 +1,6 @@
 export const ABOUT_DATA = {
   name: 'Pedro',
+  avatarUrl: '/profile.jpg',
   role: 'Desenvolvedor de Software Júnior',
   education: 'Análise e Desenvolvimento de Sistemas — Unisinos (7º semestre)',
   graduation: 'Previsão de conclusão: 12/2026',

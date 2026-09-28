@@ -16,18 +16,39 @@
 }
 
 .avatar {
-  width: 72px;
-  height: 72px;
+  width: 96px;
+  height: 96px;
   border-radius: var(--radius-xl);
   background: linear-gradient(135deg, var(--accent-about) 0%, #6366f1 100%);
   color: #ffffff;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.75rem;
+  font-size: 2rem;
   font-weight: var(--weight-bold);
-  box-shadow: 0 8px 24px rgba(139, 92, 246, 0.35);
+  box-shadow: 0 10px 28px rgba(139, 92, 246, 0.35);
   flex-shrink: 0;
+  overflow: hidden;
+  position: relative;
+  border: 2px solid rgba(255, 255, 255, 0.22);
+}
+
+.avatarImage {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 36%;
+  transform: scale(1.75);
+  transform-origin: 47% 38%;
+  border-radius: inherit;
+  z-index: 1;
+}
+
+.avatarFallback {
+  user-select: none;
+  z-index: 0;
 }
 
 .headerText {

@@ -11,8 +11,18 @@ export default function AboutSection({ onNavigate, t }) {
     <div className={styles.container}>
       {/* Cabeçalho de Perfil */}
       <div className={styles.profileHeader}>
-        <div className={styles.avatar} aria-hidden="true">
-          P
+        <div className={styles.avatar}>
+          <img
+            src={ABOUT_DATA.avatarUrl || '/profile.jpg'}
+            alt={ABOUT_DATA.name}
+            className={styles.avatarImage}
+            onError={(e) => {
+              e.currentTarget.style.display = 'none'
+            }}
+          />
+          <span className={styles.avatarFallback} aria-hidden="true">
+            {ABOUT_DATA.name?.[0] || 'P'}
+          </span>
         </div>
         <div className={styles.headerText}>
           <h1 className={styles.name}>{ABOUT_DATA.name}</h1>
