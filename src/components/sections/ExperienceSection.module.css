@@ -23,6 +23,13 @@
   color: var(--window-text-secondary);
 }
 
+.cardsList {
+  display: flex;
+  flex-direction: column;
+  gap: 1.75rem;
+  width: 100%;
+}
+
 .experienceCard {
   background: var(--window-surface);
   border: 1px solid var(--window-border);
@@ -34,6 +41,11 @@
   position: relative;
   border-left: 4px solid var(--accent-experience);
   width: 100%;
+}
+
+.pastExperienceCard {
+  border-left-color: #64748b;
+  opacity: 0.97;
 }
 
 .cardTop {
@@ -76,6 +88,16 @@
   height: 7px;
   border-radius: 50%;
   background: var(--accent-experience);
+}
+
+.statusBadgePast {
+  background: var(--window-bg);
+  color: var(--window-text-secondary);
+  border-color: var(--window-border);
+}
+
+.calendarIcon {
+  font-size: 0.8rem;
 }
 
 .summaryText {

@@ -93,28 +93,79 @@ export const TRANSLATIONS = {
     experience: {
       title: 'Experiência Profissional',
       subtitle: 'Histórico prático de atuação com sistemas em produção e regras de negócio corporativas.',
-      company: 'Credware Tecnologia',
-      role: 'Estagiário de Sistemas',
-      period: 'Em andamento',
-      location: 'Rio Grande do Sul, Brasil',
-      type: 'Estágio',
-      summary: 'Atuação no ciclo de vida de desenvolvimento, suporte e manutenção da API própria da empresa e dos principais produtos internos de apoio às operações de negócio.',
-      responsibilities: [
+      items: [
         {
-          area: 'API Própria da Empresa',
-          detail: 'Desenvolvimento e manutenção de endpoints RESTful em PHP, tratamento de exceções, padronização de payloads JSON e testes de integração com os sistemas satélites.'
+          id: 'dev-junior',
+          company: 'Credware Tecnologia',
+          role: 'Desenvolvedor de Software Júnior',
+          period: '03/08/2026 – Atual',
+          isCurrent: true,
+          location: 'Rio Grande do Sul, Brasil',
+          type: 'CLT / Efetivo',
+          summary: 'Atuação no ciclo de desenvolvimento, evolução de endpoints da API própria e desenvolvimento de soluções em produtos corporativos (CRM, chamados e módulos financeiros).',
+          responsibilities: [
+            {
+              area: 'API Própria da Empresa',
+              detail: 'Desenvolvimento e manutenção de endpoints RESTful em PHP, tratamento de exceções, padronização de payloads JSON e testes de integração com os sistemas satélites.'
+            },
+            {
+              area: 'Portal de Chamados & CRM',
+              detail: 'Evolução de módulos corporativos de gestão de clientes e chamados, manipulação dinâmica de formulários com JavaScript e regras de negócio no backend.'
+            },
+            {
+              area: 'Módulos Financeiros & Banco de Dados',
+              detail: 'Construção e ajuste de consultas SQL em SQL Server, geração de relatórios operacionais e manutenção da consistência dos dados de transações financeiras.'
+            }
+          ],
+          techStack: [
+            'PHP',
+            'JavaScript',
+            'HTML/CSS',
+            'React',
+            'CodeIgniter/MVC',
+            'SQL Server',
+            'APIs REST',
+            'Git',
+            'BitBucket'
+          ]
         },
         {
-          area: 'Portal de Chamados',
-          detail: 'Sustentação do sistema interno de suporte técnico, correção de bugs, otimização de rotinas de triagem e melhorias contínuas na usabilidade para as equipes internas.'
-        },
-        {
-          area: 'CRM Corporativo',
-          detail: 'Evolução de módulos de gerenciamento de clientes, manipulação dinâmica de formulários com JavaScript e integração direta com o backend em PHP.'
-        },
-        {
-          area: 'Módulos Financeiros & Banco de Dados',
-          detail: 'Construção e ajuste de consultas SQL em SQL Server, geração de relatórios de apoio operacional e manutenção da consistência dos dados de transações financeiras.'
+          id: 'estagio',
+          company: 'Credware Tecnologia',
+          role: 'Estagiário de Sistemas',
+          period: '11/03/2025 – 31/07/2026',
+          isCurrent: false,
+          location: 'Rio Grande do Sul, Brasil',
+          type: 'Estágio',
+          summary: 'Início da trajetória profissional na Credware, atuando no suporte aos sistemas internos, atendimento de chamados técnicos e monitoramento de serviços.',
+          responsibilities: [
+            {
+              area: 'Atendimento & Chamados',
+              detail: 'Atendimento e acompanhamento de chamados por meio de portal de suporte, resolução de dúvidas técnicas e triagem de ocorrências.'
+            },
+            {
+              area: 'Desenvolvimento Web & Apoio',
+              detail: 'Apoio no desenvolvimento e manutenção de telas e rotinas em PHP, JavaScript e HTML/CSS, com versionamento de código via Git e BitBucket.'
+            },
+            {
+              area: 'Monitoramento com Zabbix',
+              detail: 'Monitoramento da infraestrutura de servidores, serviços e disponibilidade de sistemas através da ferramenta Zabbix.'
+            },
+            {
+              area: 'Bancos de Dados & Versionamento',
+              detail: 'Execução de queries e rotinas de consulta em MySQL e SQL Server.'
+            }
+          ],
+          techStack: [
+            'PHP',
+            'JavaScript',
+            'HTML/CSS',
+            'SQL Server',
+            'MySQL',
+            'Zabbix',
+            'Git',
+            'BitBucket'
+          ]
         }
       ]
     },
@@ -249,28 +300,77 @@ export const TRANSLATIONS = {
     experience: {
       title: 'Professional Experience',
       subtitle: 'Hands-on experience with production systems and corporate business logic.',
-      company: 'Credware Tecnologia',
-      role: 'Systems Intern',
-      period: 'Current / Ongoing',
-      location: 'Rio Grande do Sul, Brazil',
-      type: 'Internship',
-      summary: 'Working across the development lifecycle, support, and maintenance of the company\'s proprietary API and core operational software.',
-      responsibilities: [
+      items: [
         {
-          area: 'Company Proprietary API',
-          detail: 'Development and maintenance of RESTful endpoints in PHP, exception handling, JSON payload standardization, and integration testing with satellite systems.'
+          id: 'dev-junior',
+          company: 'Credware Tecnologia',
+          role: 'Junior Software Developer',
+          period: '03/08/2026 – Present',
+          isCurrent: true,
+          location: 'Rio Grande do Sul, Brazil',
+          type: 'Full-time',
+          summary: 'Working across the software development lifecycle, proprietary API evolution, and enterprise products (CRM, ticketing, and financial modules).',
+          responsibilities: [
+            {
+              area: 'Proprietary Company API',
+              detail: 'Development and maintenance of RESTful endpoints in PHP, exception handling, JSON payload standardization, and integration testing with satellite systems.'
+            },
+            {
+              area: 'Ticketing Portal & CRM',
+              detail: 'Evolution of corporate customer management and ticketing modules, dynamic client-side forms with JavaScript, and backend business logic.'
+            },
+            {
+              area: 'Financial Modules & Database',
+              detail: 'Building and tuning SQL queries in SQL Server, producing operational reporting, and ensuring database consistency for financial transactions.'
+            }
+          ],
+          techStack: [
+            'PHP',
+            'JavaScript',
+            'React',
+            'SQL Server',
+            'APIs REST',
+            'Git',
+            'CodeIgniter/MVC'
+          ]
         },
         {
-          area: 'Internal Ticketing Portal',
-          detail: 'Support and maintenance of the internal technical support platform, bug resolution, triage optimization, and continuous UX improvements for internal teams.'
-        },
-        {
-          area: 'Corporate CRM',
-          detail: 'Evolution of customer management modules, dynamic client-side form handling with JavaScript, and direct integration with the PHP backend.'
-        },
-        {
-          area: 'Financial Modules & Database',
-          detail: 'Building and tuning SQL queries in SQL Server, producing operational reporting, and ensuring database consistency for financial transactions.'
+          id: 'estagio',
+          company: 'Credware Tecnologia',
+          role: 'Systems Intern',
+          period: '11/03/2025 – 31/07/2026',
+          isCurrent: false,
+          location: 'Rio Grande do Sul, Brazil',
+          type: 'Internship',
+          summary: 'Beginning of my professional career at Credware, focusing on internal systems support, technical ticketing resolution, and service monitoring.',
+          responsibilities: [
+            {
+              area: 'Technical Support & Ticketing',
+              detail: 'Handling, triaging, and resolving technical support tickets via internal portal, resolving bugs, and optimizing support workflows.'
+            },
+            {
+              area: 'Web Development & Maintenance',
+              detail: 'Assisting in developing and maintaining web screens and backend routines using PHP, JavaScript, and HTML/CSS.'
+            },
+            {
+              area: 'Monitoring with Zabbix',
+              detail: 'Proactive monitoring of server infrastructure, services, and system availability using Zabbix.'
+            },
+            {
+              area: 'Databases & Version Control',
+              detail: 'Executing SQL queries in MySQL and SQL Server for operational routines and reporting, using Git and BitBucket.'
+            }
+          ],
+          techStack: [
+            'PHP',
+            'JavaScript',
+            'SQL Server',
+            'MySQL',
+            'Zabbix',
+            'Git',
+            'BitBucket',
+            'HTML/CSS'
+          ]
         }
       ]
     },

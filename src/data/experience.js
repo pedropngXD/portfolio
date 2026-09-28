@@ -1,37 +1,73 @@
 export const EXPERIENCE_DATA = [
   {
+    id: 'dev-junior',
     company: 'Credware Tecnologia',
-    role: 'Estagiário de Sistemas',
-    period: 'Em andamento',
+    role: 'Desenvolvedor de Software Júnior',
+    period: '03/08/2026 – Atual',
+    isCurrent: true,
     location: 'Rio Grande do Sul, Brasil',
-    type: 'Estágio',
-    summary: 'Atuação no ciclo de vida de desenvolvimento, suporte e manutenção da API própria da empresa e dos principais produtos internos de apoio às operações de negócio.',
+    type: 'CLT / Efetivo',
+    summary: 'Atuação no ciclo de desenvolvimento, evolução de endpoints da API própria e desenvolvimento de soluções em produtos corporativos (CRM, chamados e módulos financeiros).',
     responsibilities: [
       {
         area: 'API Própria da Empresa',
         detail: 'Desenvolvimento e manutenção de endpoints RESTful em PHP, tratamento de exceções, padronização de payloads JSON e testes de integração com os sistemas satélites.'
       },
       {
-        area: 'Portal de Chamados',
-        detail: 'Sustentação do sistema interno de suporte técnico, correção de bugs, otimização de rotinas de triagem e melhorias contínuas na usabilidade para as equipes internas.'
-      },
-      {
-        area: 'CRM Corporativo',
-        detail: 'Evolução de módulos de gerenciamento de clientes, manipulação dinâmica de formulários com JavaScript e integração direta com o backend em PHP.'
+        area: 'Portal de Chamados & CRM',
+        detail: 'Evolução de módulos corporativos de gestão de clientes e chamados, manipulação dinâmica de formulários com JavaScript e regras de negócio no backend.'
       },
       {
         area: 'Módulos Financeiros & Banco de Dados',
-        detail: 'Construção e ajuste de consultas SQL em SQL Server, geração de relatórios de apoio operacional e manutenção da consistência dos dados de transações financeiras.'
+        detail: 'Construção e ajuste de consultas SQL em SQL Server, geração de relatórios operacionais e manutenção da consistência dos dados de transações financeiras.'
+      }
+    ],
+    techStack: [
+      'PHP',
+      'JavaScript',
+      'React',
+      'SQL Server',
+      'APIs REST',
+      'Git',
+      'CodeIgniter/MVC'
+    ]
+  },
+  {
+    id: 'estagio',
+    company: 'Credware Tecnologia',
+    role: 'Estagiário de Sistemas',
+    period: '11/03/2025 – 31/07/2026',
+    isCurrent: false,
+    location: 'Rio Grande do Sul, Brasil',
+    type: 'Estágio',
+    summary: 'Início da trajetória profissional na Credware, atuando no suporte aos sistemas internos, atendimento de chamados técnicos e monitoramento de serviços.',
+    responsibilities: [
+      {
+        area: 'Atendimento & Chamados',
+        detail: 'Atendimento e acompanhamento de chamados por meio de portal de suporte, resolução de dúvidas técnicas e triagem de ocorrências.'
+      },
+      {
+        area: 'Desenvolvimento Web & Apoio',
+        detail: 'Apoio no desenvolvimento e manutenção de telas e rotinas em PHP, JavaScript e HTML/CSS, com versionamento de código via Git e BitBucket.'
+      },
+      {
+        area: 'Monitoramento com Zabbix',
+        detail: 'Monitoramento da infraestrutura de servidores, serviços e disponibilidade de sistemas através da ferramenta Zabbix.'
+      },
+      {
+        area: 'Bancos de Dados & Versionamento',
+        detail: 'Execução de queries e rotinas de consulta em MySQL e SQL Server.'
       }
     ],
     techStack: [
       'PHP',
       'JavaScript',
       'SQL Server',
-      'APIs REST',
-      'HTML/CSS',
+      'MySQL',
+      'Zabbix',
       'Git',
-      'CodeIgniter/MVC'
+      'BitBucket',
+      'HTML/CSS'
     ]
   }
 ]
