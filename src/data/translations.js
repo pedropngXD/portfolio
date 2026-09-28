@@ -36,6 +36,11 @@ export const TRANSLATIONS = {
       testSound: 'Testar som'
     },
     sections: {
+      resume: {
+        title: 'currículo.txt',
+        shortLabel: 'currículo.txt',
+        tag: 'Documento • TXT'
+      },
       about: {
         title: 'Sobre Mim',
         shortLabel: 'Sobre',
@@ -187,6 +192,11 @@ export const TRANSLATIONS = {
       testSound: 'Test sound'
     },
     sections: {
+      resume: {
+        title: 'resume.txt',
+        shortLabel: 'resume.txt',
+        tag: 'Document • TXT'
+      },
       about: {
         title: 'About Me',
         shortLabel: 'About',

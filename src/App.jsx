@@ -11,6 +11,7 @@ import MobileLayout from './components/layout/MobileLayout'
 import NotificationToast from './components/NotificationToast'
 
 // Seções internas das janelas
+import ResumeSection from './components/sections/ResumeSection'
 import AboutSection from './components/sections/AboutSection'
 import StackSection from './components/sections/StackSection'
 import ExperienceSection from './components/sections/ExperienceSection'
@@ -91,7 +92,33 @@ export default function App() {
     const secTitle = t?.sections?.[sectionId]?.title || section?.title
 
     const items = []
-    if (section?.externalUrl) {
+    if (sectionId === 'resume') {
+      items.push({
+        label: `${language === 'pt' ? 'Abrir' : 'Open'} ${secTitle} 📄`,
+        icon: '📄',
+        onClick: () => handleOpenApp(sectionId)
+      })
+      items.push({
+        label: language === 'pt' ? 'Baixar PDF original 📥' : 'Download original PDF 📥',
+        icon: '📥',
+        onClick: () => {
+          const a = document.createElement('a')
+          a.href = '/curriculo_pedro_moser.pdf'
+          a.download = 'Pedro Gabriel Pinheiro Moser.pdf'
+          a.click()
+          showNotification({
+            title: secTitle,
+            message: language === 'pt' ? 'Download do currículo em PDF iniciado!' : 'Resume PDF download started!',
+            icon: '📥'
+          })
+        }
+      })
+      items.push({
+        label: language === 'pt' ? 'Visualizar PDF no Navegador ↗' : 'View PDF in Browser ↗',
+        icon: '↗',
+        onClick: () => window.open('/curriculo_pedro_moser.pdf', '_blank', 'noopener,noreferrer')
+      })
+    } else if (section?.externalUrl) {
       items.push({
         label: `${language === 'pt' ? 'Abrir' : 'Open'} ${secTitle} 🪟`,
         icon: '📂',
@@ -232,6 +259,8 @@ export default function App() {
   // Renderizador de seções de janelas
   const renderContentForSection = (sectionId) => {
     switch (sectionId) {
+      case 'resume':
+        return <ResumeSection language={language} />
       case 'about':
         return <AboutSection onNavigate={handleOpenApp} t={t} />
       case 'stack':
