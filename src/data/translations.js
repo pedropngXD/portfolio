@@ -68,21 +68,21 @@ export const TRANSLATIONS = {
       }
     },
     about: {
-      role: 'Desenvolvedor de Software Júnior / Estagiário de Sistemas',
+      role: 'Desenvolvedor Júnior',
       education: 'Análise e Desenvolvimento de Sistemas — Unisinos (7º semestre)',
       graduation: 'Previsão de conclusão: 12/2026',
       location: 'Rio Grande do Sul, Brasil',
       headline: 'Desenvolvedor focado em soluções web, sustentação de APIs internas e sistemas de gestão financeira.',
       paragraphs: [
-        'Estudante do 7º semestre de ADS na Unisinos com atuação prática como estagiário de sistemas na Credware Tecnologia. No dia a dia, atuo no desenvolvimento, manutenção e suporte à API própria da empresa e em produtos internos essenciais para as operações, como portal de chamados, CRM e módulos de controle financeiro.',
-        'Minha rotina técnica combina PHP e JavaScript no ecossistema web, integrando interfaces dinâmicas com regras de negócio no backend e bancos de dados relacionais (SQL Server, MySQL, PostgreSQL). Priorizo código legível, rotas bem documentadas e arquitetura previsível.',
-        'Busco oportunidades para evoluir como desenvolvedor júnior em times de engenharia que valorizem boas práticas, resolução de problemas reais de negócio e aprendizado contínuo de ponta a ponta.'
+        'Estudante do 7º semestre de ADS na Unisinos com atuação prática como desenvolvedor júnior na Credware Tecnologia. No dia a dia, atuo no desenvolvimento, manutenção e suporte à API própria da empresa e em produtos internos essenciais para as operações, como portal de chamados, CRM e módulos de controle financeiro.',
+        'Minha rotina técnica combina PHP e JavaScript no ecossistema web, integrando interfaces dinâmicas com regras de negócio no backend e bancos de dados relacionais (SQL Server, MySQL, PostgreSQL). Paralelamente, estou aprofundando meus estudos em React e desenvolvendo projetos práticos para consolidar conceitos de componentização, estado e arquitetura moderna no frontend.',
+        'Busco oportunidades para evoluir como desenvolvedor júnior em times de engenharia que valorizem boas práticas, resolução de problemas reais de negócio e aprendizado contínuo.'
       ],
       quickInfo: [
         { label: 'Formação', value: 'ADS @ Unisinos (7º sem)' },
-        { label: 'Experiência Atual', value: 'Estágio @ Credware Tecnologia' },
         { label: 'Conclusão', value: 'Dezembro / 2026' },
-        { label: 'Foco Técnico', value: 'Backend (PHP / Node / APIs) & Frontend' }
+        { label: 'Experiência Atual', value: 'Desenvolvedor Júnior @ Credware Tecnologia' },
+        { label: 'Foco Técnico', value: 'Backend (PHP / Node / APIs) & Frontend (React)' }
       ]
     },
     experience: {
@@ -219,21 +219,21 @@ export const TRANSLATIONS = {
       }
     },
     about: {
-      role: 'Junior Software Developer / Systems Intern',
+      role: 'Junior Software Developer',
       education: 'Systems Analysis and Development — Unisinos (7th semester)',
       graduation: 'Expected graduation: 12/2026',
       location: 'Rio Grande do Sul, Brazil',
       headline: 'Developer focused on web solutions, internal API maintenance, and financial management systems.',
       paragraphs: [
-        '7th semester Systems Analysis and Development student at Unisinos with practical experience as a systems intern at Credware Tecnologia. On a daily basis, I work on developing, maintaining, and supporting the company\'s proprietary API and essential operational systems, such as a ticketing portal, CRM, and financial control modules.',
-        'My technical workflow combines PHP and JavaScript across the web ecosystem, connecting dynamic interfaces with backend business logic and relational databases (SQL Server, MySQL, PostgreSQL). I prioritize clean code, well-documented endpoints, and predictable architecture.',
-        'Seeking opportunities to grow as a junior developer within engineering teams that value best practices, real-world business problem solving, and continuous end-to-end learning.'
+        '7th semester Systems Analysis and Development student at Unisinos with practical experience as a junior developer at Credware Tecnologia. On a daily basis, I work on developing, maintaining, and supporting the company\'s proprietary API and essential operational systems, such as a ticketing portal, CRM, and financial control modules.',
+        'My technical workflow combines PHP and JavaScript across the web ecosystem, connecting dynamic interfaces with backend business logic and relational databases (SQL Server, MySQL, PostgreSQL). In parallel, I am actively studying React and building hands-on projects to master componentization, modern state management, and frontend architecture.',
+        'Seeking opportunities to grow as a junior developer within engineering teams that value best practices, real-world business problem solving, and continuous learning.'
       ],
       quickInfo: [
         { label: 'Education', value: 'ADS @ Unisinos (7th sem)' },
-        { label: 'Current Role', value: 'Internship @ Credware Tecnologia' },
         { label: 'Graduation', value: 'December / 2026' },
-        { label: 'Technical Focus', value: 'Backend (PHP / Node / APIs) & Frontend' }
+        { label: 'Current Role', value: 'Junior Developer @ Credware Tecnologia' },
+        { label: 'Technical Focus', value: 'Backend (PHP / Node / APIs) & Frontend (React)' }
       ]
     },
     experience: {
