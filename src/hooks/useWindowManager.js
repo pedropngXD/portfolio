@@ -1,40 +1,54 @@
 import { useState, useCallback } from 'react'
 import { SECTIONS } from '../data/sections'
 
-const DEFAULT_WINDOW_SIZE = {
+export const DEFAULT_WINDOW_SIZE = {
   width: 760,
   height: 500
 }
 
+/**
+ * Calcula dimensões e posição inicial padrão para a janela de uma seção
+ */
+export function getInitialWindowBounds(sectionId) {
+  const isMobile = typeof window !== 'undefined' && window.innerWidth <= 640
+  const initialWidth = isMobile ? Math.min(window.innerWidth * 0.94, 760) : DEFAULT_WINDOW_SIZE.width
+  const initialHeight = isMobile ? Math.min(window.innerHeight * 0.72, 500) : DEFAULT_WINDOW_SIZE.height
+
+  const initialX = typeof window !== 'undefined'
+    ? Math.max(20, Math.round((window.innerWidth - initialWidth) / 2))
+    : 80
+  const initialY = typeof window !== 'undefined'
+    ? Math.max(50, Math.round((window.innerHeight - initialHeight) / 2) - 20)
+    : 80
+
+  const idx = SECTIONS.findIndex((s) => s.id === sectionId)
+  const offset = idx >= 0 ? idx * 26 : 0
+
+  return {
+    position: {
+      x: initialX + offset,
+      y: initialY + offset
+    },
+    size: {
+      width: initialWidth,
+      height: initialHeight
+    }
+  }
+}
+
 export function useWindowManager() {
   const [windows, setWindows] = useState(() => {
-    const isMobile = typeof window !== 'undefined' && window.innerWidth <= 640
-    const initialWidth = isMobile ? Math.min(window.innerWidth * 0.94, 760) : DEFAULT_WINDOW_SIZE.width
-    const initialHeight = isMobile ? Math.min(window.innerHeight * 0.72, 500) : DEFAULT_WINDOW_SIZE.height
-
-    const initialX = typeof window !== 'undefined'
-      ? Math.max(20, Math.round((window.innerWidth - initialWidth) / 2))
-      : 80
-    const initialY = typeof window !== 'undefined'
-      ? Math.max(50, Math.round((window.innerHeight - initialHeight) / 2) - 20)
-      : 80
-
     const initialMap = {}
-    SECTIONS.forEach((sec, idx) => {
+    SECTIONS.forEach((sec) => {
+      const bounds = getInitialWindowBounds(sec.id)
       initialMap[sec.id] = {
         id: sec.id,
         isOpen: sec.id === 'about',
         isMinimized: false,
         isMaximized: false,
         zIndex: sec.id === 'about' ? 100 : 10,
-        position: {
-          x: initialX + (idx * 26),
-          y: initialY + (idx * 26)
-        },
-        size: {
-          width: initialWidth,
-          height: initialHeight
-        },
+        position: bounds.position,
+        size: bounds.size,
         prevBounds: null
       }
     })
@@ -80,13 +94,33 @@ export function useWindowManager() {
           }
         }
 
+        // Se já está aberta (estava minimizada ou em segundo plano), traz para a frente mantendo seu tamanho atual
+        if (current.isOpen) {
+          return {
+            ...prev,
+            [id]: {
+              ...current,
+              isMinimized: false,
+              zIndex: current.isMaximized ? Math.max(nextZ, 950) : nextZ
+            }
+          }
+        }
+
+        // CASO A JANELA NÃO ESTEJA ABERTA (!current.isOpen):
+        // Sempre abre com as dimensões e posição originais da primeira vez!
+        const initialBounds = getInitialWindowBounds(id)
+
         return {
           ...prev,
           [id]: {
             ...current,
             isOpen: true,
             isMinimized: false,
-            zIndex: current.isMaximized ? Math.max(nextZ, 950) : nextZ
+            isMaximized: false,
+            position: initialBounds.position,
+            size: initialBounds.size,
+            prevBounds: null,
+            zIndex: nextZ
           }
         }
       })
@@ -99,13 +133,19 @@ export function useWindowManager() {
     setWindows((prev) => {
       const current = prev[id]
       if (!current) return prev
+
+      const initialBounds = getInitialWindowBounds(id)
+
       return {
         ...prev,
         [id]: {
           ...current,
           isOpen: false,
           isMinimized: false,
-          isMaximized: false
+          isMaximized: false,
+          position: initialBounds.position,
+          size: initialBounds.size,
+          prevBounds: null
         }
       }
     })
@@ -134,14 +174,15 @@ export function useWindowManager() {
       if (!current) return prev
 
       if (current.isMaximized) {
-        // Restaura tamanho e posição guardados
+        // Restaura tamanho e posição guardados (ou tamanho padrão)
+        const initialBounds = getInitialWindowBounds(id)
         return {
           ...prev,
           [id]: {
             ...current,
             isMaximized: false,
-            position: current.prevBounds?.position || current.position,
-            size: current.prevBounds?.size || current.size,
+            position: current.prevBounds?.position || initialBounds.position,
+            size: current.prevBounds?.size || initialBounds.size,
             prevBounds: null
           }
         }
