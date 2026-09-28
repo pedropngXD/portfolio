@@ -19,7 +19,7 @@ export const CONTACT_CHANNELS = [
     label: 'E-mail Profissional',
     value: 'pgpmoser@gmail.com',
     href: 'mailto:pgpmoser@gmail.com',
-    actionType: 'copy',
+    actionType: 'link',
     icon: 'mail'
   },
   {

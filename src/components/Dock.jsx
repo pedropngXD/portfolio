@@ -257,20 +257,32 @@ export default function Dock({
             onPointerDown={(e) => handlePointerDown(e, index, 'right', dockRightIds.length)}
           >
             <span className={styles.tooltip}>
-              {isEmailCopied ? (sys.copySuccess || '✓ Copiado!') : `${sys.copyEmail || 'Copiar E-mail'} (${emailChannel.value})`}
+              {isEmailCopied ? (sys.copySuccess || '✓ Copiado!') : `${sys.sendEmail || 'Enviar E-mail'} (${emailChannel.value})`}
             </span>
-            <button
-              type="button"
+            <a
+              href={emailChannel.href}
+              target="_blank"
+              rel="noopener noreferrer"
               className={styles.dockButton}
-              onClick={(e) => handleItemClick(e, handleCopyEmail)}
-              aria-label="Copiar e-mail de Pedro para a área de transferência"
+              onClick={(e) => {
+                if (blockClickRef.current) {
+                  e.preventDefault()
+                  e.stopPropagation()
+                }
+              }}
+              onContextMenu={(e) => {
+                e.preventDefault()
+                e.stopPropagation()
+                onContextMenu && onContextMenu(e, 'email', 'dock')
+              }}
+              aria-label={`Enviar e-mail para ${emailChannel.value}`}
             >
               <SystemIcon
                 type="mail"
                 size={21}
                 color={isEmailCopied ? 'var(--accent-stack)' : 'var(--window-text-primary)'}
               />
-            </button>
+            </a>
           </div>
         )
 

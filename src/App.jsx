@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { SECTIONS } from './data/sections'
+import { CONTACT_CHANNELS } from './data/contact'
 import { useTheme } from './hooks/useTheme'
 import { useLanguage } from './hooks/useLanguage'
 import { useSystemAudio } from './hooks/useSystemAudio'
@@ -167,8 +168,45 @@ export default function App() {
   }
 
   const handleDockContextMenu = (e, sectionId) => {
-    const section = SECTIONS.find((s) => s.id === sectionId)
     const sys = t?.system || {}
+
+    if (sectionId === 'email') {
+      const emailChannel = CONTACT_CHANNELS.find((c) => c.id === 'email')
+      if (emailChannel) {
+        const items = [
+          {
+            label: `${sys.sendEmail || (language === 'pt' ? 'Enviar e-mail' : 'Send email')} ✉️`,
+            icon: '✉️',
+            onClick: () => {
+              window.open(emailChannel.href, '_blank', 'noopener,noreferrer')
+            }
+          },
+          {
+            label: `${sys.copyEmail || (language === 'pt' ? 'Copiar e-mail' : 'Copy email')} 📋`,
+            icon: '📋',
+            onClick: () => {
+              navigator.clipboard.writeText(emailChannel.value)
+              showNotification({
+                title: sys.emailToastTitle || (language === 'pt' ? 'Área de Transferência' : 'Clipboard'),
+                message: sys.emailToastMessage || (language === 'pt' ? 'E-mail copiado para a área de transferência!' : 'Email copied to clipboard!'),
+                icon: '📋'
+              })
+            }
+          },
+          {
+            label: `${language === 'pt' ? 'Abrir no Gmail Web' : 'Open in Gmail Web'} 🌐`,
+            icon: '🌐',
+            onClick: () => {
+              window.open(`https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(emailChannel.value)}`, '_blank', 'noopener,noreferrer')
+            }
+          }
+        ]
+        setContextMenu({ isOpen: true, x: e.clientX, y: e.clientY, items })
+        return
+      }
+    }
+
+    const section = SECTIONS.find((s) => s.id === sectionId)
     const secTitle = t?.sections?.[sectionId]?.title || section?.title
 
     const items = []

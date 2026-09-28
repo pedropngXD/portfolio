@@ -130,14 +130,26 @@ export default function MobilePlaceholder({
                 </a>
               )}
               {emailChannel && (
-                <button
-                  type="button"
-                  className={styles.chip}
-                  onClick={handleCopyEmail}
-                >
-                  <span>✉️</span>
-                  <span>{lang === 'pt' ? 'Copiar E-mail' : 'Copy Email'}</span>
-                </button>
+                <>
+                  <a
+                    href={emailChannel.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={styles.chip}
+                  >
+                    <span>✉️</span>
+                    <span>{lang === 'pt' ? 'Enviar E-mail' : 'Send Email'}</span>
+                  </a>
+                  <button
+                    type="button"
+                    className={styles.chip}
+                    onClick={handleCopyEmail}
+                    title={lang === 'pt' ? 'Copiar endereço de e-mail' : 'Copy email address'}
+                  >
+                    <span>📋</span>
+                    <span>{lang === 'pt' ? 'Copiar' : 'Copy'}</span>
+                  </button>
+                </>
               )}
             </div>
           </div>
