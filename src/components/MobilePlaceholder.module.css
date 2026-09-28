@@ -192,61 +192,6 @@
   margin-top: 0.25rem;
 }
 
-/* Botões de Ação */
-.actionButtonGroup {
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-}
-
-.primaryBtn {
-  width: 100%;
-  padding: 0.85rem 1.25rem;
-  background: linear-gradient(135deg, #2563eb 0%, #3b82f6 100%);
-  color: #ffffff;
-  border: none;
-  border-radius: var(--radius-md);
-  font-size: 0.95rem;
-  font-weight: 700;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
-  transition: all var(--transition-fast);
-}
-
-.primaryBtn:hover {
-  background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 100%);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(37, 99, 235, 0.45);
-}
-
-.secondaryBtn {
-  width: 100%;
-  padding: 0.75rem 1.25rem;
-  background: var(--window-surface);
-  color: var(--window-text-primary);
-  border: 1px solid var(--window-border);
-  border-radius: var(--radius-md);
-  font-size: 0.875rem;
-  font-weight: 600;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  transition: all var(--transition-fast);
-}
-
-.secondaryBtn:hover {
-  background: rgba(255, 255, 255, 0.08);
-  border-color: rgba(59, 130, 246, 0.4);
-  transform: translateY(-1px);
-}
-
 /* Links Rápidos de Contato */
 .contactsRow {
   width: 100%;

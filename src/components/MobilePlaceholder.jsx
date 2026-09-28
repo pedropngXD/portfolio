@@ -1,7 +1,7 @@
 import React from 'react'
 import styles from './MobilePlaceholder.module.css'
 import { CONTACT_CHANNELS } from '../data/contact'
-import { playToggle, playWindowOpen, playNotification } from '../utils/soundEffects'
+import { playToggle, playNotification } from '../utils/soundEffects'
 
 export default function MobilePlaceholder({
   lang = 'pt',
@@ -11,7 +11,6 @@ export default function MobilePlaceholder({
   onNotify,
   t
 }) {
-  const modeData = t?.modeSelector || {}
   const sys = t?.system || {}
 
   const githubChannel = CONTACT_CHANNELS.find((c) => c.id === 'github')
@@ -91,8 +90,8 @@ export default function MobilePlaceholder({
 
             <p className={styles.description}>
               {lang === 'pt'
-                ? 'Estamos construindo uma experiência mobile dedicada adaptada para smartphones e telas verticais.'
-                : 'We are developing a dedicated mobile experience tailored for smartphones and vertical touch screens.'}
+                ? 'A experiência mobile dedicada e adaptada para smartphones e telas verticais está em construção.'
+                : 'The dedicated mobile experience tailored for smartphones and vertical screens is under construction.'}
             </p>
 
             <div className={styles.notice}>
