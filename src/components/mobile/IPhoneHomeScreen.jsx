@@ -1,8 +1,17 @@
+import { useState, useRef } from 'react'
 import SystemIcon from '../SystemIcon'
 import { SECTIONS } from '../../data/sections'
 import { ABOUT_DATA } from '../../data/about'
 import { CONTACT_CHANNELS } from '../../data/contact'
+import { playToggle } from '../../utils/soundEffects'
 import styles from './IPhone.module.css'
+
+function arrayMove(array, fromIndex, toIndex) {
+  const newArray = [...array]
+  const [removed] = newArray.splice(fromIndex, 1)
+  newArray.splice(toIndex, 0, removed)
+  return newArray
+}
 
 const APP_GRADIENTS = {
   readme: 'linear-gradient(180deg, #ffd60a 0%, #f59e0b 100%)',
@@ -91,8 +100,120 @@ export default function IPhoneHomeScreen({
     }
   ]
 
-  // Lista ordenada dos 8 aplicativos do portfólio na tela de início
-  const homeSections = SECTIONS
+  // Ordem reordenável dos aplicativos da tela de início (com persistência no localStorage)
+  const [appOrder, setAppOrder] = useState(() => {
+    if (typeof window !== 'undefined') {
+      try {
+        const saved = localStorage.getItem('pedro-os-mobile-app-order')
+        if (saved) {
+          const parsed = JSON.parse(saved)
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            const ordered = parsed
+              .map((id) => SECTIONS.find((s) => s.id === id))
+              .filter(Boolean)
+            const missing = SECTIONS.filter((s) => !parsed.includes(s.id))
+            return [...ordered, ...missing]
+          }
+        }
+      } catch (err) {}
+    }
+    return SECTIONS
+  })
+
+  const [dragState, setDragState] = useState(null)
+  const isDraggingRef = useRef(false)
+  const blockClickRef = useRef(false)
+
+  // Manipulador de arraste estilo iPhone (funciona com Touch e Mouse)
+  const handlePointerDown = (e, index) => {
+    if (e.button !== 0 && e.pointerType === 'mouse') return
+
+    const startX = e.clientX
+    const startY = e.clientY
+    isDraggingRef.current = false
+    blockClickRef.current = false
+
+    const onPointerMove = (moveEvent) => {
+      const deltaX = moveEvent.clientX - startX
+      const deltaY = moveEvent.clientY - startY
+
+      if (!isDraggingRef.current && (Math.abs(deltaX) > 6 || Math.abs(deltaY) > 6)) {
+        isDraggingRef.current = true
+        blockClickRef.current = true
+      }
+
+      if (isDraggingRef.current) {
+        // Encontra o elemento de app sob o cursor/dedo
+        const el = document.elementFromPoint(moveEvent.clientX, moveEvent.clientY)
+        const targetAppEl = el?.closest('[data-app-index]')
+        let currentOver = index
+        if (targetAppEl && targetAppEl.dataset.appIndex !== undefined) {
+          const parsedIdx = parseInt(targetAppEl.dataset.appIndex, 10)
+          if (!isNaN(parsedIdx)) {
+            currentOver = parsedIdx
+          }
+        }
+
+        setDragState({
+          dragIndex: index,
+          deltaX,
+          deltaY,
+          overIndex: currentOver
+        })
+      }
+    }
+
+    const onPointerUp = (upEvent) => {
+      window.removeEventListener('pointermove', onPointerMove)
+      window.removeEventListener('pointerup', onPointerUp)
+      window.removeEventListener('pointercancel', onPointerUp)
+
+      if (isDraggingRef.current) {
+        const el = document.elementFromPoint(upEvent.clientX, upEvent.clientY)
+        const targetAppEl = el?.closest('[data-app-index]')
+        let targetIndex = index
+        if (targetAppEl && targetAppEl.dataset.appIndex !== undefined) {
+          const parsedIdx = parseInt(targetAppEl.dataset.appIndex, 10)
+          if (!isNaN(parsedIdx)) {
+            targetIndex = parsedIdx
+          }
+        }
+
+        if (targetIndex !== index) {
+          playToggle()
+          setAppOrder((prev) => {
+            const next = arrayMove(prev, index, targetIndex)
+            try {
+              localStorage.setItem(
+                'pedro-os-mobile-app-order',
+                JSON.stringify(next.map((s) => s.id))
+              )
+            } catch (err) {}
+            return next
+          })
+          onNotify && onNotify({
+            title: isEn ? 'Home Screen' : 'Tela de Início',
+            message: isEn ? 'App position updated' : 'Posição do aplicativo atualizada',
+            icon: '📱'
+          })
+        }
+
+        setDragState(null)
+        setTimeout(() => {
+          blockClickRef.current = false
+          isDraggingRef.current = false
+        }, 80)
+      } else {
+        setDragState(null)
+        blockClickRef.current = false
+        isDraggingRef.current = false
+      }
+    }
+
+    window.addEventListener('pointermove', onPointerMove)
+    window.addEventListener('pointerup', onPointerUp)
+    window.addEventListener('pointercancel', onPointerUp)
+  }
 
   return (
     <div className={styles.homeScreen}>
@@ -190,16 +311,49 @@ export default function IPhoneHomeScreen({
           ======================================================== */}
       <section className={styles.appsGridContainer}>
         <div className={styles.appsGrid}>
-          {homeSections.map((section) => {
+          {appOrder.map((section, index) => {
             const title = t?.sections?.[section.id]?.shortLabel || section.shortLabel || section.title
             const gradient = APP_GRADIENTS[section.id] || 'linear-gradient(180deg, #007aff 0%, #0051ba 100%)'
+            const isDraggingThis = dragState?.dragIndex === index
+            const isOverThis = dragState?.overIndex === index && !isDraggingThis
+            const isAnyDragging = !!dragState
+
+            const itemStyle = isDraggingThis
+              ? {
+                  transform: `translate3d(${dragState.deltaX}px, ${dragState.deltaY}px, 0) scale(1.15)`,
+                  zIndex: 60,
+                  boxShadow: '0 20px 40px rgba(0, 0, 0, 0.55)',
+                  cursor: 'grabbing'
+                }
+              : isOverThis
+              ? {
+                  transform: 'scale(1.1)',
+                  zIndex: 10,
+                  transition: 'transform 0.2s cubic-bezier(0.2, 0.9, 0.4, 1)'
+                }
+              : isAnyDragging
+              ? {
+                  animationDelay: `${(index % 4) * 0.05}s`
+                }
+              : {}
 
             return (
               <button
                 key={section.id}
                 type="button"
-                onClick={() => onOpenApp(section.id)}
-                className={styles.appItem}
+                data-app-index={index}
+                data-app-id={section.id}
+                onPointerDown={(e) => handlePointerDown(e, index)}
+                onClick={(e) => {
+                  if (blockClickRef.current) {
+                    e.preventDefault()
+                    e.stopPropagation()
+                    return
+                  }
+                  onOpenApp(section.id)
+                }}
+                className={`${styles.appItem} ${isDraggingThis ? styles.appItemDragging : ''} ${isOverThis ? styles.appItemOver : ''} ${isAnyDragging && !isDraggingThis ? styles.appItemJiggle : ''}`}
+                style={itemStyle}
               >
                 {/* Ícone Squircle iOS com Gradiente e Sombra */}
                 <div
