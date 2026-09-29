@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { SECTIONS } from './data/sections'
 import { CONTACT_CHANNELS } from './data/contact'
+import { RESUME_METADATA, getResumePdf } from './data/resume'
 import { useTheme } from './hooks/useTheme'
 import { useLanguage } from './hooks/useLanguage'
 import { useSystemAudio } from './hooks/useSystemAudio'
@@ -95,6 +96,7 @@ export default function App() {
 
     const items = []
     if (sectionId === 'resume') {
+      const resume = getResumePdf(language)
       items.push({
         label: `${language === 'pt' ? 'Abrir' : 'Open'} ${secTitle} 📄`,
         icon: '📄',
@@ -105,8 +107,8 @@ export default function App() {
         icon: '📥',
         onClick: () => {
           const a = document.createElement('a')
-          a.href = '/curriculo_pedro_moser.pdf'
-          a.download = 'Pedro Gabriel Pinheiro Moser.pdf'
+          a.href = resume.url
+          a.download = resume.downloadName
           a.click()
           showNotification({
             title: secTitle,
@@ -118,7 +120,7 @@ export default function App() {
       items.push({
         label: language === 'pt' ? 'Visualizar PDF no Navegador ↗' : 'View PDF in Browser ↗',
         icon: '↗',
-        onClick: () => window.open('/curriculo_pedro_moser.pdf', '_blank', 'noopener,noreferrer')
+        onClick: () => window.open(resume.url, '_blank', 'noopener,noreferrer')
       })
     } else if (section?.externalUrl) {
       items.push({

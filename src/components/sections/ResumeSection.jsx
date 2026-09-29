@@ -1,10 +1,17 @@
-import { RESUME_METADATA } from '../../data/resume'
+import { getResumePdf, RESUME_METADATA } from '../../data/resume'
 import styles from './ResumeSection.module.css'
 
 export default function ResumeSection({ language = 'pt' }) {
   const isEn = language === 'en'
-  const fileName = isEn ? RESUME_METADATA.fileNameEn : RESUME_METADATA.fileNamePt
-  const pdfSource = `${RESUME_METADATA.pdfUrl}#view=FitH`
+  const resume = getResumePdf ? getResumePdf(language) : {
+    url: isEn ? RESUME_METADATA.pdfUrlEn : RESUME_METADATA.pdfUrlPt,
+    downloadName: isEn ? RESUME_METADATA.pdfDownloadNameEn : RESUME_METADATA.pdfDownloadNamePt,
+    fileName: isEn ? RESUME_METADATA.fileNameEn : RESUME_METADATA.fileNamePt
+  }
+  const fileName = resume.fileName
+  const pdfUrl = resume.url
+  const downloadName = resume.downloadName
+  const pdfSource = `${pdfUrl}#view=FitH`
 
   return (
     <div className={styles.container}>
@@ -18,7 +25,7 @@ export default function ResumeSection({ language = 'pt' }) {
 
         <div className={styles.actionsGroup}>
           <a
-            href={RESUME_METADATA.pdfUrl}
+            href={pdfUrl}
             target="_blank"
             rel="noopener noreferrer"
             className={styles.actionBtn}
@@ -29,8 +36,8 @@ export default function ResumeSection({ language = 'pt' }) {
           </a>
 
           <a
-            href={RESUME_METADATA.pdfUrl}
-            download={RESUME_METADATA.pdfDownloadName}
+            href={pdfUrl}
+            download={downloadName}
             className={styles.actionBtn}
             title={isEn ? 'Download original PDF' : 'Baixar arquivo PDF original'}
           >
@@ -43,12 +50,14 @@ export default function ResumeSection({ language = 'pt' }) {
       {/* Visualizador de PDF embutido diretamente na janela do sistema */}
       <div className={styles.viewerWrapper}>
         <object
+          key={`pdf-object-${pdfUrl}`}
           data={pdfSource}
           type="application/pdf"
           className={styles.pdfFrame}
           title={fileName}
         >
           <iframe
+            key={`pdf-iframe-${pdfUrl}`}
             src={pdfSource}
             title={fileName}
             className={styles.pdfFrame}
@@ -60,8 +69,8 @@ export default function ResumeSection({ language = 'pt' }) {
                   : 'Seu navegador não suporta a pré-visualização direta de PDF.'}
               </p>
               <a
-                href={RESUME_METADATA.pdfUrl}
-                download={RESUME_METADATA.pdfDownloadName}
+                href={pdfUrl}
+                download={downloadName}
                 className={styles.actionBtn}
               >
                 📥 {isEn ? 'Download PDF' : 'Baixar PDF'}
