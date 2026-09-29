@@ -16,12 +16,14 @@ export default function Window({
   zIndex,
   position,
   size,
+  prevBounds,
   onClose,
   onMinimize,
   onMaximize,
   onFocus,
   onMove,
   onResize,
+  onRestoreFromDrag,
   t,
   children
 }) {
@@ -31,21 +33,52 @@ export default function Window({
 
   // ========================================================
   // ARRASTAR JANELA (DRAG)
+  // Permite arrastar janelas normais e também restaurar o tamanho
+  // automaticamente ao começar a arrastar uma janela maximizada
   // ========================================================
   const handleHeaderMouseDown = (e) => {
     if (e.target.closest(`.${styles.controlButton}`)) return
-    if (isMaximized) return
 
     onFocus && onFocus(id)
     isDraggingRef.current = true
     setIsInteracting(true)
 
-    const startX = e.clientX
-    const startY = e.clientY
-    const startPos = { ...position }
+    const wasMaximized = Boolean(isMaximized)
+    const restoredWidth = prevBounds?.size?.width || size?.width || 760
+    const restoredHeight = prevBounds?.size?.height || size?.height || 500
+
+    let startX = e.clientX
+    let startY = e.clientY
+    let startPos = { ...position }
+    let hasRestoredFromMaximized = false
 
     const onMouseMove = (moveEvent) => {
       if (!isDraggingRef.current) return
+
+      // Se a janela estava em tela cheia (maximizada), aguarda o início do movimento (> 4px)
+      // para restaurar ao tamanho anterior antes de continuar o arrasto
+      if (wasMaximized && !hasRestoredFromMaximized) {
+        const deltaFromClick = Math.hypot(moveEvent.clientX - startX, moveEvent.clientY - startY)
+        if (deltaFromClick < 4) return
+
+        hasRestoredFromMaximized = true
+
+        // Calcula a posição horizontal proporcional para manter o cursor no mesmo ponto da barra de título
+        const screenW = typeof window !== 'undefined' ? window.innerWidth : 1280
+        const clickRatioX = Math.max(0.08, Math.min(0.92, startX / screenW))
+        const grabOffsetX = Math.round(restoredWidth * clickRatioX)
+        const restoredX = Math.round(moveEvent.clientX - grabOffsetX)
+        // No topo, preserva o deslocamento relativo dentro da barra de título (~20px)
+        const restoredY = Math.max(0, moveEvent.clientY - 20)
+
+        startPos = { x: restoredX, y: restoredY }
+        startX = moveEvent.clientX
+        startY = moveEvent.clientY
+
+        onRestoreFromDrag && onRestoreFromDrag(id, { x: restoredX, y: restoredY })
+        return
+      }
+
       const deltaX = moveEvent.clientX - startX
       const deltaY = moveEvent.clientY - startY
 
@@ -144,9 +177,11 @@ export default function Window({
   useEffect(() => {
     if (prevMaximizedRef.current !== isMaximized) {
       prevMaximizedRef.current = isMaximized
-      setIsMaximizingTransition(true)
-      const timer = setTimeout(() => setIsMaximizingTransition(false), 300)
-      return () => clearTimeout(timer)
+      if (!isDraggingRef.current) {
+        setIsMaximizingTransition(true)
+        const timer = setTimeout(() => setIsMaximizingTransition(false), 300)
+        return () => clearTimeout(timer)
+      }
     }
   }, [isMaximized])
 

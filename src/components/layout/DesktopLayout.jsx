@@ -20,6 +20,7 @@ export default function DesktopLayout({
   onFocusWindow,
   onMoveWindow,
   onResizeWindow,
+  onRestoreFromDrag,
   renderContentForSection,
 
   // Área de Trabalho e Dock
@@ -153,12 +154,14 @@ export default function DesktopLayout({
               zIndex={win.zIndex}
               position={win.position}
               size={win.size}
+              prevBounds={win.prevBounds}
               onClose={onCloseWindow}
               onMinimize={onMinimizeWindow}
               onMaximize={onMaximizeWindow}
               onFocus={onFocusWindow}
               onMove={onMoveWindow}
               onResize={onResizeWindow}
+              onRestoreFromDrag={onRestoreFromDrag}
               t={t}
             >
               {renderContentForSection(section.id)}

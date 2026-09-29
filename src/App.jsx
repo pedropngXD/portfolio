@@ -52,6 +52,7 @@ export default function App() {
     closeWindow,
     minimizeWindow,
     toggleMaximizeWindow,
+    unmaximizeWindow,
     focusWindow,
     updateWindowPosition,
     updateWindowSize
@@ -85,6 +86,11 @@ export default function App() {
   const handleToggleMaximizeWindow = (id) => {
     playWindowMaximize()
     toggleMaximizeWindow(id)
+  }
+
+  const handleRestoreFromDrag = (id, newPos) => {
+    playWindowMaximize()
+    unmaximizeWindow(id, newPos)
   }
 
   // Menus de Contexto
@@ -372,6 +378,7 @@ export default function App() {
         onFocusWindow={focusWindow}
         onMoveWindow={updateWindowPosition}
         onResizeWindow={updateWindowSize}
+        onRestoreFromDrag={handleRestoreFromDrag}
         renderContentForSection={renderContentForSection}
         iconPositions={iconPositions}
         onDropIcon={handleDropIcon}

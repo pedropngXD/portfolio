@@ -304,10 +304,50 @@ export function useWindowManager() {
     setFocusedWindowId(id)
   }, [])
 
+  // Desmaximiza a janela diretamente para uma posição customizada (ex: durante o arrasto da barra de título)
+  const unmaximizeWindow = useCallback((id, newPos) => {
+    setWindows((prev) => {
+      const current = prev[id]
+      if (!current || !current.isMaximized) return prev
+
+      const initialBounds = getInitialWindowBounds(id)
+      const targetSize = current.prevBounds?.size || initialBounds.size
+      const targetPosition = newPos || current.prevBounds?.position || initialBounds.position
+
+      const { nextMap, nextZ } = getNextWindowZIndex(prev, id)
+
+      return {
+        ...nextMap,
+        [id]: {
+          ...current,
+          isMaximized: false,
+          position: targetPosition,
+          size: targetSize,
+          prevBounds: null,
+          zIndex: nextZ
+        }
+      }
+    })
+    setFocusedWindowId(id)
+  }, [])
+
   const updateWindowPosition = useCallback((id, newPos) => {
     setWindows((prev) => {
       const current = prev[id]
-      if (!current || current.isMaximized) return prev
+      if (!current) return prev
+      if (current.isMaximized) {
+        const initialBounds = getInitialWindowBounds(id)
+        return {
+          ...prev,
+          [id]: {
+            ...current,
+            isMaximized: false,
+            size: current.prevBounds?.size || initialBounds.size,
+            prevBounds: null,
+            position: newPos
+          }
+        }
+      }
       return {
         ...prev,
         [id]: {
@@ -340,6 +380,7 @@ export function useWindowManager() {
     closeWindow,
     minimizeWindow,
     toggleMaximizeWindow,
+    unmaximizeWindow,
     focusWindow,
     updateWindowPosition,
     updateWindowSize
