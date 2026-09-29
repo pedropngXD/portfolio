@@ -19,6 +19,9 @@ export default function Dock({
   dockAppIds = [],
   dockRightIds = ['github', 'linkedin', 'email', 'theme'],
   isHidden = false,
+  isRevealed = false,
+  onMouseEnter,
+  onMouseLeave,
   onSelectSection,
   onContextMenu,
   onNotify,
@@ -28,6 +31,7 @@ export default function Dock({
   onReorderRight,
   t
 }) {
+  const isEffectivelyHidden = isHidden && !isRevealed
   const [isEmailCopied, setIsEmailCopied] = useState(false)
   const [dragState, setDragState] = useState(null)
   const isDraggingRef = useRef(false)
@@ -319,7 +323,9 @@ export default function Dock({
 
   return (
     <footer
-      className={`${styles.dockContainer} ${isHidden ? styles.dockHidden : ''} ${dragState ? styles.dockContainerDragging : ''}`}
+      className={`${styles.dockContainer} ${isEffectivelyHidden ? styles.dockHidden : ''} ${dragState ? styles.dockContainerDragging : ''}`}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
       role="region"
       aria-label="Barra de tarefas"
     >

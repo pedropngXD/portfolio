@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { SECTIONS } from '../../data/sections'
 import MenuBar from '../MenuBar'
 import DesktopIconsArea from '../DesktopIconsArea'
@@ -6,6 +6,7 @@ import Window from '../Window'
 import Dock from '../Dock'
 import ContextMenu from '../ContextMenu'
 import NotificationToast from '../NotificationToast'
+import dockStyles from '../Dock.module.css'
 
 export default function DesktopLayout({
   // Sistema e Janelas
@@ -54,6 +55,31 @@ export default function DesktopLayout({
   showNotification,
   t
 }) {
+  const [isDockRevealed, setIsDockRevealed] = useState(false)
+
+  // Controle estrito da área do Dock quando há janela maximizada (estilo macOS)
+  useEffect(() => {
+    if (!hasMaximizedWindow) {
+      setIsDockRevealed(false)
+      return
+    }
+
+    const onPointerMove = (e) => {
+      // Se o mouse desce até a borda inferior (últimos 12px da tela): revela o dock
+      if (e.clientY >= window.innerHeight - 12) {
+        setIsDockRevealed(true)
+      } else if (isDockRevealed && e.clientY < window.innerHeight - 88) {
+        // Se o mouse sai da área do dock (subindo além de 88px da base da tela): desce imediatamente
+        setIsDockRevealed(false)
+      }
+    }
+
+    window.addEventListener('pointermove', onPointerMove)
+    return () => {
+      window.removeEventListener('pointermove', onPointerMove)
+    }
+  }, [hasMaximizedWindow, isDockRevealed])
+
   return (
     <div className="hidden md:flex md:flex-col desktop-workspace" onContextMenu={onWorkspaceContextMenu}>
       {/* Barra superior de menus do SO */}
@@ -90,7 +116,7 @@ export default function DesktopLayout({
         {/* Janelas abertas */}
         {SECTIONS.map((section) => {
           const win = windows[section.id]
-          if (!win || !win.isOpen || win.isMinimized) return null
+          if (!win || !win.isOpen || (win.isMinimized && win.animState !== 'minimizing')) return null
 
           const sectionTitle = t?.sections?.[section.id]?.title || section.title
           const sectionTag = t?.sections?.[section.id]?.tag || section.tag
@@ -104,6 +130,7 @@ export default function DesktopLayout({
               iconType={section.iconType}
               accentColor={section.accentColor}
               isMaximized={win.isMaximized}
+              animState={win.animState}
               zIndex={win.zIndex}
               position={win.position}
               size={win.size}
@@ -120,12 +147,25 @@ export default function DesktopLayout({
         })}
       </main>
 
+      {/* Área invisível na borda inferior para revelar Dock quando maximizado (estilo macOS) */}
+      {hasMaximizedWindow && (
+        <div
+          className={`${dockStyles.dockTriggerZone} ${isDockRevealed ? dockStyles.dockTriggerZoneActive : ''}`}
+          onMouseEnter={() => setIsDockRevealed(true)}
+          onMouseLeave={() => setIsDockRevealed(false)}
+          aria-hidden="true"
+        />
+      )}
+
       {/* Barra de tarefas (Dock) */}
       <Dock
         windows={windows}
         dockAppIds={dockAppIds}
         dockRightIds={dockRightIds}
         isHidden={hasMaximizedWindow}
+        isRevealed={isDockRevealed}
+        onMouseEnter={() => setIsDockRevealed(true)}
+        onMouseLeave={() => setIsDockRevealed(false)}
         onSelectSection={onOpenApp}
         onContextMenu={onDockContextMenu}
         onNotify={showNotification}
