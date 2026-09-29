@@ -9,6 +9,8 @@ export default function IPhoneAppSwitcher({
   onCloseApp,
   onCloseAll,
   onDismiss,
+  renderContentForSection,
+  theme = 'dark',
   lang = 'pt',
   t
 }) {
@@ -19,7 +21,11 @@ export default function IPhoneAppSwitcher({
   const scrollLeftRef = useRef(0)
 
   const handleCarouselPointerDown = (e) => {
-    if (e.target.closest('button')) return
+    // Não arrasta se clicar no botão de fechar aba ou na header
+    const isCloseBtn = e.target.closest('[data-close-btn]')
+    const isHeaderBtn = e.target.closest('header')
+    if (isCloseBtn || isHeaderBtn) return
+
     isDraggingCarouselRef.current = false
     startXRef.current = e.clientX
     scrollLeftRef.current = carouselRef.current ? carouselRef.current.scrollLeft : 0
@@ -75,7 +81,7 @@ export default function IPhoneAppSwitcher({
             <button
               type="button"
               onClick={onCloseAll}
-              className="text-xs px-3 py-1.5 rounded-full bg-white/10 hover:bg-white/20 text-neutral-300 hover:text-white transition-all cursor-pointer font-medium"
+              className="text-xs px-3 py-1.5 rounded-[10px] bg-white/5 border border-white/10 hover:bg-white/15 text-neutral-300 hover:text-white transition-all cursor-pointer font-medium"
             >
               {isEn ? 'Close All' : 'Fechar Todos'}
             </button>
@@ -84,7 +90,7 @@ export default function IPhoneAppSwitcher({
           <button
             type="button"
             onClick={onDismiss}
-            className="w-8 h-8 rounded-full bg-white/15 hover:bg-white/25 text-white flex items-center justify-center font-bold text-sm cursor-pointer transition-transform active:scale-95"
+            className="w-8 h-8 rounded-[10px] bg-white/10 border border-white/15 hover:bg-white/20 text-white flex items-center justify-center font-bold text-sm cursor-pointer transition-transform active:scale-95"
             title={isEn ? 'Done' : 'Concluir'}
           >
             ✓
@@ -147,12 +153,13 @@ export default function IPhoneAppSwitcher({
                   {/* Botão fechar aba individual */}
                   <button
                     type="button"
+                    data-close-btn
                     onClick={(e) => {
                       e.stopPropagation()
                       onCloseApp(appId)
                     }}
                     title={isEn ? 'Close tab' : 'Fechar aba'}
-                    className="w-5 h-5 rounded-full bg-white/20 hover:bg-red-500 text-white flex items-center justify-center text-[10px] font-bold cursor-pointer transition-colors"
+                    className="w-4 h-4 rounded-full bg-[#ff5f56] hover:bg-[#ff5f56]/80 flex items-center justify-center text-[9px] text-black/50 font-bold cursor-pointer transition-colors shadow-sm"
                   >
                     ✕
                   </button>
@@ -162,24 +169,38 @@ export default function IPhoneAppSwitcher({
                 <button
                   type="button"
                   onClick={() => onSelectApp(appId)}
-                  className={`flex-1 w-full bg-gradient-to-b from-slate-900 to-slate-950 rounded-b-2xl border-b border-x p-4 flex flex-col justify-between text-left transition-all cursor-pointer ${
+                  className={`flex-1 w-full relative overflow-hidden rounded-b-2xl border-b border-x text-left transition-all cursor-pointer ${
                     isActive
                       ? 'border-purple-400 ring-2 ring-purple-400/40 shadow-2xl scale-[1.02]'
                       : 'border-white/15 hover:border-white/30'
-                  }`}
+                  } ${theme === 'light' ? 'bg-slate-50' : 'bg-slate-900'}`}
                 >
-                  <div className="space-y-2 opacity-80">
-                    <span className="text-[10px] font-mono text-neutral-400 uppercase tracking-wider block">
-                      {section.tag || 'pedroOS App'}
-                    </span>
-                    <p className="text-xs text-neutral-300 line-clamp-3 leading-relaxed">
-                      {isEn
-                        ? 'Tap to resume and interact with this application.'
-                        : 'Toque para continuar interagindo com este aplicativo.'}
-                    </p>
-                  </div>
+                  {renderContentForSection ? (
+                    <div
+                      className="absolute top-0 left-0 w-[125%] h-[130%] origin-top-left pointer-events-none select-none pt-8 px-7 sm:px-10 flex flex-col items-center"
+                      style={{ transform: 'scale(0.8)' }}
+                    >
+                      <div className="w-full max-w-[350px] sm:max-w-[400px] flex flex-col">
+                        {renderContentForSection(appId)}
+                      </div>
+                    </div>
+                  ) : (
+                    <div className="p-4 flex flex-col justify-between h-full bg-gradient-to-b from-slate-900 to-slate-950">
+                      <div className="space-y-2 opacity-80">
+                        <span className="text-[10px] font-mono text-neutral-400 uppercase tracking-wider block">
+                          {section.tag || 'pedroOS App'}
+                        </span>
+                        <p className="text-xs text-neutral-300 line-clamp-3 leading-relaxed">
+                          {isEn
+                            ? 'Tap to resume and interact with this application.'
+                            : 'Toque para continuar interagindo com este aplicativo.'}
+                        </p>
+                      </div>
+                    </div>
+                  )}
 
-                  <div className="w-full flex items-center justify-between text-[11px] text-purple-300 font-semibold pt-2 border-t border-white/10">
+                  {/* Overlay Escurecido Inferior para Leitura do Texto de Ação */}
+                  <div className="absolute bottom-0 left-0 w-full p-3 pt-12 bg-gradient-to-t from-black/90 via-black/40 to-transparent flex items-center justify-between text-[11px] text-white font-semibold">
                     <span>{isEn ? 'Tap to open' : 'Toque para abrir'}</span>
                     <span>↗</span>
                   </div>
