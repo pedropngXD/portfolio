@@ -30,10 +30,13 @@ body {
 
 button {
   font-family: inherit;
-  border: none;
-  background: none;
   cursor: pointer;
   outline: none;
+}
+
+button:where(:not([class])) {
+  border: none;
+  background: none;
 }
 
 button:focus-visible, a:focus-visible {
