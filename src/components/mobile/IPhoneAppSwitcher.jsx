@@ -1,5 +1,6 @@
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 import SystemIcon from '../SystemIcon'
+import IPhoneAppIcon from './IPhoneAppIcon'
 import { SECTIONS } from '../../data/sections'
 
 export default function IPhoneAppSwitcher({
@@ -62,20 +63,7 @@ export default function IPhoneAppSwitcher({
       {/* ========================================================
           ESPAÇO SUPERIOR (No iOS, o topo é limpo)
           ======================================================== */}
-      <div className="w-full h-12 flex items-center justify-end px-6">
-        {openAppIds.length > 1 && (
-          <button
-            type="button"
-            onClick={(e) => {
-              e.stopPropagation()
-              onCloseAll()
-            }}
-            className="text-[11px] px-3 py-1.5 rounded-full bg-white/10 hover:bg-white/20 text-white/80 hover:text-white transition-all font-medium backdrop-blur-md"
-          >
-            {isEn ? 'Clear All' : 'Limpar Tudo'}
-          </button>
-        )}
-      </div>
+      <div className="w-full h-8" />
 
       {/* ========================================================
           CARROSSEL DESLIZÁVEL DE CARDS (APP SWITCHER iOS)
@@ -89,7 +77,9 @@ export default function IPhoneAppSwitcher({
             e.stopPropagation()
           }
         }}
-        className="flex-1 flex items-center overflow-x-auto gap-6 px-10 snap-x snap-mandatory scroll-smooth no-scrollbar cursor-grab active:cursor-grabbing touch-pan-x"
+        className={`flex-1 flex items-center overflow-x-auto gap-6 px-10 snap-x snap-mandatory scroll-smooth no-scrollbar cursor-grab active:cursor-grabbing touch-pan-x ${
+          openAppIds.length === 1 ? 'justify-center' : ''
+        }`}
         onClick={(e) => e.stopPropagation()} // Evita fechar ao clicar na área do carrossel vazio
       >
         {openAppIds.length === 0 ? (
@@ -107,71 +97,53 @@ export default function IPhoneAppSwitcher({
             }
             const title = t?.sections?.[appId]?.title || section.title
             const isActive = appId === activeAppId
-
+            const APP_GRADIENTS = {
+              readme: 'linear-gradient(180deg, #ffd60a 0%, #f59e0b 100%)',
+              resume: 'linear-gradient(180deg, #ff453a 0%, #d70015 100%)',
+              about: 'linear-gradient(180deg, #6366f1 0%, #4338ca 100%)',
+              stack: 'linear-gradient(180deg, #30d158 0%, #15803d 100%)',
+              experience: 'linear-gradient(180deg, #32d74b 0%, #28cd41 100%)',
+              projects: 'linear-gradient(180deg, #0a84ff 0%, #007aff 100%)',
+              education: 'linear-gradient(180deg, #bf5af2 0%, #af52de 100%)',
+              contact: 'linear-gradient(180deg, #64d2ff 0%, #5ac8fa 100%)'
+            }
+            const gradient = APP_GRADIENTS[section.id] || 'linear-gradient(180deg, #007aff 0%, #0051ba 100%)'
+            
             return (
-              <div
+              <SwipeableCard
                 key={appId}
-                className="flex-shrink-0 w-[72vw] max-w-[300px] h-[68vh] snap-center flex flex-col items-center group relative"
-              >
-                {/* Ícone e Nome do App (Flutuando Acima do Card) */}
-                <div className="flex items-center gap-2 mb-3 w-full justify-center opacity-90 group-hover:opacity-100 transition-opacity">
-                  <SystemIcon
-                    type={section.iconType}
-                    size={24}
-                    color={section.accentColor || '#38bdf8'}
-                  />
-                  <span className="text-white text-[15px] font-semibold tracking-wide drop-shadow-md truncate max-w-[80%]">
-                    {title}
-                  </span>
-                </div>
-
-                {/* Corpo do Card (Snapshot real do app) */}
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation()
-                    onSelectApp(appId)
-                  }}
-                  className={`relative w-full h-[88%] overflow-hidden rounded-[36px] text-left transition-all duration-300 cursor-pointer shadow-[0_15px_45px_rgba(0,0,0,0.6)] ${
-                    isActive ? 'scale-100 ring-[1.5px] ring-white/15' : 'scale-[0.96] opacity-90 hover:scale-100'
-                  } ${theme === 'light' ? 'bg-slate-50' : 'bg-slate-950'}`}
-                >
-                  {/* Botão de Fechar (Substituto para o swipe up do iOS) */}
-                  <div
-                    data-close-btn
-                    onClick={(e) => {
-                      e.stopPropagation()
-                      onCloseApp(appId)
-                    }}
-                    title={isEn ? 'Close tab' : 'Fechar aba'}
-                    className="absolute top-4 right-4 w-7 h-7 rounded-full bg-black/30 backdrop-blur-md border border-white/10 flex items-center justify-center text-white/80 hover:text-white hover:bg-red-500/90 transition-colors z-20 shadow-lg"
-                  >
-                    <span className="text-[10px] font-bold">✕</span>
-                  </div>
-
-                  {renderContentForSection ? (
-                    <div
-                      className="absolute top-0 left-0 w-[125%] h-[130%] origin-top-left pointer-events-none select-none pt-12 px-7 sm:px-10 flex flex-col items-center"
-                      style={{ transform: 'scale(0.8)' }}
-                    >
-                      <div className="w-full max-w-[350px] sm:max-w-[400px] flex flex-col">
-                        {renderContentForSection(appId)}
-                      </div>
-                    </div>
-                  ) : (
-                    <div className="w-full h-full bg-gradient-to-b from-slate-800 to-slate-900" />
-                  )}
-                </button>
-              </div>
+                appId={appId}
+                section={section}
+                title={title}
+                isActive={isActive}
+                gradient={gradient}
+                theme={theme}
+                isEn={isEn}
+                onSelectApp={onSelectApp}
+                onCloseApp={onCloseApp}
+                renderContentForSection={renderContentForSection}
+              />
             )
           })
         )}
       </div>
 
       {/* ========================================================
-          HOME BAR INFERIOR (RETORNAR À TELA DE INÍCIO)
+          HOME BAR INFERIOR (RETORNAR À TELA DE INÍCIO) E LIMPAR TUDO
           ======================================================== */}
-      <footer className="w-full flex flex-col items-center justify-center pb-2 pt-4 h-10">
+      <footer className="w-full flex flex-col items-center justify-center pb-2 pt-2 h-16 gap-3">
+        {openAppIds.length > 1 && (
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation()
+              onCloseAll()
+            }}
+            className="text-[11px] px-3 py-1.5 rounded-full bg-white/10 hover:bg-white/20 text-white/80 hover:text-white transition-all font-medium backdrop-blur-md"
+          >
+            {isEn ? 'Clear All' : 'Limpar Tudo'}
+          </button>
+        )}
         <button
           type="button"
           onClick={(e) => {
@@ -181,6 +153,104 @@ export default function IPhoneAppSwitcher({
           className="w-36 h-1.5 bg-white/70 hover:bg-white active:scale-95 rounded-full transition-all cursor-pointer"
         />
       </footer>
+    </div>
+  )
+}
+function SwipeableCard({ appId, section, title, isActive, gradient, theme, isEn, onSelectApp, onCloseApp, renderContentForSection }) {
+  const [offsetY, setOffsetY] = useState(0)
+  const [isSwipingOut, setIsSwipingOut] = useState(false)
+  const startYRef = useRef(0)
+  const currentYRef = useRef(0)
+
+  const handlePointerDown = (e) => {
+    // Only drag with touch or left mouse button
+    if (e.pointerType === 'mouse' && e.button !== 0) return
+    const isCloseBtn = e.target.closest('[data-close-btn]')
+    if (isCloseBtn) return
+    
+    startYRef.current = e.clientY
+    currentYRef.current = 0
+    
+    const handlePointerMove = (moveEvent) => {
+      const deltaY = moveEvent.clientY - startYRef.current
+      if (deltaY < 0) { // Only swipe UP
+        currentYRef.current = deltaY
+        setOffsetY(deltaY)
+      }
+    }
+    
+    const handlePointerUp = () => {
+      window.removeEventListener('pointermove', handlePointerMove)
+      window.removeEventListener('pointerup', handlePointerUp)
+      window.removeEventListener('pointercancel', handlePointerUp)
+      
+      if (currentYRef.current < -100) {
+        setIsSwipingOut(true)
+        setTimeout(() => onCloseApp(appId), 250)
+      } else {
+        setOffsetY(0)
+      }
+    }
+    
+    window.addEventListener('pointermove', handlePointerMove)
+    window.addEventListener('pointerup', handlePointerUp)
+    window.addEventListener('pointercancel', handlePointerUp)
+  }
+
+  if (isSwipingOut) {
+    return (
+      <div className="flex-shrink-0 w-[72vw] max-w-[300px] h-[68vh] snap-center transition-all duration-300 opacity-0 -translate-y-full" />
+    )
+  }
+
+  return (
+    <div
+      className="flex-shrink-0 w-[72vw] max-w-[300px] h-[68vh] snap-center flex flex-col items-center group relative transition-transform duration-100"
+      style={{ transform: `translateY(${offsetY}px)` }}
+      onPointerDown={handlePointerDown}
+    >
+      <div className="flex items-center gap-2.5 mb-3 w-full justify-center opacity-90 group-hover:opacity-100 transition-opacity">
+        <div
+          className="flex items-center justify-center shadow-sm flex-shrink-0"
+          style={{ width: '28px', height: '28px', borderRadius: '22.5%', background: gradient }}
+        >
+          <IPhoneAppIcon appId={section.id} size={18} />
+        </div>
+        <span className="text-white text-[15px] font-semibold tracking-wide drop-shadow-md truncate max-w-[75%]">
+          {title}
+        </span>
+      </div>
+      <button
+        type="button"
+        onClick={(e) => {
+          if (Math.abs(currentYRef.current) > 10) return
+          e.stopPropagation()
+          onSelectApp(appId)
+        }}
+        className={`relative w-full h-[88%] overflow-hidden rounded-[36px] text-left transition-all duration-300 cursor-pointer shadow-[0_15px_45px_rgba(0,0,0,0.6)] ${isActive ? 'scale-100 ring-[1.5px] ring-white/15' : 'scale-[0.96] opacity-90 hover:scale-100'} ${theme === 'light' ? 'bg-slate-50' : 'bg-slate-950'}`}
+      >
+        <div
+          data-close-btn
+          onClick={(e) => {
+            e.stopPropagation()
+            setIsSwipingOut(true)
+            setTimeout(() => onCloseApp(appId), 250)
+          }}
+          title={isEn ? 'Close tab' : 'Fechar aba'}
+          className="absolute top-4 right-4 w-7 h-7 rounded-full bg-black/30 backdrop-blur-md border border-white/10 flex items-center justify-center text-white/80 hover:text-white hover:bg-red-500/90 transition-colors z-20 shadow-lg"
+        >
+          <span className="text-[10px] font-bold">✕</span>
+        </div>
+        {renderContentForSection ? (
+          <div className="absolute top-0 left-0 w-[125%] h-[130%] origin-top-left pointer-events-none select-none pt-12 px-7 sm:px-10 flex flex-col items-center" style={{ transform: 'scale(0.8)' }}>
+            <div className="w-full max-w-[350px] sm:max-w-[400px] flex flex-col">
+              {renderContentForSection(appId)}
+            </div>
+          </div>
+        ) : (
+          <div className="w-full h-full bg-gradient-to-b from-slate-800 to-slate-900" />
+        )}
+      </button>
     </div>
   )
 }
