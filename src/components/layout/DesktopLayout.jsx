@@ -86,7 +86,7 @@ export default function DesktopLayout({
       <MenuBar
         focusedWindowId={focusedWindowId}
         openWindowIds={openWindowIds}
-        onOpenSection={onOpenApp}
+        onOpenSection={(id) => onOpenApp && onOpenApp(id, { fromDock: false })}
         theme={theme}
         onToggleTheme={onToggleTheme}
         lang={lang}
@@ -107,7 +107,7 @@ export default function DesktopLayout({
           openWindowIds={openWindowIds}
           focusedWindowId={focusedWindowId}
           iconPositions={iconPositions}
-          onSelectSection={onOpenApp}
+          onSelectSection={(id) => onOpenApp && onOpenApp(id, { fromDock: false })}
           onDropIcon={onDropIcon}
           onContextMenu={onDesktopIconContextMenu}
           t={t}
@@ -166,7 +166,7 @@ export default function DesktopLayout({
         isRevealed={isDockRevealed}
         onMouseEnter={() => setIsDockRevealed(true)}
         onMouseLeave={() => setIsDockRevealed(false)}
-        onSelectSection={onOpenApp}
+        onSelectSection={(id, opts) => onOpenApp && onOpenApp(id, { fromDock: true, ...opts })}
         onContextMenu={onDockContextMenu}
         onNotify={showNotification}
         theme={theme}

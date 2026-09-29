@@ -36,11 +36,18 @@ export default function Dock({
   const [dragState, setDragState] = useState(null)
   const isDraggingRef = useRef(false)
   const blockClickRef = useRef(false)
-
   const sys = t?.system || {}
 
-  // Seções da esquerda ordenadas de acordo com dockAppIds
-  const orderedSections = dockAppIds
+  // Apps abertos que não estão na lista de fixados no Dock
+  const openUnpinnedIds = Object.keys(windows).filter(
+    (id) => windows[id]?.isOpen && !dockAppIds.includes(id)
+  )
+
+  // Combina os fixados com os abertos não fixados
+  const effectiveAppIds = [...dockAppIds, ...openUnpinnedIds]
+
+  // Seções da esquerda ordenadas de acordo com effectiveAppIds
+  const orderedSections = effectiveAppIds
     .map((id) => SECTIONS.find((sec) => sec.id === id))
     .filter(Boolean)
 
@@ -118,7 +125,7 @@ export default function Dock({
 
         if (targetIndex !== index) {
           if (sectionType === 'left') {
-            const next = arrayMove(dockAppIds, index, targetIndex)
+            const next = arrayMove(effectiveAppIds, index, targetIndex)
             onReorderLeft && onReorderLeft(next)
           } else if (sectionType === 'right') {
             const next = arrayMove(dockRightIds, index, targetIndex)
@@ -354,7 +361,7 @@ export default function Dock({
               data-dock-id={section.id}
               className={styles.dockButton}
               onClick={(e) =>
-                handleItemClick(e, () => onSelectSection && onSelectSection(section.id))
+                handleItemClick(e, () => onSelectSection && onSelectSection(section.id, { fromDock: true }))
               }
               onContextMenu={(e) => {
                 e.preventDefault()

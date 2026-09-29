@@ -65,9 +65,9 @@ export default function App() {
   }
 
   // Ações de Janelas com Feedback Sonoro
-  const handleOpenApp = (sectionId) => {
+  const handleOpenApp = (sectionId, options = {}) => {
     playWindowOpen()
-    openWindow(sectionId)
+    openWindow(sectionId, options)
   }
 
   const handleCloseWindow = (id) => {
@@ -123,7 +123,7 @@ export default function App() {
       items.push({
         label: `${language === 'pt' ? 'Abrir' : 'Open'} ${secTitle} 🪟`,
         icon: '📂',
-        onClick: () => handleOpenApp(sectionId)
+        onClick: () => handleOpenApp(sectionId, { fromDock: false })
       })
       items.push({
         label: sys.openInBrowser || `Abrir no Navegador ↗`,
@@ -146,7 +146,7 @@ export default function App() {
       items.push({
         label: `${language === 'pt' ? 'Abrir' : 'Open'} ${secTitle}`,
         icon: '📂',
-        onClick: () => handleOpenApp(sectionId)
+        onClick: () => handleOpenApp(sectionId, { fromDock: false })
       })
     }
 
@@ -233,16 +233,28 @@ export default function App() {
       items.push({
         label: `${language === 'pt' ? 'Abrir' : 'Open'} ${secTitle}`,
         icon: '📂',
-        onClick: () => handleOpenApp(sectionId)
+        onClick: () => handleOpenApp(sectionId, { fromDock: true })
       })
     }
 
+    if (windows[sectionId]?.isOpen) {
+      items.push({
+        label: `${language === 'pt' ? 'Fechar janela' : 'Close window'}`,
+        icon: '✕',
+        danger: true,
+        onClick: () => handleCloseWindow(sectionId)
+      })
+    }
+
+    const isPinned = dockAppIds.includes(sectionId)
     items.push({ separator: true })
     items.push({
-      label: sys.unpinFromDock || 'Desafixar da barra de tarefas',
-      icon: '❌',
-      danger: true,
-      onClick: () => handleRemoveFromDock(sectionId)
+      label: isPinned
+        ? (sys.unpinFromDock || 'Desafixar da barra de tarefas')
+        : (sys.pinToDock || 'Fixar na barra de tarefas'),
+      icon: isPinned ? '❌' : '📌',
+      danger: isPinned,
+      onClick: () => (isPinned ? handleRemoveFromDock(sectionId) : handleAddToDock(sectionId))
     })
     items.push({ separator: true })
     items.push({

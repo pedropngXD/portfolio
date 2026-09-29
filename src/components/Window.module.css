@@ -27,44 +27,36 @@
   transition: none !important;
 }
 
-/* Animações macOS Genie: Sugar para o Dock e Cuspir do Dock */
+/* Animações macOS: Sugar para o Dock e Cuspir do Dock (Rápidas, Limpas e Nativas) */
 .windowMinimizing {
-  animation: genieSuck 0.28s cubic-bezier(0.3, 0, 0.2, 1) forwards !important;
+  animation: genieSuck 0.22s cubic-bezier(0.25, 0.1, 0.25, 1) forwards !important;
   transform-origin: center center !important;
   pointer-events: none !important;
-  will-change: transform, opacity;
 }
 
 .windowRestoring {
-  animation: genieSpit 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+  animation: genieSpit 0.22s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
   transform-origin: center center !important;
-  will-change: transform, opacity;
 }
 
 @keyframes genieSuck {
   0% {
-    transform: translate(0, 0) scale(1);
+    transform: translate(0px, 0px) scale(1);
     opacity: 1;
   }
-  65% {
-    opacity: 0.95;
-  }
   100% {
-    transform: translate(var(--dock-target-x, 0px), var(--dock-target-y, 350px)) scale(0.02, 0.02);
+    transform: translate(var(--dock-target-x, 0px), var(--dock-target-y, 350px)) scale(0.15);
     opacity: 0;
   }
 }
 
 @keyframes genieSpit {
   0% {
-    transform: translate(var(--dock-target-x, 0px), var(--dock-target-y, 350px)) scale(0.02, 0.02);
+    transform: translate(var(--dock-target-x, 0px), var(--dock-target-y, 350px)) scale(0.15);
     opacity: 0;
   }
-  25% {
-    opacity: 1;
-  }
   100% {
-    transform: translate(0, 0) scale(1);
+    transform: translate(0px, 0px) scale(1);
     opacity: 1;
   }
 }

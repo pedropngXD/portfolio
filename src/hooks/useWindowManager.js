@@ -99,15 +99,17 @@ export function useWindowManager() {
     setFocusedWindowId(id)
   }, [])
 
-  // Abre ou foca (com animação macOS de sugar/cuspir pela barra de tarefas)
-  // Garante que o app clicado sempre vá para a primeira camada da tela (zIndex mais alto)
-  const openWindow = useCallback((id) => {
+  // Abre ou foca janelas no SO
+  // Quando o clique vem da barra de tarefas (fromDock = true): executa a animação macOS Genie (sugar/cuspir)
+  // Quando o clique vem da área de trabalho (fromDock = false): a janela apenas aparece instantaneamente sem animação
+  const openWindow = useCallback((id, { fromDock = false } = {}) => {
     setWindows((prev) => {
       const current = prev[id]
       if (!current) return prev
 
-      // Se já está aberta, visível e focada, minimiza ("sugada pra dentro da barra de tarefas")
-      if (current.isOpen && !current.isMinimized && focusedWindowId === id) {
+      // Se o clique foi feito na BARRA DE TAREFAS e a janela já está aberta, visível e focada:
+      // Minimiza ("sugada pra dentro da barra de tarefas")
+      if (fromDock && current.isOpen && !current.isMinimized && focusedWindowId === id) {
         setTimeout(() => {
           setWindows((p) => {
             if (!p[id]) return p
@@ -121,7 +123,7 @@ export function useWindowManager() {
             }
           })
           setFocusedWindowId((curr) => (curr === id ? null : curr))
-        }, 280)
+        }, 220)
 
         return {
           ...prev,
@@ -131,10 +133,12 @@ export function useWindowManager() {
 
       const { nextMap, nextZ } = getNextWindowZIndex(prev, id)
 
-      // Se já está aberta (estava minimizada ou em segundo plano), traz para a frente ("cuspida")
+      // Se já está aberta (estava minimizada ou em segundo plano)
       if (current.isOpen) {
         const wasMinimized = current.isMinimized
-        if (wasMinimized) {
+        const shouldAnimate = fromDock && wasMinimized
+
+        if (shouldAnimate) {
           setTimeout(() => {
             setWindows((p) => {
               if (!p[id]) return p
@@ -146,7 +150,7 @@ export function useWindowManager() {
                 }
               }
             })
-          }, 280)
+          }, 220)
         }
 
         return {
@@ -154,27 +158,32 @@ export function useWindowManager() {
           [id]: {
             ...current,
             isMinimized: false,
-            animState: wasMinimized ? 'restoring' : 'idle',
+            animState: shouldAnimate ? 'restoring' : 'idle',
             zIndex: nextZ
           }
         }
       }
 
       // CASO A JANELA NÃO ESTEJA ABERTA (!current.isOpen):
-      // Abre com as dimensões e posição originais da primeira vez com efeito cuspida
+      // Abre com as dimensões e posição originais
+      // A animação de cuspida acontece APENAS se o clique for feito na barra de tarefas
       const initialBounds = getInitialWindowBounds(id)
-      setTimeout(() => {
-        setWindows((p) => {
-          if (!p[id]) return p
-          return {
-            ...p,
-            [id]: {
-              ...p[id],
-              animState: 'idle'
+      const shouldAnimate = fromDock
+
+      if (shouldAnimate) {
+        setTimeout(() => {
+          setWindows((p) => {
+            if (!p[id]) return p
+            return {
+              ...p,
+              [id]: {
+                ...p[id],
+                animState: 'idle'
+              }
             }
-          }
-        })
-      }, 280)
+          })
+        }, 220)
+      }
 
       return {
         ...nextMap,
@@ -183,7 +192,7 @@ export function useWindowManager() {
           isOpen: true,
           isMinimized: false,
           isMaximized: false,
-          animState: 'restoring',
+          animState: shouldAnimate ? 'restoring' : 'idle',
           position: initialBounds.position,
           size: initialBounds.size,
           prevBounds: null,
@@ -236,7 +245,7 @@ export function useWindowManager() {
           }
         })
         setFocusedWindowId((curr) => (curr === id ? null : curr))
-      }, 280)
+      }, 220)
 
       return {
         ...prev,
