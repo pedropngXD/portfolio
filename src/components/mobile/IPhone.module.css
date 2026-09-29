@@ -1,0 +1,423 @@
+/* ========================================================
+   DESIGN SYSTEM NATIVO DO IPHONE / iOS (pedroOS Mobile)
+   ======================================================== */
+
+.phoneContainer {
+  width: 100%;
+  height: 100vh;
+  height: 100dvh;
+  position: relative;
+  overflow: hidden;
+  background: radial-gradient(circle at 50% 15%, #1e1b4b 0%, #0f172a 45%, #020617 100%);
+  color: #ffffff;
+  display: flex;
+  flex-direction: column;
+  user-select: none;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", system-ui, sans-serif;
+  box-sizing: border-box;
+}
+
+/* ========================================================
+   STATUS BAR & DYNAMIC ISLAND
+   ======================================================== */
+.statusBar {
+  width: 100%;
+  height: 48px;
+  padding: 0 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 0.85rem;
+  font-weight: 600;
+  z-index: 50;
+  flex-shrink: 0;
+  box-sizing: border-box;
+}
+
+.statusTime {
+  width: 54px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  text-align: left;
+}
+
+.dynamicIsland {
+  background: #000000 !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  border-radius: 9999px !important;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 0.65rem;
+  box-shadow: 0 4px 18px rgba(0, 0, 0, 0.6);
+  cursor: pointer;
+  transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+  box-sizing: border-box;
+}
+
+.islandCamera {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #0d0d0d;
+  border: 1px solid #1f2937;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.islandCameraDot {
+  width: 3.5px;
+  height: 3.5px;
+  border-radius: 50%;
+  background: #172554;
+}
+
+.statusIcons {
+  width: 54px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.4rem;
+  cursor: pointer;
+}
+
+.batteryCapsule {
+  width: 21px;
+  height: 11px;
+  border-radius: 3.5px;
+  border: 1.2px solid rgba(255, 255, 255, 0.85);
+  padding: 1px;
+  display: flex;
+  align-items: center;
+}
+
+.batteryFill {
+  width: 100%;
+  height: 100%;
+  background: #34d399;
+  border-radius: 1.5px;
+}
+
+.batteryPin {
+  width: 1.5px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.85);
+  border-radius: 0 1px 1px 0;
+  margin-left: -1px;
+}
+
+/* ========================================================
+   TELA DE INÍCIO (HOME SCREEN) COM ESPAÇAMENTO CONFORTÁVEL
+   ======================================================== */
+.homeScreen {
+  flex: 1;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 1.25rem 1.4rem 1.25rem 1.4rem;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+/* WIDGET SUPERIOR ELEGANTE (BANNER DUPLO) */
+.widgetsArea {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.85rem;
+  margin-bottom: 0.85rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.widgetCard {
+  min-width: 0;
+  background: rgba(28, 28, 44, 0.75) !important;
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.12) !important;
+  border-radius: 22px !important;
+  padding: 0.95rem;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.22);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 136px;
+  box-sizing: border-box;
+  text-align: left;
+  cursor: pointer;
+  transition: transform 0.18s ease, border-color 0.18s ease;
+  overflow: hidden;
+  position: relative;
+}
+
+.widgetCard:active {
+  transform: scale(0.96);
+}
+
+.widgetAvatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 2px solid rgba(168, 85, 247, 0.6);
+  box-shadow: 0 4px 12px rgba(168, 85, 247, 0.3);
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.widgetAvatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+  transform: scale(1.2);
+}
+
+.widgetName {
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: #ffffff;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.widgetRole {
+  font-size: 0.68rem;
+  color: #c084fc;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.widgetBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.2rem 0.5rem;
+  border-radius: 9999px;
+  background: rgba(16, 185, 129, 0.18);
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  color: #34d399;
+  font-size: 0.62rem;
+  font-weight: 600;
+}
+
+.widgetSubInfo {
+  font-size: 0.65rem;
+  color: #94a3b8;
+  margin-top: 0.25rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.stackPillGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.35rem;
+  margin: 0.35rem 0;
+}
+
+.stackMiniPill {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  padding: 0.22rem 0.35rem;
+  font-size: 0.66rem;
+  font-family: ui-monospace, SFMono-Regular, monospace;
+  font-weight: 600;
+  color: #ffffff;
+  text-align: center;
+}
+
+/* ========================================================
+   GRADE DE APLICATIVOS (iOS APP GRID)
+   ======================================================== */
+.appsGridContainer {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.appsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  row-gap: 1.25rem;
+  column-gap: 0.75rem;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.appItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.35rem;
+  cursor: pointer;
+  background: none !important;
+  border: none !important;
+  padding: 0;
+  transition: transform 0.15s ease;
+}
+
+.appItem:active {
+  transform: scale(0.88);
+}
+
+.appIconWrapper {
+  width: 60px;
+  height: 60px;
+  border-radius: 22.5% !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  position: relative;
+  transition: transform 0.15s cubic-bezier(0.2, 0.8, 0.2, 1);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.45),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.25),
+    0 8px 20px -3px rgba(0, 0, 0, 0.45);
+  border: 0.5px solid rgba(255, 255, 255, 0.2);
+  overflow: visible;
+}
+
+.appBadgeNumber {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 4px;
+  border-radius: 9999px;
+  background: #ff3b30;
+  color: #ffffff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1.5px solid #ffffff;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.4);
+  z-index: 2;
+}
+
+.appBadgePdf {
+  position: absolute;
+  top: -5px;
+  right: -5px;
+  padding: 0.1rem 0.4rem;
+  border-radius: 9999px;
+  background: #ffffff;
+  color: #d70015;
+  font-size: 0.58rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  border: 1px solid rgba(0, 0, 0, 0.12);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.35);
+  z-index: 2;
+}
+
+.appLabel {
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: #ffffff;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 72px;
+  letter-spacing: -0.01em;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.85);
+  margin-top: 0.15rem;
+}
+
+/* ========================================================
+   INDICADOR DE PÁGINAS & DOCK INFERIOR
+   ======================================================== */
+.pageDots {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 0.45rem 0;
+}
+
+.dotActive {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #ffffff;
+  box-shadow: 0 1px 4px rgba(255, 255, 255, 0.4);
+}
+
+.dotInactive {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.35);
+}
+
+.dockContainer {
+  width: 100%;
+  background: rgba(255, 255, 255, 0.16) !important;
+  backdrop-filter: blur(32px);
+  -webkit-backdrop-filter: blur(32px);
+  border: 1px solid rgba(255, 255, 255, 0.25) !important;
+  border-radius: 35px !important;
+  padding: 0.75rem 1.25rem;
+  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  box-sizing: border-box;
+  margin-top: 0.35rem;
+}
+
+.dockIconWrapper {
+  width: 56px;
+  height: 56px;
+  border-radius: 22.5% !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  position: relative;
+  cursor: pointer;
+  padding: 0;
+  transition: transform 0.15s cubic-bezier(0.2, 0.8, 0.2, 1);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.45),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.25),
+    0 8px 18px -2px rgba(0, 0, 0, 0.45);
+  border: 0.5px solid rgba(255, 255, 255, 0.2);
+  overflow: visible;
+}
+
+.dockIconWrapper:active {
+  transform: scale(0.88);
+}
+
+.homeIndicatorBar {
+  width: 130px;
+  height: 4.5px;
+  border-radius: 9999px;
+  background: rgba(255, 255, 255, 0.65) !important;
+  margin: 0.5rem auto 0 auto;
+  border: none !important;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.homeIndicatorBar:active {
+  background: #ffffff !important;
+  transform: scale(0.96);
+}

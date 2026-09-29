@@ -19,40 +19,41 @@ export default function IPhoneAppSheet({
   }
   const title = t?.sections?.[appId]?.title || section.title
 
-  // Estado para suporte a arrastar a folha (drag-to-dismiss iOS)
+  // Estado para suporte a arrastar a folha (drag-to-dismiss iOS tanto via touch quanto mouse)
   const [dragOffsetY, setDragOffsetY] = useState(0)
   const [isDragging, setIsDragging] = useState(false)
-  const touchStartYRef = useRef(0)
+  const pointerStartYRef = useRef(0)
 
-  const handleTouchStart = (e) => {
-    // Permite arrastar apenas se iniciar no cabeçalho ou na barra de navegação superior
-    touchStartYRef.current = e.touches[0].clientY
+  const handlePointerDown = (e) => {
+    if (e.target.closest('button')) return
+    pointerStartYRef.current = e.clientY
     setIsDragging(true)
-  }
 
-  const handleTouchMove = (e) => {
-    if (!isDragging) return
-    const currentY = e.touches[0].clientY
-    const deltaY = currentY - touchStartYRef.current
-    // Permite apenas arrastar para baixo (deslocamento positivo)
-    if (deltaY > 0) {
-      setDragOffsetY(deltaY)
+    const onPointerMove = (moveEvent) => {
+      const deltaY = moveEvent.clientY - pointerStartYRef.current
+      if (deltaY > 0) {
+        setDragOffsetY(deltaY)
+      }
     }
-  }
 
-  const handleTouchEnd = () => {
-    if (!isDragging) return
-    setIsDragging(false)
-    // Se arrastou para baixo mais de 90px, fecha o app voltando para a Home
-    if (dragOffsetY > 90) {
-      onClose()
+    const onPointerUp = (upEvent) => {
+      setIsDragging(false)
+      const finalDelta = upEvent.clientY - pointerStartYRef.current
+      if (finalDelta > 80) {
+        onClose()
+      }
+      setDragOffsetY(0)
+      window.removeEventListener('pointermove', onPointerMove)
+      window.removeEventListener('pointerup', onPointerUp)
     }
-    setDragOffsetY(0)
+
+    window.addEventListener('pointermove', onPointerMove)
+    window.addEventListener('pointerup', onPointerUp)
   }
 
   return (
     <div
-      className="fixed inset-0 z-40 flex flex-col justify-end transition-transform duration-200 ease-out"
+      className="fixed inset-0 z-40 flex flex-col justify-end transition-transform duration-150 ease-out"
       style={{
         transform: `translateY(${dragOffsetY}px)`
       }}
@@ -71,9 +72,7 @@ export default function IPhoneAppSheet({
             ======================================================== */}
         <div
           className="w-full pt-3 pb-1 cursor-grab active:cursor-grabbing flex flex-col items-center select-none"
-          onTouchStart={handleTouchStart}
-          onTouchMove={handleTouchMove}
-          onTouchEnd={handleTouchEnd}
+          onPointerDown={handlePointerDown}
         >
           <div className="w-12 h-1.5 bg-white/40 rounded-full hover:bg-white/60 transition-colors" />
         </div>
@@ -82,23 +81,21 @@ export default function IPhoneAppSheet({
             BARRA DE NAVEGAÇÃO SUPERIOR DO APP (iOS NAVBAR)
             ======================================================== */}
         <header
-          className="w-full h-12 px-4 flex items-center justify-between border-b border-white/10 select-none"
-          onTouchStart={handleTouchStart}
-          onTouchMove={handleTouchMove}
-          onTouchEnd={handleTouchEnd}
+          className="w-full h-14 px-6 flex items-center justify-between border-b border-white/10 select-none cursor-grab active:cursor-grabbing flex-shrink-0"
+          onPointerDown={handlePointerDown}
         >
-          {/* Botão de voltar para a Home Screen */}
+          {/* Botão de voltar para a Home Screen com bom espaçamento do canto */}
           <button
             type="button"
             onClick={onClose}
-            className="flex items-center gap-1 text-sky-400 font-semibold text-sm hover:text-sky-300 transition-colors cursor-pointer"
+            className="flex items-center gap-1.5 text-sky-400 font-semibold text-sm hover:text-sky-300 transition-colors cursor-pointer py-1 pr-2 active:opacity-75"
           >
-            <span>‹</span>
+            <span className="text-xl leading-none">‹</span>
             <span>{isEn ? 'Home' : 'Início'}</span>
           </button>
 
           {/* Título centralizado com ícone */}
-          <div className="flex items-center gap-2 max-w-[180px] truncate">
+          <div className="flex items-center gap-2 max-w-[170px] truncate">
             <SystemIcon
               type={section.iconType}
               size={18}
@@ -107,8 +104,8 @@ export default function IPhoneAppSheet({
             <h1 className="font-bold text-sm text-white truncate">{title}</h1>
           </div>
 
-          {/* Botão de Abas / Multitarefa e Fechar */}
-          <div className="flex items-center gap-2">
+          {/* Botão de Abas / Multitarefa e Fechar com folga do canto direito */}
+          <div className="flex items-center gap-2.5">
             <button
               type="button"
               onClick={onOpenAppSwitcher}
@@ -132,14 +129,14 @@ export default function IPhoneAppSheet({
         {/* ========================================================
             CORPO ROLÁVEL COM O COMPONENTE DO APP
             ======================================================== */}
-        <main className="flex-1 overflow-y-auto p-4 sm:p-5 overscroll-contain">
+        <main className="flex-1 overflow-y-auto px-6 py-6 sm:px-8 pb-24 overscroll-contain">
           {renderContentForSection && renderContentForSection(appId)}
         </main>
 
         {/* ========================================================
             HOME INDICATOR BAR INFERIOR (DESLIZÁVEL)
             ======================================================== */}
-        <footer className="w-full py-2 flex flex-col items-center border-t border-white/5 bg-slate-950/60 backdrop-blur-md">
+        <footer className="w-full py-2.5 flex flex-col items-center border-t border-white/5 bg-slate-950/70 backdrop-blur-md flex-shrink-0">
           <button
             type="button"
             onClick={onClose}

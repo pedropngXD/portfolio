@@ -1,9 +1,8 @@
 import { useState } from 'react'
-import IPhoneStatusBar from '../mobile/IPhoneStatusBar'
 import IPhoneHomeScreen from '../mobile/IPhoneHomeScreen'
 import IPhoneAppSheet from '../mobile/IPhoneAppSheet'
 import IPhoneAppSwitcher from '../mobile/IPhoneAppSwitcher'
-import IPhoneControlCenter from '../mobile/IPhoneControlCenter'
+import styles from '../mobile/IPhone.module.css'
 import {
   playWindowOpen,
   playWindowClose,
@@ -23,16 +22,12 @@ export default function MobileLayout({
   const [activeAppId, setActiveAppId] = useState(null)
   const [openAppIds, setOpenAppIds] = useState(['about'])
   const [isAppSwitcherOpen, setIsAppSwitcherOpen] = useState(false)
-  const [isControlCenterOpen, setIsControlCenterOpen] = useState(false)
-  const [isIslandExpanded, setIsIslandExpanded] = useState(false)
 
   // Abrir um aplicativo
   const handleOpenApp = (appId) => {
     playWindowOpen()
     setActiveAppId(appId)
     setIsAppSwitcherOpen(false)
-    setIsControlCenterOpen(false)
-    setIsIslandExpanded(false)
 
     setOpenAppIds((prev) => {
       if (!prev.includes(appId)) {
@@ -66,21 +61,17 @@ export default function MobileLayout({
   }
 
   return (
-    <div className="w-full h-screen h-[100dvh] relative overflow-hidden bg-gradient-to-b from-slate-950 via-slate-900 to-indigo-950 text-white flex flex-col justify-between select-none">
-      {/* Barra de Status do iPhone com Dynamic Island */}
-      <IPhoneStatusBar
-        activeAppId={activeAppId}
-        onToggleControlCenter={() => setIsControlCenterOpen((prev) => !prev)}
-        onToggleDynamicIsland={() => setIsIslandExpanded((prev) => !prev)}
-        isIslandExpanded={isIslandExpanded}
-      />
-
+    <div className={styles.phoneContainer}>
       {/* Conteúdo Principal: Home Screen (Widgets + Grade de Apps + Dock) */}
-      <main className="flex-1 relative w-full h-[calc(100dvh-2.75rem)] overflow-hidden">
+      <main className="flex-1 relative w-full h-full overflow-hidden flex flex-col">
         <IPhoneHomeScreen
           onOpenApp={handleOpenApp}
           onOpenAppSwitcher={() => setIsAppSwitcherOpen(true)}
           lang={lang}
+          onToggleLang={onToggleLang}
+          onNotify={onNotify}
+          theme={theme}
+          onToggleTheme={onToggleTheme}
           t={t}
         />
 
@@ -110,19 +101,6 @@ export default function MobileLayout({
             t={t}
           />
         )}
-
-        {/* Central de Controle iOS (Control Center) */}
-        <IPhoneControlCenter
-          isOpen={isControlCenterOpen}
-          onClose={() => setIsControlCenterOpen(false)}
-          lang={lang}
-          onToggleLang={onToggleLang}
-          theme={theme}
-          onToggleTheme={onToggleTheme}
-          audio={audio}
-          onNotify={onNotify}
-          t={t}
-        />
       </main>
     </div>
   )

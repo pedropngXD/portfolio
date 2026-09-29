@@ -1,189 +1,229 @@
-import SystemIcon from '../SystemIcon'
+import IPhoneAppIcon from './IPhoneAppIcon'
 import { SECTIONS } from '../../data/sections'
 import { ABOUT_DATA } from '../../data/about'
+import { CONTACT_CHANNELS } from '../../data/contact'
+import styles from './IPhone.module.css'
+
+const APP_GRADIENTS = {
+  readme: 'linear-gradient(180deg, #ffd60a 0%, #f59e0b 100%)',
+  resume: 'linear-gradient(180deg, #ff453a 0%, #d70015 100%)',
+  about: 'linear-gradient(180deg, #6366f1 0%, #4338ca 100%)',
+  stack: 'linear-gradient(180deg, #30d158 0%, #15803d 100%)',
+  experience: 'linear-gradient(180deg, #0a84ff 0%, #0056b3 100%)',
+  contact: 'linear-gradient(180deg, #ff9f0a 0%, #c97500 100%)',
+  projects: 'linear-gradient(180deg, #007aff 0%, #0051ba 100%)',
+  'status-check': 'linear-gradient(180deg, #1c1c1e 0%, #09090b 100%)'
+}
 
 export default function IPhoneHomeScreen({
   onOpenApp,
   onOpenAppSwitcher,
   lang = 'pt',
+  onToggleLang,
+  onNotify,
   t
 }) {
   const isEn = lang === 'en'
 
-  // 4 aplicativos principais fixados no Dock inferior estilo iOS
-  const dockAppIds = ['about', 'projects', 'resume', 'contact']
-  const dockSections = dockAppIds.map((id) => SECTIONS.find((s) => s.id === id)).filter(Boolean)
+  // Canais de contato para as ações da barra de tarefas inferior
+  const githubChannel = CONTACT_CHANNELS.find((c) => c.id === 'github')
+  const linkedinChannel = CONTACT_CHANNELS.find((c) => c.id === 'linkedin')
+  const emailChannel = CONTACT_CHANNELS.find((c) => c.id === 'email')
 
-  // Aplicativos na grade da tela de início (excluindo os que estão no dock ou exibindo todos organizados)
+  // 4 aplicativos fixados na barra de tarefas inferior estilo iOS:
+  // GitHub, LinkedIn, E-mail e o novo App de Configurações / Tradução
+  const dockItems = [
+    {
+      id: 'github',
+      title: 'GitHub',
+      gradient: 'linear-gradient(180deg, #24292f 0%, #0d1117 100%)',
+      onClick: () => {
+        if (githubChannel) {
+          window.open(githubChannel.href, '_blank', 'noopener,noreferrer')
+        }
+      }
+    },
+    {
+      id: 'linkedin',
+      title: 'LinkedIn',
+      gradient: 'linear-gradient(180deg, #0a66c2 0%, #004182 100%)',
+      onClick: () => {
+        if (linkedinChannel) {
+          window.open(linkedinChannel.href, '_blank', 'noopener,noreferrer')
+        }
+      }
+    },
+    {
+      id: 'email',
+      title: isEn ? 'Email (pgpmoser@gmail.com)' : 'E-mail (pgpmoser@gmail.com)',
+      gradient: 'linear-gradient(180deg, #0a84ff 0%, #0056b3 100%)',
+      onClick: () => {
+        if (emailChannel) {
+          navigator.clipboard.writeText(emailChannel.value).then(() => {
+            onNotify && onNotify({
+              title: t?.system?.emailToastTitle || (isEn ? 'Clipboard' : 'Área de Transferência'),
+              message: t?.system?.emailToastMessage || (isEn ? 'Email copied to clipboard!' : 'E-mail copiado para a área de transferência!'),
+              icon: '📋'
+            })
+          })
+          window.location.href = emailChannel.href
+        }
+      }
+    },
+    {
+      id: 'settings-translate',
+      title: isEn ? 'Mudar idioma para Português (PT)' : 'Translate all to English (EN)',
+      gradient: 'linear-gradient(180deg, #007aff 0%, #4338ca 100%)',
+      onClick: () => {
+        onToggleLang && onToggleLang()
+        onNotify && onNotify({
+          title: isEn ? 'Idioma' : 'Language',
+          message: isEn ? 'Idioma alterado para Português (PT)' : 'Language switched to English (EN)',
+          icon: '🌐'
+        })
+      }
+    }
+  ]
+
+  // Lista ordenada dos 8 aplicativos do portfólio na tela de início
   const homeSections = SECTIONS
 
   return (
-    <div className="w-full h-full flex flex-col justify-between px-4 pt-2 pb-6 select-none animate-fadeIn">
+    <div className={styles.homeScreen}>
       {/* ========================================================
-          WIDGETS SUPERIORES ESTILO iOS (2x2)
+          WIDGETS SUPERIORES ESTILO iOS (2 CARDS LADO A LADO)
           ======================================================== */}
-      <section className="grid grid-cols-2 gap-3 mb-4">
-        {/* Widget 1: Card de Perfil & Disponibilidade */}
+      <section className={styles.widgetsArea}>
+        {/* Widget 1: Card de Perfil & Status */}
         <button
           type="button"
           onClick={() => onOpenApp('about')}
-          className="text-left bg-gradient-to-br from-indigo-950/80 via-slate-900/90 to-purple-950/80 backdrop-blur-xl border border-white/15 rounded-[24px] p-3.5 shadow-xl flex flex-col justify-between h-36 transition-transform active:scale-95 cursor-pointer relative overflow-hidden group"
+          className={styles.widgetCard}
         >
-          <div className="flex items-center gap-2.5">
-            <div className="w-11 h-11 rounded-full overflow-hidden border-2 border-purple-400/50 shadow-md flex-shrink-0">
+          <div className="flex items-center gap-2.5 min-w-0">
+            <div className={styles.widgetAvatar}>
               <img
                 src={ABOUT_DATA.avatarUrl || '/profile.jpg'}
                 alt={ABOUT_DATA.name}
-                className="w-full h-full object-cover object-top scale-125"
                 onError={(e) => {
                   e.currentTarget.style.display = 'none'
                 }}
               />
-              <span className="w-full h-full bg-purple-600 flex items-center justify-center text-white font-bold text-sm">
-                P
-              </span>
             </div>
-            <div className="min-w-0">
-              <h2 className="text-white font-bold text-xs tracking-tight truncate">
-                {ABOUT_DATA.name}
-              </h2>
-              <p className="text-[10px] text-purple-300 font-medium truncate">
+            <div className="min-w-0 flex-1">
+              <h2 className={styles.widgetName}>{ABOUT_DATA.name}</h2>
+              <p className={styles.widgetRole}>
                 {isEn ? 'Junior Developer' : 'Dev Júnior'}
               </p>
             </div>
           </div>
 
-          <div className="space-y-1">
-            <div className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-emerald-500/20 border border-emerald-400/30 text-emerald-400 text-[9px] font-semibold">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
-              <span>{isEn ? 'Available' : 'Disponível'}</span>
+          <div className="min-w-0">
+            <div className={styles.widgetBadge}>
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse flex-shrink-0" />
+              <span className="truncate">{isEn ? 'Available' : 'Disponível'}</span>
             </div>
-            <p className="text-[9px] text-neutral-300 truncate">
+            <p className={styles.widgetSubInfo}>
               {isEn ? 'ADS @ Unisinos • 7th sem' : 'ADS @ Unisinos • 7º sem'}
             </p>
           </div>
         </button>
 
-        {/* Widget 2: Card de Tecnologias & Telemetria */}
+        {/* Widget 2: Card de Tecnologias / Stack */}
         <button
           type="button"
           onClick={() => onOpenApp('stack')}
-          className="text-left bg-gradient-to-br from-slate-900/90 via-slate-800/80 to-sky-950/80 backdrop-blur-xl border border-white/15 rounded-[24px] p-3.5 shadow-xl flex flex-col justify-between h-36 transition-transform active:scale-95 cursor-pointer relative overflow-hidden"
+          className={styles.widgetCard}
         >
-          <div className="flex items-center justify-between">
-            <span className="text-[11px] font-bold text-sky-400 uppercase tracking-wider">
+          <div className="flex items-center justify-between min-w-0">
+            <span className="text-[11px] font-bold text-sky-400 uppercase tracking-wider truncate">
               {isEn ? 'Tech Stack' : 'Stack'}
             </span>
-            <span className="text-sm">⚡</span>
+            <span className="text-xs flex-shrink-0">⚡</span>
           </div>
 
-          <div className="grid grid-cols-2 gap-1.5 py-1">
-            <span className="px-2 py-1 bg-white/10 rounded-lg text-[10px] text-white font-mono text-center font-medium">PHP</span>
-            <span className="px-2 py-1 bg-white/10 rounded-lg text-[10px] text-white font-mono text-center font-medium">React</span>
-            <span className="px-2 py-1 bg-white/10 rounded-lg text-[10px] text-white font-mono text-center font-medium">SQL</span>
-            <span className="px-2 py-1 bg-white/10 rounded-lg text-[10px] text-white font-mono text-center font-medium">Node</span>
+          <div className={styles.stackPillGrid}>
+            <span className={styles.stackMiniPill}>PHP</span>
+            <span className={styles.stackMiniPill}>React</span>
+            <span className={styles.stackMiniPill}>SQL</span>
+            <span className={styles.stackMiniPill}>Node</span>
           </div>
 
-          <span className="text-[9px] text-neutral-400 font-medium flex items-center justify-between">
-            <span>{isEn ? 'Tap to explore' : 'Toque p/ explorar'}</span>
-            <span>↗</span>
-          </span>
+          <div className="flex items-center justify-between text-[9px] text-neutral-400 font-medium min-w-0">
+            <span className="truncate">{isEn ? 'Tap to view' : 'Toque p/ ver'}</span>
+            <span className="flex-shrink-0">↗</span>
+          </div>
         </button>
       </section>
 
       {/* ========================================================
-          GRADE DE APPS ESTILO iOS (4 COLUNAS)
+          GRADE DE APPS ESTILO iOS (2 FILEIRAS DE 4 APPS)
           ======================================================== */}
-      <section className="flex-1 grid grid-cols-4 gap-y-4 gap-x-2 py-2">
-        {homeSections.map((section) => {
-          const title = t?.sections?.[section.id]?.shortLabel || section.shortLabel || section.title
-          return (
-            <button
-              key={section.id}
-              type="button"
-              onClick={() => onOpenApp(section.id)}
-              className="flex flex-col items-center gap-1.5 transition-transform active:scale-90 cursor-pointer group"
-            >
-              {/* Ícone Squircle iOS com Gradiente e Sombra */}
-              <div
-                className="w-14 h-14 sm:w-16 sm:h-16 rounded-[18px] sm:rounded-[22px] flex items-center justify-center text-white shadow-xl relative border border-white/20 transition-all group-hover:scale-105"
-                style={{
-                  background:
-                    section.id === 'readme'
-                      ? 'linear-gradient(135deg, #0284c7 0%, #0369a1 100%)'
-                      : section.id === 'resume'
-                      ? 'linear-gradient(135deg, #ef4444 0%, #b91c1c 100%)'
-                      : section.id === 'about'
-                      ? 'linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%)'
-                      : section.id === 'stack'
-                      ? 'linear-gradient(135deg, #10b981 0%, #059669 100%)'
-                      : section.id === 'experience'
-                      ? 'linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%)'
-                      : section.id === 'contact'
-                      ? 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)'
-                      : section.id === 'projects'
-                      ? 'linear-gradient(135deg, #ec4899 0%, #be185d 100%)'
-                      : 'linear-gradient(135deg, #14b8a6 0%, #0d9488 100%)'
-                }}
+      <section className={styles.appsGridContainer}>
+        <div className={styles.appsGrid}>
+          {homeSections.map((section) => {
+            const title = t?.sections?.[section.id]?.shortLabel || section.shortLabel || section.title
+            const gradient = APP_GRADIENTS[section.id] || 'linear-gradient(180deg, #007aff 0%, #0051ba 100%)'
+
+            return (
+              <button
+                key={section.id}
+                type="button"
+                onClick={() => onOpenApp(section.id)}
+                className={styles.appItem}
               >
-                <SystemIcon type={section.iconType} size={26} color="#ffffff" />
+                {/* Ícone Squircle iOS com Gradiente e Sombra */}
+                <div
+                  className={styles.appIconWrapper}
+                  style={{
+                    background: gradient
+                  }}
+                >
+                  <IPhoneAppIcon appId={section.id} size={32} />
 
-                {/* Badge contextual superior */}
-                {section.id === 'readme' && (
-                  <span className="absolute -top-1 -right-1 w-4 h-4 bg-sky-400 text-slate-900 rounded-full text-[9px] font-bold flex items-center justify-center shadow">
-                    1
-                  </span>
-                )}
-                {section.id === 'resume' && (
-                  <span className="absolute -top-1.5 -right-1.5 px-1 bg-red-600 text-white rounded-full text-[8px] font-extrabold shadow uppercase tracking-wider">
-                    PDF
-                  </span>
-                )}
-              </div>
+                  {/* Badges de notificação iOS */}
+                  {section.id === 'readme' && (
+                    <span className={styles.appBadgeNumber}>1</span>
+                  )}
+                  {section.id === 'resume' && (
+                    <span className={styles.appBadgePdf}>PDF</span>
+                  )}
+                </div>
 
-              {/* Rótulo do App */}
-              <span className="text-[11px] font-medium text-white/95 tracking-tight text-center truncate max-w-[70px] drop-shadow-sm">
-                {title}
-              </span>
-            </button>
-          )
-        })}
+                {/* Rótulo do App */}
+                <span className={styles.appLabel}>{title}</span>
+              </button>
+            )
+          })}
+        </div>
       </section>
 
       {/* ========================================================
           INDICADOR DE PÁGINAS (PONTINHOS iOS)
           ======================================================== */}
-      <div className="flex items-center justify-center gap-1.5 py-1">
-        <span className="w-1.5 h-1.5 rounded-full bg-white shadow-sm" />
-        <span className="w-1.5 h-1.5 rounded-full bg-white/40" />
+      <div className={styles.pageDots}>
+        <span className={styles.dotActive} />
+        <span className={styles.dotInactive} />
       </div>
 
       {/* ========================================================
-          DOCK INFERIOR ESTILO iOS (FROSTED GLASS)
+          DOCK INFERIOR ESTILO iOS (FROSTED GLASS FLUTUANTE)
+          4 Apps: GitHub, LinkedIn, Email e Tradutor/Configurações
           ======================================================== */}
-      <nav
-        aria-label="iOS Dock"
-        className="w-full bg-white/20 dark:bg-white/10 backdrop-blur-2xl border border-white/25 shadow-2xl rounded-[32px] px-3.5 py-2.5 flex items-center justify-around mt-2"
-      >
-        {dockSections.map((section) => (
+      <nav aria-label="iOS Dock" className={styles.dockContainer}>
+        {dockItems.map((item) => (
           <button
-            key={section.id}
+            key={item.id}
             type="button"
-            onClick={() => onOpenApp(section.id)}
-            title={section.title}
-            className="w-13 h-13 sm:w-14 sm:h-14 rounded-[18px] flex items-center justify-center text-white shadow-lg transition-transform active:scale-90 cursor-pointer border border-white/20"
+            onClick={item.onClick}
+            title={item.title}
+            aria-label={item.title}
+            className={styles.dockIconWrapper}
             style={{
-              background:
-                section.id === 'about'
-                  ? 'linear-gradient(135deg, #8b5cf6 0%, #6366f1 100%)'
-                  : section.id === 'projects'
-                  ? 'linear-gradient(135deg, #ec4899 0%, #be185d 100%)'
-                  : section.id === 'resume'
-                  ? 'linear-gradient(135deg, #ef4444 0%, #b91c1c 100%)'
-                  : 'linear-gradient(135deg, #f59e0b 0%, #d97706 100%)'
+              background: item.gradient
             }}
           >
-            <SystemIcon type={section.iconType} size={26} color="#ffffff" />
+            <IPhoneAppIcon appId={item.id} size={30} />
           </button>
         ))}
       </nav>
@@ -191,14 +231,12 @@ export default function IPhoneHomeScreen({
       {/* ========================================================
           HOME INDICATOR BAR (BARRA INFERIOR DESLIZÁVEL iOS)
           ======================================================== */}
-      <div className="w-full flex justify-center pt-2">
-        <button
-          type="button"
-          onClick={onOpenAppSwitcher}
-          title="Ver Abas / Multitarefa"
-          className="w-32 h-1 bg-white/70 hover:bg-white active:scale-95 rounded-full transition-all cursor-pointer"
-        />
-      </div>
+      <button
+        type="button"
+        onClick={onOpenAppSwitcher}
+        title={isEn ? 'Multitask / App Switcher' : 'Ver Abas / Multitarefa'}
+        className={styles.homeIndicatorBar}
+      />
     </div>
   )
 }
