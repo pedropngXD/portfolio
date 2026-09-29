@@ -6,6 +6,7 @@ import { ABOUT_DATA } from '../../data/about'
 import { CONTACT_CHANNELS } from '../../data/contact'
 import { playToggle } from '../../utils/soundEffects'
 import styles from './IPhone.module.css'
+import HomeIndicator from './HomeIndicator'
 
 function arrayMove(array, fromIndex, toIndex) {
   const newArray = [...array]
@@ -563,18 +564,18 @@ export default function IPhoneHomeScreen({
         })}
       </nav>
 
-      {/* ========================================================
-          HOME INDICATOR BAR (BARRA INFERIOR DESLIZÁVEL iOS)
+            {/* ========================================================
+          HOME INDICATOR BAR (COMPONENTE PADRAO)
           ======================================================== */}
-      <button
-        type="button"
-        onClick={onOpenAppSwitcher}
-        title={isEn ? 'Multitask / App Switcher' : 'Ver Abas / Multitarefa'}
-        className={styles.homeIndicatorBar}
+      <HomeIndicator 
+        onClick={onOpenAppSwitcher} 
+        title={isEn ? 'Multitask / App Switcher' : 'Ver Abas / Multitarefa'} 
       />
     </div>
   )
 }
+
+
 
 
 

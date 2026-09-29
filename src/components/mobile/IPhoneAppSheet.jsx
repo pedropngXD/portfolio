@@ -3,6 +3,7 @@ import SystemIcon from '../SystemIcon'
 import { SECTIONS } from '../../data/sections'
 import { playWindowMinimize } from '../../utils/soundEffects'
 import styles from './IPhone.module.css'
+import HomeIndicator from './HomeIndicator'
 
 export default function IPhoneAppSheet({
   appId,
@@ -320,16 +321,19 @@ export default function IPhoneAppSheet({
         {/* ========================================================
             HOME INDICATOR BAR INFERIOR (DESLIZÁVEL / TOQUE)
             ======================================================== */}
-        <footer className="w-full py-2.5 flex flex-col items-center border-t border-white/5 bg-slate-950/70 backdrop-blur-md flex-shrink-0 touch-none">
-          <button
-            type="button"
-            onClick={handleDismiss}
-            title={isEn ? 'Swipe or tap to go home' : 'Deslize ou toque para início'}
-            className="w-32 h-1 bg-white/70 hover:bg-white active:scale-95 rounded-full transition-all cursor-pointer"
-          />
-        </footer>
+                  {/* ========================================================
+              HOME INDICATOR BAR (COMPONENTE PADRAO)
+              ======================================================== */}
+          <div className="w-full border-t border-white/5 bg-slate-950/70 backdrop-blur-md mt-auto">
+            <HomeIndicator 
+              onClick={handleDismiss} 
+              title={isEn ? 'Swipe or tap to go home' : 'Deslize ou toque para incio'} 
+            />
+          </div>
       </div>
     </div>
   )
 }
+
+
 
