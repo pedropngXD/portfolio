@@ -49,7 +49,7 @@ export default function IPhoneStatusBar({
         {isIslandExpanded ? (
           <span className="text-[10px] text-emerald-400 font-mono flex items-center gap-1 animate-pulse">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-            pedroOS 2.0
+            pedroOs 2.0
           </span>
         ) : activeAppId ? (
           <span className="text-[9px] text-neutral-300 font-mono flex items-center gap-1 truncate max-w-[65px]">
