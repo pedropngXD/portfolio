@@ -56,6 +56,10 @@ export default function DesktopLayout({
   t
 }) {
   const [isDockRevealed, setIsDockRevealed] = useState(false)
+  const isDockContextMenuOpen = Boolean(contextMenu?.isOpen && contextMenu?.isFromDock)
+  const dockIsRevealed = isDockRevealed || isDockContextMenuOpen
+  const mouseYRef = useRef(0)
+  const prevContextMenuOpenRef = useRef(isDockContextMenuOpen)
 
   // Controle estrito da área do Dock quando há janela maximizada (estilo macOS)
   useEffect(() => {
@@ -65,6 +69,11 @@ export default function DesktopLayout({
     }
 
     const onPointerMove = (e) => {
+      mouseYRef.current = e.clientY
+
+      // Se o menu de contexto originado do Dock estiver aberto, mantém o dock visível
+      if (isDockContextMenuOpen) return
+
       // Se o mouse desce até a borda inferior (últimos 12px da tela): revela o dock
       if (e.clientY >= window.innerHeight - 12) {
         setIsDockRevealed(true)
@@ -78,7 +87,17 @@ export default function DesktopLayout({
     return () => {
       window.removeEventListener('pointermove', onPointerMove)
     }
-  }, [hasMaximizedWindow, isDockRevealed])
+  }, [hasMaximizedWindow, isDockRevealed, isDockContextMenuOpen])
+
+  // Quando o menu de contexto do dock fecha, verifica se o mouse ainda está na área do dock
+  useEffect(() => {
+    if (prevContextMenuOpenRef.current && !isDockContextMenuOpen) {
+      if (hasMaximizedWindow && mouseYRef.current < window.innerHeight - 88) {
+        setIsDockRevealed(false)
+      }
+    }
+    prevContextMenuOpenRef.current = isDockContextMenuOpen
+  }, [isDockContextMenuOpen, hasMaximizedWindow])
 
   return (
     <div className="hidden md:flex md:flex-col desktop-workspace" onContextMenu={onWorkspaceContextMenu}>
@@ -150,9 +169,11 @@ export default function DesktopLayout({
       {/* Área invisível na borda inferior para revelar Dock quando maximizado (estilo macOS) */}
       {hasMaximizedWindow && (
         <div
-          className={`${dockStyles.dockTriggerZone} ${isDockRevealed ? dockStyles.dockTriggerZoneActive : ''}`}
+          className={`${dockStyles.dockTriggerZone} ${dockIsRevealed ? dockStyles.dockTriggerZoneActive : ''}`}
           onMouseEnter={() => setIsDockRevealed(true)}
-          onMouseLeave={() => setIsDockRevealed(false)}
+          onMouseLeave={() => {
+            if (!isDockContextMenuOpen) setIsDockRevealed(false)
+          }}
           aria-hidden="true"
         />
       )}
@@ -163,9 +184,11 @@ export default function DesktopLayout({
         dockAppIds={dockAppIds}
         dockRightIds={dockRightIds}
         isHidden={hasMaximizedWindow}
-        isRevealed={isDockRevealed}
+        isRevealed={dockIsRevealed}
         onMouseEnter={() => setIsDockRevealed(true)}
-        onMouseLeave={() => setIsDockRevealed(false)}
+        onMouseLeave={() => {
+          if (!isDockContextMenuOpen) setIsDockRevealed(false)
+        }}
         onSelectSection={(id, opts) => onOpenApp && onOpenApp(id, { fromDock: true, ...opts })}
         onContextMenu={onDockContextMenu}
         onNotify={showNotification}

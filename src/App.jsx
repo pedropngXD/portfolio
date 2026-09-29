@@ -201,7 +201,7 @@ export default function App() {
             }
           }
         ]
-        setContextMenu({ isOpen: true, x: e.clientX, y: e.clientY, items })
+        setContextMenu({ isOpen: true, x: e.clientX, y: e.clientY, items, isFromDock: true })
         return
       }
     }
@@ -268,7 +268,7 @@ export default function App() {
       onClick: handleResetDock
     })
 
-    setContextMenu({ isOpen: true, x: e.clientX, y: e.clientY, items })
+    setContextMenu({ isOpen: true, x: e.clientX, y: e.clientY, items, isFromDock: true })
   }
 
   const handleWorkspaceContextMenu = (e) => {
@@ -390,7 +390,7 @@ export default function App() {
         lang={language}
         onToggleLang={toggleLanguage}
         contextMenu={contextMenu}
-        onCloseContextMenu={() => setContextMenu((prev) => ({ ...prev, isOpen: false }))}
+        onCloseContextMenu={() => setContextMenu((prev) => ({ ...prev, isOpen: false, isFromDock: false }))}
         notification={notification}
         onCloseNotification={() => setNotification((prev) => ({ ...prev, isOpen: false }))}
         showNotification={showNotification}
