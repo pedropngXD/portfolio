@@ -2,19 +2,24 @@ import { useState, useEffect } from 'react'
 import { SECTIONS } from '../data/sections'
 import { playSnap } from '../utils/soundEffects'
 
+export const DEFAULT_DOCK_APPS = ['about', 'stack', 'experience', 'contact', 'projects']
 const DEFAULT_RIGHT_APPS = ['github', 'linkedin', 'email', 'theme']
 
 export function useDockApps() {
   const [dockAppIds, setDockAppIds] = useState(() => {
-    const saved = localStorage.getItem('pedro-os-dock-apps')
+    const saved = localStorage.getItem('pedro-os-dock-apps-v2') || localStorage.getItem('pedro-os-dock-apps')
     if (saved) {
       try {
-        return JSON.parse(saved)
+        const parsed = JSON.parse(saved)
+        if (Array.isArray(parsed)) {
+          const filtered = parsed.filter((id) => id !== 'resume' && id !== 'status-check')
+          return filtered.length > 0 ? filtered : DEFAULT_DOCK_APPS
+        }
       } catch (e) {
         /* ignore */
       }
     }
-    return SECTIONS.map((s) => s.id)
+    return DEFAULT_DOCK_APPS
   })
 
   const [dockRightIds, setDockRightIds] = useState(() => {
@@ -30,6 +35,7 @@ export function useDockApps() {
   })
 
   useEffect(() => {
+    localStorage.setItem('pedro-os-dock-apps-v2', JSON.stringify(dockAppIds))
     localStorage.setItem('pedro-os-dock-apps', JSON.stringify(dockAppIds))
   }, [dockAppIds])
 
@@ -47,7 +53,7 @@ export function useDockApps() {
 
   const handleResetDock = () => {
     playSnap()
-    setDockAppIds(SECTIONS.map((s) => s.id))
+    setDockAppIds(DEFAULT_DOCK_APPS)
     setDockRightIds(DEFAULT_RIGHT_APPS)
   }
 
