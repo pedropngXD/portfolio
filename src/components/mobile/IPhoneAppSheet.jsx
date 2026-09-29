@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react'
 import SystemIcon from '../SystemIcon'
 import { SECTIONS } from '../../data/sections'
+import styles from './IPhone.module.css'
 
 export default function IPhoneAppSheet({
   appId,
@@ -8,6 +9,8 @@ export default function IPhoneAppSheet({
   onOpenAppSwitcher,
   renderContentForSection,
   openAppsCount = 1,
+  theme = 'dark',
+  onToggleTheme,
   lang = 'pt',
   t
 }) {
@@ -53,20 +56,20 @@ export default function IPhoneAppSheet({
 
   return (
     <div
-      className="fixed inset-0 z-40 flex flex-col justify-end transition-transform duration-150 ease-out"
+      className={`fixed inset-0 z-40 flex flex-col justify-end transition-transform duration-150 ease-out ${styles.sheetContainer}`}
       style={{
         transform: `translateY(${dragOffsetY}px)`
       }}
     >
-      {/* Background Backdrop escuro com efeito de profundidade */}
+      {/* Background Backdrop escuro com gradiente progressivo e transição suave */}
       <div
-        className="absolute inset-0 bg-black/60 backdrop-blur-sm -z-10"
+        className={`absolute inset-0 bg-gradient-to-t from-black/85 via-black/55 to-black/35 ${styles.sheetBackdrop} -z-10`}
         onClick={onClose}
         aria-hidden="true"
       />
 
       {/* Conteúdo da Folha Modal do App (Bottom Sheet iOS) */}
-      <div className="w-full h-[93dvh] bg-slate-900/95 dark:bg-slate-950/95 text-slate-100 rounded-t-[36px] border-t border-white/20 shadow-2xl flex flex-col overflow-hidden backdrop-blur-2xl">
+      <div className="w-full h-[94dvh] bg-slate-900/95 dark:bg-slate-950/95 text-slate-100 rounded-t-[36px] border-t border-white/20 shadow-[0_-12px_40px_rgba(0,0,0,0.6)] flex flex-col overflow-hidden backdrop-blur-2xl">
         {/* ========================================================
             BARRA DE ARRASTO SUPERIOR (GRAB HANDLE iOS)
             ======================================================== */}
@@ -78,24 +81,36 @@ export default function IPhoneAppSheet({
         </div>
 
         {/* ========================================================
-            BARRA DE NAVEGAÇÃO SUPERIOR DO APP (iOS NAVBAR)
+            BARRA DE NAVEGAÇÃO SUPERIOR DO APP (iOS NAVBAR EQUILIBRADA)
             ======================================================== */}
         <header
-          className="w-full h-14 px-6 flex items-center justify-between border-b border-white/10 select-none cursor-grab active:cursor-grabbing flex-shrink-0"
+          className="w-full h-14 px-5 relative flex items-center justify-between border-b border-white/10 select-none cursor-grab active:cursor-grabbing flex-shrink-0"
           onPointerDown={handlePointerDown}
         >
-          {/* Botão de voltar para a Home Screen com bom espaçamento do canto */}
+          {/* Esquerda: Botão de voltar para a Home Screen com chevron SVG */}
           <button
             type="button"
             onClick={onClose}
-            className="flex items-center gap-1.5 text-sky-400 font-semibold text-sm hover:text-sky-300 transition-colors cursor-pointer py-1 pr-2 active:opacity-75"
+            className="flex items-center gap-1 text-sky-400 hover:text-sky-300 font-semibold text-sm transition-all cursor-pointer py-1.5 px-2 -ml-2 rounded-xl active:bg-white/10 z-10"
           >
-            <span className="text-xl leading-none">‹</span>
+            <svg
+              width="18"
+              height="18"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="flex-shrink-0"
+            >
+              <polyline points="15 18 9 12 15 6" />
+            </svg>
             <span>{isEn ? 'Home' : 'Início'}</span>
           </button>
 
-          {/* Título centralizado com ícone */}
-          <div className="flex items-center gap-2 max-w-[170px] truncate">
+          {/* Centro: Título do app matematicamente centralizado na tela */}
+          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center gap-2 max-w-[50%] truncate pointer-events-none z-0">
             <SystemIcon
               type={section.iconType}
               size={18}
@@ -104,13 +119,32 @@ export default function IPhoneAppSheet({
             <h1 className="font-bold text-sm text-white truncate">{title}</h1>
           </div>
 
-          {/* Botão de Abas / Multitarefa e Fechar com folga do canto direito */}
-          <div className="flex items-center gap-2.5">
+          {/* Direita: Controles circulares uniformes e perfeitamente alinhados */}
+          <div className="flex items-center gap-2 z-10">
+            {onToggleTheme && (
+              <button
+                type="button"
+                onClick={onToggleTheme}
+                title={
+                  theme === 'dark'
+                    ? isEn
+                      ? 'Switch to Light Mode'
+                      : 'Modo Claro'
+                    : isEn
+                    ? 'Switch to Dark Mode'
+                    : 'Modo Escuro'
+                }
+                className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 active:scale-90 text-white flex items-center justify-center text-xs transition-all cursor-pointer border border-white/10 shadow-sm"
+              >
+                <span>{theme === 'dark' ? '☀️' : '🌙'}</span>
+              </button>
+            )}
+
             <button
               type="button"
               onClick={onOpenAppSwitcher}
               title={isEn ? 'Tabs / Multitask' : 'Abas / Multitarefa'}
-              className="w-7 h-7 rounded-lg border border-white/20 bg-white/10 text-white text-xs font-bold flex items-center justify-center cursor-pointer hover:bg-white/20 transition-all active:scale-95"
+              className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 active:scale-90 text-white flex items-center justify-center text-xs font-bold transition-all cursor-pointer border border-white/10 shadow-sm"
             >
               <span>{openAppsCount}</span>
             </button>
@@ -119,9 +153,20 @@ export default function IPhoneAppSheet({
               type="button"
               onClick={onClose}
               title={isEn ? 'Close app' : 'Fechar app'}
-              className="w-7 h-7 rounded-full bg-white/10 text-white/80 hover:text-white flex items-center justify-center text-xs font-bold cursor-pointer hover:bg-white/20 transition-all active:scale-95"
+              className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 active:scale-90 text-white/80 hover:text-white flex items-center justify-center text-xs font-bold transition-all cursor-pointer border border-white/10 shadow-sm"
             >
-              ✕
+              <svg
+                width="12"
+                height="12"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+              >
+                <line x1="18" y1="6" x2="6" y2="18" />
+                <line x1="6" y1="6" x2="18" y2="18" />
+              </svg>
             </button>
           </div>
         </header>
@@ -148,3 +193,4 @@ export default function IPhoneAppSheet({
     </div>
   )
 }
+
