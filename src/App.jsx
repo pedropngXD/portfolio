@@ -209,13 +209,33 @@ export default function App() {
     const section = SECTIONS.find((s) => s.id === sectionId)
     const secTitle = t?.sections?.[sectionId]?.title || section?.title
 
+    const isRunning = windows[sectionId]?.isOpen
+
     const items = []
-    if (section?.externalUrl) {
+    if (!isRunning) {
+      if (section?.externalUrl) {
+        items.push({
+          label: `${language === 'pt' ? 'Abrir' : 'Open'} ${secTitle} 🪟`,
+          icon: '📂',
+          onClick: () => handleOpenApp(sectionId, { fromDock: true })
+        })
+      } else {
+        items.push({
+          label: `${language === 'pt' ? 'Abrir' : 'Open'} ${secTitle}`,
+          icon: '📂',
+          onClick: () => handleOpenApp(sectionId, { fromDock: true })
+        })
+      }
+    } else {
       items.push({
-        label: `${language === 'pt' ? 'Abrir' : 'Open'} ${secTitle} 🪟`,
-        icon: '📂',
-        onClick: () => handleOpenApp(sectionId)
+        label: `${language === 'pt' ? 'Fechar janela' : 'Close window'}`,
+        icon: '✕',
+        danger: true,
+        onClick: () => handleCloseWindow(sectionId)
       })
+    }
+
+    if (section?.externalUrl) {
       items.push({
         label: sys.openInBrowser || `Abrir no Navegador ↗`,
         icon: '↗',
@@ -228,21 +248,6 @@ export default function App() {
           navigator.clipboard.writeText(section.externalUrl)
           showNotification({ title: secTitle, message: 'Link copiado!', icon: '📋' })
         }
-      })
-    } else {
-      items.push({
-        label: `${language === 'pt' ? 'Abrir' : 'Open'} ${secTitle}`,
-        icon: '📂',
-        onClick: () => handleOpenApp(sectionId, { fromDock: true })
-      })
-    }
-
-    if (windows[sectionId]?.isOpen) {
-      items.push({
-        label: `${language === 'pt' ? 'Fechar janela' : 'Close window'}`,
-        icon: '✕',
-        danger: true,
-        onClick: () => handleCloseWindow(sectionId)
       })
     }
 
