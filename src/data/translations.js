@@ -152,7 +152,31 @@ export const TRANSLATIONS = {
         { label: 'Foco Técnico', value: 'Backend (PHP / Node / APIs) & Frontend (React)' }
       ],
       btnExperience: 'Ver Experiências Profissionais',
-      btnStack: 'Explorar Stack Técnica'
+      btnStack: 'Explorar Stack Técnica',
+      btnResume: 'Visualizar Currículo (PDF)',
+      competenciesTitle: 'Destaques de Atuação & Metodologia',
+      competencies: [
+        {
+          icon: '⚡',
+          title: 'APIs & Backend',
+          desc: 'Desenvolvimento e sustentação de rotas RESTful em PHP com arquitetura em camadas e integração de microsserviços.'
+        },
+        {
+          icon: '🗄️',
+          title: 'Bancos de Dados Relacionais',
+          desc: 'Consultas avançadas em SQL Server, MySQL e PostgreSQL, Stored Procedures, Views e integridade relacional.'
+        },
+        {
+          icon: '💼',
+          title: 'Sistemas Corporativos',
+          desc: 'Atuação prática em CRM, portal de chamados e módulos de controle financeiro em produção na Credware Tecnologia.'
+        },
+        {
+          icon: '⚛️',
+          title: 'Frontend Moderno & Reativo',
+          desc: 'Interfaces dinâmicas com React, componentização funcional, CSS Modules, Tailwind e consumo assíncrono.'
+        }
+      ]
     },
     experience: {
       title: 'Experiência Profissional',
@@ -435,7 +459,31 @@ export const TRANSLATIONS = {
         { label: 'Technical Focus', value: 'Backend (PHP / Node / APIs) & Frontend (React)' }
       ],
       btnExperience: 'View Professional Experience',
-      btnStack: 'Explore Tech Stack'
+      btnStack: 'Explore Tech Stack',
+      btnResume: 'View Resume (PDF)',
+      competenciesTitle: 'Core Competencies & Methodology',
+      competencies: [
+        {
+          icon: '⚡',
+          title: 'APIs & Backend Support',
+          desc: 'Developing and maintaining RESTful endpoints in PHP with layered architecture and microservices integration.'
+        },
+        {
+          icon: '🗄️',
+          title: 'Relational Databases',
+          desc: 'Complex SQL queries in SQL Server, MySQL, and PostgreSQL, Stored Procedures, Views, and data integrity.'
+        },
+        {
+          icon: '💼',
+          title: 'Enterprise Systems',
+          desc: 'Hands-on production support for corporate CRM, ticketing portals, and financial modules at Credware Tecnologia.'
+        },
+        {
+          icon: '⚛️',
+          title: 'Modern Frontend & Reactive Web',
+          desc: 'Dynamic web interfaces with React, modular componentization, CSS Modules, Tailwind, and async API calls.'
+        }
+      ]
     },
     experience: {
       title: 'Professional Experience',

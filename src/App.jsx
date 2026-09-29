@@ -320,7 +320,7 @@ export default function App() {
       case 'resume':
         return <ResumeSection language={language} />
       case 'about':
-        return <AboutSection onNavigate={handleOpenApp} t={t} />
+        return <AboutSection onNavigate={handleOpenApp} t={t} isMaximized={windows.about?.isMaximized} />
       case 'stack':
         return <StackSection t={t} />
       case 'experience':
