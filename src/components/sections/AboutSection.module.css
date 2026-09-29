@@ -499,20 +499,27 @@
 
   .profileHeader {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
+    text-align: center;
     gap: 1.25rem;
     padding-bottom: 1.25rem;
   }
 
   .profileLeft {
-    gap: 1.15rem;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
     width: 100%;
   }
 
+  .headerText {
+    align-items: center;
+  }
+
   .avatar {
-    width: 72px;
-    height: 72px;
-    border-radius: 20px;
+    width: 84px;
+    height: 84px;
+    border-radius: 22px;
     font-size: 1.6rem;
     box-shadow: 0 8px 24px rgba(139, 92, 246, 0.35);
   }
@@ -532,9 +539,9 @@
   }
 
   .profileRight {
-    align-items: flex-start;
+    align-items: center;
     width: 100%;
-    gap: 0.75rem;
+    gap: 1rem;
   }
 
   .statusPill {
@@ -638,3 +645,4 @@
     line-height: 1.45;
   }
 }
+

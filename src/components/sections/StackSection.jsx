@@ -23,23 +23,26 @@ export default function StackSection({ t }) {
         }
       />
 
-      {/* Barra de Filtro por Categoria */}
-      <div className={styles.filterBar} role="tablist" aria-label="Categorias de tecnologias">
-        {STACK_CATEGORIES.map((cat) => {
-          const catLabel = t?.stack?.categories?.[cat.id] || cat.label
-          return (
-            <button
-              key={cat.id}
-              type="button"
-              role="tab"
-              aria-selected={activeCategory === cat.id}
-              className={`${styles.filterBtn} ${activeCategory === cat.id ? styles.filterBtnActive : ''}`}
-              onClick={() => setActiveCategory(cat.id)}
-            >
-              {catLabel}
-            </button>
-          )
-        })}
+      {/* Barra de Filtro por Categoria com Indicador de Scroll */}
+      <div className={styles.filterWrapper}>
+        <div className={styles.filterBar} role="tablist" aria-label="Categorias de tecnologias">
+          {STACK_CATEGORIES.map((cat) => {
+            const catLabel = t?.stack?.categories?.[cat.id] || cat.label
+            return (
+              <button
+                key={cat.id}
+                type="button"
+                role="tab"
+                aria-selected={activeCategory === cat.id}
+                className={`${styles.filterBtn} ${activeCategory === cat.id ? styles.filterBtnActive : ''}`}
+                onClick={() => setActiveCategory(cat.id)}
+              >
+                {catLabel}
+              </button>
+            )
+          })}
+        </div>
+        <div className={styles.fadeRight} aria-hidden="true" />
       </div>
 
       {/* Grid de Cards de Tecnologias */}
