@@ -1,3 +1,4 @@
+import { useRef } from 'react'
 import SystemIcon from '../SystemIcon'
 import { SECTIONS } from '../../data/sections'
 
@@ -12,6 +13,40 @@ export default function IPhoneAppSwitcher({
   t
 }) {
   const isEn = lang === 'en'
+  const carouselRef = useRef(null)
+  const isDraggingCarouselRef = useRef(false)
+  const startXRef = useRef(0)
+  const scrollLeftRef = useRef(0)
+
+  const handleCarouselPointerDown = (e) => {
+    if (e.target.closest('button')) return
+    isDraggingCarouselRef.current = false
+    startXRef.current = e.clientX
+    scrollLeftRef.current = carouselRef.current ? carouselRef.current.scrollLeft : 0
+
+    const onPointerMove = (moveEvent) => {
+      const deltaX = moveEvent.clientX - startXRef.current
+      if (Math.abs(deltaX) > 5) {
+        isDraggingCarouselRef.current = true
+      }
+      if (isDraggingCarouselRef.current && carouselRef.current) {
+        carouselRef.current.scrollLeft = scrollLeftRef.current - deltaX
+      }
+    }
+
+    const onPointerUp = () => {
+      window.removeEventListener('pointermove', onPointerMove)
+      window.removeEventListener('pointerup', onPointerUp)
+      window.removeEventListener('pointercancel', onPointerUp)
+      setTimeout(() => {
+        isDraggingCarouselRef.current = false
+      }, 50)
+    }
+
+    window.addEventListener('pointermove', onPointerMove)
+    window.addEventListener('pointerup', onPointerUp)
+    window.addEventListener('pointercancel', onPointerUp)
+  }
 
   return (
     <div className="fixed inset-0 z-50 bg-black/85 backdrop-blur-2xl flex flex-col justify-between py-6 px-4 animate-fadeIn select-none">
@@ -60,7 +95,17 @@ export default function IPhoneAppSwitcher({
       {/* ========================================================
           CARROSSEL DESLIZÁVEL DE CARDS (APP SWITCHER iOS)
           ======================================================== */}
-      <div className="flex-1 flex items-center overflow-x-auto py-6 gap-5 snap-x snap-mandatory scroll-smooth no-scrollbar">
+      <div
+        ref={carouselRef}
+        onPointerDown={handleCarouselPointerDown}
+        onClickCapture={(e) => {
+          if (isDraggingCarouselRef.current) {
+            e.preventDefault()
+            e.stopPropagation()
+          }
+        }}
+        className="flex-1 flex items-center overflow-x-auto py-6 gap-5 snap-x snap-mandatory scroll-smooth no-scrollbar cursor-grab active:cursor-grabbing touch-pan-x"
+      >
         {openAppIds.length === 0 ? (
           <div className="w-full flex flex-col items-center justify-center text-center text-neutral-400 gap-2">
             <span className="text-4xl">📱</span>
