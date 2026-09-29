@@ -347,13 +347,15 @@ export default function App() {
   return (
     <>
       {/* Versão Mobile: isolada via media query Tailwind (< 768px) */}
-      <div className="block md:hidden w-full min-h-screen min-h-[100dvh] overflow-y-auto">
+      <div className="block md:hidden w-full h-screen h-[100dvh] overflow-hidden">
         <MobileLayout
           lang={language}
           onToggleLang={toggleLanguage}
           theme={theme}
           onToggleTheme={toggleTheme}
           onNotify={showNotification}
+          renderContentForSection={renderContentForSection}
+          audio={audio}
           t={t}
         />
         {notification.isOpen && (
