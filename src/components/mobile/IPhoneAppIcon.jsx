@@ -245,19 +245,23 @@ export default function IPhoneAppIcon({ appId, size = 32 }) {
         </svg>
       )
 
-    case 'status-check':
+        case 'status-check':
       return (
         <svg width={size} height={size} viewBox="0 0 36 36" fill="none" aria-hidden="true">
-          {/* Linha eletrocardiograma (ECG) neon estilo Apple Health */}
-          <path
-            d="M5 18h6l2.5-7 5 14 4-10 2.5 5.5 2-2.5H31"
-            fill="none"
-            stroke="#30d158"
-            strokeWidth="2.8"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            filter="drop-shadow(0 0 5px rgba(48,209,88,0.85))"
-          />
+          {/* Apple Fitness / Activity Rings (Status Metaphor) */}
+          {/* Fundo escuro sutil para os aneis vazios */}
+          <circle cx="18" cy="18" r="11" stroke="#ff0033" strokeWidth="2.75" opacity="0.2" />
+          <circle cx="18" cy="18" r="7.5" stroke="#a6ff00" strokeWidth="2.75" opacity="0.2" />
+          <circle cx="18" cy="18" r="4" stroke="#00e5ff" strokeWidth="2.75" opacity="0.2" />
+          
+          {/* Anel Externo Vermelho (Progresso) */}
+          <path d="M18 7 A11 11 0 1 1 7.2 20" stroke="#ff0033" strokeWidth="2.75" strokeLinecap="round" filter="drop-shadow(0 0 2px rgba(255,0,51,0.5))" />
+          
+          {/* Anel do Meio Verde (Progresso) */}
+          <path d="M18 10.5 A7.5 7.5 0 1 1 12.7 23.3" stroke="#a6ff00" strokeWidth="2.75" strokeLinecap="round" filter="drop-shadow(0 0 2px rgba(166,255,0,0.5))" />
+          
+          {/* Anel Interno Azul (Progresso) */}
+          <path d="M18 14 A4 4 0 1 1 15.2 20.8" stroke="#00e5ff" strokeWidth="2.75" strokeLinecap="round" filter="drop-shadow(0 0 2px rgba(0,229,255,0.5))" />
         </svg>
       )
 
@@ -348,3 +352,4 @@ export default function IPhoneAppIcon({ appId, size = 32 }) {
       return null
   }
 }
+

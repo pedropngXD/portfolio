@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react'
 import SystemIcon from '../SystemIcon'
-import IPhoneAppIcon from './IPhoneAppIcon'
+
 import { SECTIONS } from '../../data/sections'
 
 export default function IPhoneAppSwitcher({
@@ -214,7 +214,7 @@ function SwipeableCard({ appId, section, title, isActive, gradient, theme, isEn,
           className="flex items-center justify-center shadow-sm flex-shrink-0"
           style={{ width: '28px', height: '28px', borderRadius: '22.5%', background: gradient }}
         >
-          <IPhoneAppIcon appId={section.id} size={18} />
+          <SystemIcon type={section.iconType} size={18} color="#ffffff" />
         </div>
         <span className="text-white text-[15px] font-semibold tracking-wide drop-shadow-md truncate max-w-[75%]">
           {title}
@@ -254,3 +254,4 @@ function SwipeableCard({ appId, section, title, isActive, gradient, theme, isEn,
     </div>
   )
 }
+

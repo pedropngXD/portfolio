@@ -1,6 +1,6 @@
 import { useState, useRef } from 'react'
 import SystemIcon from '../SystemIcon'
-import IPhoneAppIcon from './IPhoneAppIcon'
+
 import { SECTIONS } from '../../data/sections'
 import { ABOUT_DATA } from '../../data/about'
 import { CONTACT_CHANNELS } from '../../data/contact'
@@ -471,7 +471,7 @@ export default function IPhoneHomeScreen({
                     background: gradient
                   }}
                 >
-                  <IPhoneAppIcon appId={section.id} size={38} />
+                  <SystemIcon type={section.iconType} size={32} color="#ffffff" />
 
                   {/* Badges de notificação iOS */}
                   {section.id === 'readme' && (
@@ -575,6 +575,7 @@ export default function IPhoneHomeScreen({
     </div>
   )
 }
+
 
 
 
