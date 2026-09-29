@@ -2,6 +2,8 @@ import { useRef, useState } from 'react'
 import SystemIcon from '../SystemIcon'
 
 import { SECTIONS } from '../../data/sections'
+import HomeIndicator from './HomeIndicator'
+import styles from './IPhone.module.css'
 
 export default function IPhoneAppSwitcher({
   openAppIds = [],
@@ -57,7 +59,7 @@ export default function IPhoneAppSwitcher({
 
   return (
     <div 
-      className="fixed inset-0 z-50 bg-black/60 backdrop-blur-[25px] flex flex-col justify-between py-6 px-0 animate-fadeIn select-none"
+      className="absolute inset-0 z-50 bg-black/60 backdrop-blur-[25px] flex flex-col justify-between pt-6 pb-0 px-0 animate-fadeIn select-none"
       onClick={onDismiss}
     >
       {/* ========================================================
@@ -131,28 +133,25 @@ export default function IPhoneAppSwitcher({
       {/* ========================================================
           HOME BAR INFERIOR (RETORNAR À TELA DE INÍCIO) E LIMPAR TUDO
           ======================================================== */}
-      <footer className="w-full flex flex-col items-center justify-center pb-2 pt-2 h-16 gap-3">
-        {openAppIds.length > 1 && (
-          <button
-            type="button"
-            onClick={(e) => {
-              e.stopPropagation()
-              onCloseAll()
-            }}
-            className="text-[11px] px-3 py-1.5 rounded-full bg-white/10 hover:bg-white/20 text-white/80 hover:text-white transition-all font-medium backdrop-blur-md"
-          >
-            {isEn ? 'Clear All' : 'Limpar Tudo'}
-          </button>
-        )}
+            {/* Botao Limpar Tudo (Proporcao de pill nativa do iOS) */}
+      {openAppIds.length > 1 && (
         <button
           type="button"
           onClick={(e) => {
             e.stopPropagation()
-            onDismiss()
+            onCloseAll()
           }}
-          className="w-36 h-1.5 bg-white/70 hover:bg-white active:scale-95 rounded-full transition-all cursor-pointer"
-        />
-      </footer>
+          className="absolute bottom-[4.5rem] left-1/2 -translate-x-1/2 px-7 py-2.5 rounded-[9999px] bg-[#3a3a3c] border border-[#545456] text-white hover:bg-[#4a4a4c] active:scale-95 text-[13px] font-semibold tracking-wide transition-all z-50 shadow-[0_8px_16px_rgba(0,0,0,0.5)] whitespace-nowrap"
+        >
+          {isEn ? 'Clear All' : 'Limpar Tudo'}
+        </button>
+      )}
+
+      {/* HOME INDICATOR (COMPONENTE PADRAO) */}
+      <HomeIndicator 
+        onClick={onDismiss} 
+        title={isEn ? 'Close App Switcher' : 'Fechar Multitarefa'} 
+      />
     </div>
   )
 }
@@ -254,4 +253,10 @@ function SwipeableCard({ appId, section, title, isActive, gradient, theme, isEn,
     </div>
   )
 }
+
+
+
+
+
+
 
