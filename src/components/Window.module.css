@@ -10,22 +10,71 @@
   user-select: text;
   min-width: 320px;
   min-height: 240px;
-  transition: box-shadow var(--transition-fast);
+  will-change: transform, opacity;
+}
+
+/* Transição suave EXCLUSIVAMENTE ao maximizar ou restaurar tamanho de tela cheia */
+.windowMaximizingTransition {
+  transition: top 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+              left 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+              width 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+              height 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+              border-radius 0.28s cubic-bezier(0.16, 1, 0.3, 1) !important;
+}
+
+/* Desativa transições durante arrasto ou redimensionamento manual para fluidez a 60fps */
+.windowInteracting {
+  transition: none !important;
+}
+
+/* Animações macOS Genie: Sugar para o Dock e Cuspir do Dock */
+.windowMinimizing {
+  animation: genieSuck 0.28s cubic-bezier(0.3, 0, 0.2, 1) forwards !important;
+  transform-origin: center center !important;
+  pointer-events: none !important;
+  will-change: transform, opacity;
+}
+
+.windowRestoring {
+  animation: genieSpit 0.28s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+  transform-origin: center center !important;
+  will-change: transform, opacity;
+}
+
+@keyframes genieSuck {
+  0% {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
+  65% {
+    opacity: 0.95;
+  }
+  100% {
+    transform: translate(var(--dock-target-x, 0px), var(--dock-target-y, 350px)) scale(0.02, 0.02);
+    opacity: 0;
+  }
+}
+
+@keyframes genieSpit {
+  0% {
+    transform: translate(var(--dock-target-x, 0px), var(--dock-target-y, 350px)) scale(0.02, 0.02);
+    opacity: 0;
+  }
+  25% {
+    opacity: 1;
+  }
+  100% {
+    transform: translate(0, 0) scale(1);
+    opacity: 1;
+  }
 }
 
 /* Quando maximizada: cola perfeitamente na borda inferior do MenuBar e ocupa toda a tela */
 .windowContainerMaximized {
-  top: 0 !important;
-  left: 0 !important;
-  width: 100% !important;
-  width: 100vw !important;
-  height: 100% !important;
-  height: calc(100vh - var(--menubar-height)) !important;
-  height: calc(100dvh - var(--menubar-height)) !important;
-  border-radius: 0 !important;
-  border: none !important;
-  box-shadow: none !important;
-  z-index: 950 !important;
+  border-radius: 0;
+  border: none;
+  box-shadow: none;
+  z-index: 950;
 }
 
 .windowHeader {

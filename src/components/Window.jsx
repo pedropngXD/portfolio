@@ -1,4 +1,4 @@
-import { useRef } from 'react'
+import { useRef, useState, useEffect } from 'react'
 import SystemIcon from './SystemIcon'
 import styles from './Window.module.css'
 
@@ -12,6 +12,7 @@ export default function Window({
   iconType,
   accentColor,
   isMaximized,
+  animState = 'idle',
   zIndex,
   position,
   size,
@@ -23,6 +24,7 @@ export default function Window({
   onResize,
   children
 }) {
+  const [isInteracting, setIsInteracting] = useState(false)
   const isDraggingRef = useRef(false)
   const isResizingRef = useRef(false)
 
@@ -35,6 +37,7 @@ export default function Window({
 
     onFocus && onFocus(id)
     isDraggingRef.current = true
+    setIsInteracting(true)
 
     const startX = e.clientX
     const startY = e.clientY
@@ -54,6 +57,7 @@ export default function Window({
 
     const onMouseUp = () => {
       isDraggingRef.current = false
+      setIsInteracting(false)
       window.removeEventListener('mousemove', onMouseMove)
       window.removeEventListener('mouseup', onMouseUp)
     }
@@ -72,6 +76,7 @@ export default function Window({
 
     onFocus && onFocus(id)
     isResizingRef.current = true
+    setIsInteracting(true)
 
     const startX = e.clientX
     const startY = e.clientY
@@ -122,6 +127,7 @@ export default function Window({
 
     const onMouseUp = () => {
       isResizingRef.current = false
+      setIsInteracting(false)
       window.removeEventListener('mousemove', onMouseMove)
       window.removeEventListener('mouseup', onMouseUp)
     }
@@ -130,15 +136,77 @@ export default function Window({
     window.addEventListener('mouseup', onMouseUp)
   }
 
+  // Transição suave EXCLUSIVAMENTE ao maximizar ou restaurar tamanho de tela cheia
+  const [isMaximizingTransition, setIsMaximizingTransition] = useState(false)
+  const prevMaximizedRef = useRef(isMaximized)
+
+  useEffect(() => {
+    if (prevMaximizedRef.current !== isMaximized) {
+      prevMaximizedRef.current = isMaximized
+      setIsMaximizingTransition(true)
+      const timer = setTimeout(() => setIsMaximizingTransition(false), 300)
+      return () => clearTimeout(timer)
+    }
+  }, [isMaximized])
+
+  // Cálculo preciso da distância do centro da janela até o ícone correspondente no Dock
+  const getDockTargetCoords = () => {
+    if (typeof window === 'undefined' || typeof document === 'undefined') {
+      return { x: 0, y: 350 }
+    }
+
+    const winW = window.innerWidth
+    const winH = window.innerHeight
+    const menubarHeight = 32
+
+    // Centro da janela em coordenadas da viewport
+    const windowCenterX = isMaximized ? winW / 2 : position.x + size.width / 2
+    const windowCenterY = isMaximized
+      ? (winH - menubarHeight) / 2 + menubarHeight
+      : position.y + menubarHeight + size.height / 2
+
+    // Busca o botão correspondente deste app no Dock
+    const dockEl = document.querySelector(`[data-dock-id="${id}"]`)
+    if (dockEl) {
+      const rect = dockEl.getBoundingClientRect()
+      const dockCenterX = rect.left + rect.width / 2
+      // Se o Dock estiver recolhido (fora da tela), a posição Y onde ele ficaria quando visível
+      const dockCenterY = rect.top < winH ? rect.top + rect.height / 2 : winH - 36
+      return {
+        x: Math.round(dockCenterX - windowCenterX),
+        y: Math.round(dockCenterY - windowCenterY)
+      }
+    }
+
+    // Fallback: centro inferior da tela
+    return {
+      x: Math.round(winW / 2 - windowCenterX),
+      y: Math.round(winH - 36 - windowCenterY)
+    }
+  }
+
+  const { x: dockTargetX, y: dockTargetY } = getDockTargetCoords()
+
+  const animClass =
+    animState === 'minimizing'
+      ? styles.windowMinimizing
+      : animState === 'restoring'
+      ? styles.windowRestoring
+      : ''
+  const maxTransitionClass = isMaximizingTransition ? styles.windowMaximizingTransition : ''
+  const interactingClass = isInteracting ? styles.windowInteracting : ''
+
   return (
     <div
-      className={`${styles.windowContainer} ${isMaximized ? styles.windowContainerMaximized : ''}`}
+      className={`${styles.windowContainer} ${isMaximized ? styles.windowContainerMaximized : ''} ${maxTransitionClass} ${animClass} ${interactingClass}`}
       style={{
         zIndex,
         left: isMaximized ? 0 : position.x,
         top: isMaximized ? 0 : position.y,
-        width: isMaximized ? '100%' : size.width,
-        height: isMaximized ? '100%' : size.height
+        width: isMaximized ? '100vw' : size.width,
+        height: isMaximized ? 'calc(100vh - var(--menubar-height))' : size.height,
+        '--dock-target-x': `${dockTargetX}px`,
+        '--dock-target-y': `${dockTargetY}px`
       }}
       onMouseDown={() => onFocus && onFocus(id)}
       role="dialog"

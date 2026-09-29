@@ -351,6 +351,7 @@ export default function Dock({
 
             <button
               type="button"
+              data-dock-id={section.id}
               className={styles.dockButton}
               onClick={(e) =>
                 handleItemClick(e, () => onSelectSection && onSelectSection(section.id))

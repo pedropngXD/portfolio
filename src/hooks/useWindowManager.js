@@ -46,6 +46,7 @@ export function useWindowManager() {
         isOpen: sec.id === 'about',
         isMinimized: false,
         isMaximized: false,
+        animState: 'idle',
         zIndex: sec.id === 'about' ? 100 : 10,
         position: bounds.position,
         size: bounds.size,
@@ -78,56 +79,101 @@ export function useWindowManager() {
     setFocusedWindowId(id)
   }, [])
 
-  // Abre ou foca
+  // Abre ou foca (com animação macOS de sugar/cuspir pela barra de tarefas)
   const openWindow = useCallback((id) => {
-    setTopZIndex((prevZ) => {
-      const nextZ = Math.max(prevZ + 1, 100)
-      setWindows((prev) => {
-        const current = prev[id]
-        if (!current) return prev
+    setTopZIndex((prevZ) => Math.max(prevZ + 1, 100))
 
-        // Se já está aberta e focada, minimiza; se estava minimizada ou em segundo plano, foca
-        if (current.isOpen && !current.isMinimized && focusedWindowId === id) {
-          return {
-            ...prev,
-            [id]: { ...current, isMinimized: true }
-          }
-        }
+    setWindows((prev) => {
+      const current = prev[id]
+      if (!current) return prev
 
-        // Se já está aberta (estava minimizada ou em segundo plano), traz para a frente mantendo seu tamanho atual
-        if (current.isOpen) {
-          return {
-            ...prev,
-            [id]: {
-              ...current,
-              isMinimized: false,
-              zIndex: current.isMaximized ? Math.max(nextZ, 950) : nextZ
+      // Se já está aberta, visível e focada, minimiza ("sugada pra dentro da barra de tarefas")
+      if (current.isOpen && !current.isMinimized && focusedWindowId === id) {
+        setTimeout(() => {
+          setWindows((p) => {
+            if (!p[id]) return p
+            return {
+              ...p,
+              [id]: {
+                ...p[id],
+                isMinimized: true,
+                animState: 'idle'
+              }
             }
-          }
-        }
+          })
+          setFocusedWindowId((curr) => (curr === id ? null : curr))
+        }, 280)
 
-        // CASO A JANELA NÃO ESTEJA ABERTA (!current.isOpen):
-        // Sempre abre com as dimensões e posição originais da primeira vez!
-        const initialBounds = getInitialWindowBounds(id)
+        return {
+          ...prev,
+          [id]: { ...current, animState: 'minimizing' }
+        }
+      }
+
+      const nextZ = topZIndex + 1
+
+      // Se já está aberta (estava minimizada ou em segundo plano), traz para a frente ("cuspida")
+      if (current.isOpen) {
+        const wasMinimized = current.isMinimized
+        if (wasMinimized) {
+          setTimeout(() => {
+            setWindows((p) => {
+              if (!p[id]) return p
+              return {
+                ...p,
+                [id]: {
+                  ...p[id],
+                  animState: 'idle'
+                }
+              }
+            })
+          }, 280)
+        }
 
         return {
           ...prev,
           [id]: {
             ...current,
-            isOpen: true,
             isMinimized: false,
-            isMaximized: false,
-            position: initialBounds.position,
-            size: initialBounds.size,
-            prevBounds: null,
-            zIndex: nextZ
+            animState: wasMinimized ? 'restoring' : 'idle',
+            zIndex: current.isMaximized ? Math.max(nextZ, 960) : nextZ
           }
         }
-      })
-      return nextZ
+      }
+
+      // CASO A JANELA NÃO ESTEJA ABERTA (!current.isOpen):
+      // Abre com as dimensões e posição originais da primeira vez com efeito cuspida
+      const initialBounds = getInitialWindowBounds(id)
+      setTimeout(() => {
+        setWindows((p) => {
+          if (!p[id]) return p
+          return {
+            ...p,
+            [id]: {
+              ...p[id],
+              animState: 'idle'
+            }
+          }
+        })
+      }, 280)
+
+      return {
+        ...prev,
+        [id]: {
+          ...current,
+          isOpen: true,
+          isMinimized: false,
+          isMaximized: false,
+          animState: 'restoring',
+          position: initialBounds.position,
+          size: initialBounds.size,
+          prevBounds: null,
+          zIndex: nextZ
+        }
+      }
     })
     setFocusedWindowId(id)
-  }, [focusedWindowId])
+  }, [focusedWindowId, topZIndex])
 
   const closeWindow = useCallback((id) => {
     setWindows((prev) => {
@@ -143,6 +189,7 @@ export function useWindowManager() {
           isOpen: false,
           isMinimized: false,
           isMaximized: false,
+          animState: 'idle',
           position: initialBounds.position,
           size: initialBounds.size,
           prevBounds: null
@@ -155,16 +202,31 @@ export function useWindowManager() {
   const minimizeWindow = useCallback((id) => {
     setWindows((prev) => {
       const current = prev[id]
-      if (!current) return prev
+      if (!current || !current.isOpen || current.isMinimized || current.animState === 'minimizing') return prev
+
+      setTimeout(() => {
+        setWindows((p) => {
+          if (!p[id]) return p
+          return {
+            ...p,
+            [id]: {
+              ...p[id],
+              isMinimized: true,
+              animState: 'idle'
+            }
+          }
+        })
+        setFocusedWindowId((curr) => (curr === id ? null : curr))
+      }, 280)
+
       return {
         ...prev,
         [id]: {
           ...current,
-          isMinimized: true
+          animState: 'minimizing'
         }
       }
     })
-    setFocusedWindowId((current) => (current === id ? null : current))
   }, [])
 
   // Maximiza cobrindo 100% da tela abaixo da MenuBar (e cobrindo o Dock)
