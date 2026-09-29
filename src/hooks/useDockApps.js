@@ -5,15 +5,25 @@ import { playSnap } from '../utils/soundEffects'
 export const DEFAULT_DOCK_APPS = ['about', 'stack', 'experience', 'contact', 'projects']
 const DEFAULT_RIGHT_APPS = ['github', 'linkedin', 'email', 'theme']
 
+const DOCK_STORAGE_KEY = 'pedro-os-dock-pinned-v3'
+
 export function useDockApps() {
   const [dockAppIds, setDockAppIds] = useState(() => {
-    const saved = localStorage.getItem('pedro-os-dock-apps-v2') || localStorage.getItem('pedro-os-dock-apps')
+    // Remove chaves antigas que possam conter apps não fixados gravados por engano
+    try {
+      localStorage.removeItem('pedro-os-dock-apps-v2')
+      localStorage.removeItem('pedro-os-dock-apps')
+    } catch (e) {
+      /* ignore */
+    }
+
+    const saved = localStorage.getItem(DOCK_STORAGE_KEY)
     if (saved) {
       try {
         const parsed = JSON.parse(saved)
-        if (Array.isArray(parsed)) {
-          const filtered = parsed.filter((id) => id !== 'resume' && id !== 'status-check')
-          return filtered.length > 0 ? filtered : DEFAULT_DOCK_APPS
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          const cleaned = parsed.filter((id) => id !== 'resume' && id !== 'status-check')
+          return cleaned.length > 0 ? cleaned : DEFAULT_DOCK_APPS
         }
       } catch (e) {
         /* ignore */
@@ -35,8 +45,7 @@ export function useDockApps() {
   })
 
   useEffect(() => {
-    localStorage.setItem('pedro-os-dock-apps-v2', JSON.stringify(dockAppIds))
-    localStorage.setItem('pedro-os-dock-apps', JSON.stringify(dockAppIds))
+    localStorage.setItem(DOCK_STORAGE_KEY, JSON.stringify(dockAppIds))
   }, [dockAppIds])
 
   useEffect(() => {

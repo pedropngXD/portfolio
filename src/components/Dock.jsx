@@ -125,8 +125,9 @@ export default function Dock({
 
         if (targetIndex !== index) {
           if (sectionType === 'left') {
-            const next = arrayMove(effectiveAppIds, index, targetIndex)
-            onReorderLeft && onReorderLeft(next)
+            const reordered = arrayMove(effectiveAppIds, index, targetIndex)
+            const nextPinned = reordered.filter((id) => dockAppIds.includes(id))
+            onReorderLeft && onReorderLeft(nextPinned)
           } else if (sectionType === 'right') {
             const next = arrayMove(dockRightIds, index, targetIndex)
             onReorderRight && onReorderRight(next)
