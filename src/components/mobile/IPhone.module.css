@@ -8,7 +8,9 @@
   height: 100dvh;
   position: relative;
   overflow: hidden;
-  background: radial-gradient(circle at 50% 15%, #1e1b4b 0%, #0f172a 45%, #020617 100%);
+  background:
+    radial-gradient(circle at 85% 45%, rgba(217, 119, 6, 0.16) 0%, transparent 48%),
+    radial-gradient(circle at 50% 15%, #1e1b4b 0%, #0f172a 45%, #020617 100%);
   color: #ffffff;
   display: flex;
   flex-direction: column;
@@ -164,60 +166,79 @@
   background: rgba(255, 255, 255, 0.2);
 }
 
-/* WIDGET SUPERIOR ELEGANTE (BANNER DUPLO) */
-.widgetsArea {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.85rem;
-  margin-bottom: 0.85rem;
+/* WIDGET SUPERIOR: SOBRE MIM (CARD ÚNICO EXPANDIDO ESTILO iOS) */
+.profileWidgetCard {
   width: 100%;
-  box-sizing: border-box;
-}
-
-.widgetCard {
   min-width: 0;
-  background: rgba(28, 28, 44, 0.75) !important;
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border: 1px solid rgba(255, 255, 255, 0.12) !important;
-  border-radius: 22px !important;
-  padding: 0.95rem;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.22);
+  height: 142px;
+  background: rgba(24, 24, 36, 0.8) !important;
+  backdrop-filter: blur(28px);
+  -webkit-backdrop-filter: blur(28px);
+  border: 1px solid rgba(255, 255, 255, 0.14) !important;
+  border-radius: 24px !important;
+  padding: 1.05rem 1.15rem;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.22);
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  height: 136px;
   box-sizing: border-box;
   text-align: left;
   cursor: pointer;
   transition: transform 0.18s ease, border-color 0.18s ease;
   overflow: hidden;
   position: relative;
+  margin-bottom: 0.85rem;
 }
 
-.widgetCard:active {
-  transform: scale(0.96);
+.profileWidgetCard:active {
+  transform: scale(0.98);
 }
 
-.widgetAvatar {
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
+.profileWidgetAvatar {
+  width: 52px;
+  height: 52px;
+  border-radius: 16px;
   border: 2px solid rgba(168, 85, 247, 0.6);
-  box-shadow: 0 4px 12px rgba(168, 85, 247, 0.3);
+  box-shadow: 0 4px 14px rgba(168, 85, 247, 0.35);
   overflow: hidden;
   flex-shrink: 0;
   position: relative;
   background: #1e1b4b;
 }
 
-.widgetAvatar img {
+.profileWidgetAvatar img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   object-position: center 36%;
   transform: scale(1.75);
   transform-origin: 47% 38%;
+}
+
+.profileWidgetBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.28rem 0.65rem;
+  border-radius: 9999px;
+  background: rgba(16, 185, 129, 0.18);
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  color: #34d399;
+  font-size: 0.7rem;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.profileTechPill {
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 9px;
+  padding: 0.26rem 0.55rem;
+  font-size: 0.72rem;
+  font-family: ui-monospace, SFMono-Regular, monospace;
+  font-weight: 600;
+  color: #ffffff;
+  text-align: center;
 }
 
 /* ========================================================
@@ -516,25 +537,30 @@
   background: rgba(255, 255, 255, 0.35);
 }
 
+/* ========================================================
+   DOCK INFERIOR ESTILO iOS (FROSTED GLASS FLUTUANTE)
+   Ajustado com espaço mínimo entre os apps e a borda
+   ======================================================== */
 .dockContainer {
-  width: 100%;
-  background: rgba(255, 255, 255, 0.16) !important;
-  backdrop-filter: blur(32px);
-  -webkit-backdrop-filter: blur(32px);
-  border: 1px solid rgba(255, 255, 255, 0.25) !important;
-  border-radius: 35px !important;
-  padding: 0.75rem 1.25rem;
-  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.35);
+  width: calc(100% - 1.8rem);
+  max-width: 308px;
+  margin: 0.35rem auto 0 auto;
+  background: rgba(255, 255, 255, 0.11) !important;
+  backdrop-filter: blur(35px) saturate(180%);
+  -webkit-backdrop-filter: blur(35px) saturate(180%);
+  border: 0.5px solid rgba(255, 255, 255, 0.16) !important;
+  border-radius: 22px !important;
+  padding: 0.45rem 0.55rem !important;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35), inset 0 0.5px 0 rgba(255, 255, 255, 0.22) !important;
   display: flex;
   align-items: center;
-  justify-content: space-around;
+  justify-content: space-between;
   box-sizing: border-box;
-  margin-top: 0.35rem;
 }
 
 .dockIconWrapper {
-  width: 56px;
-  height: 56px;
+  width: 58px;
+  height: 58px;
   border-radius: 22.5% !important;
   display: flex;
   align-items: center;
@@ -545,11 +571,12 @@
   padding: 0;
   transition: transform 0.15s cubic-bezier(0.2, 0.8, 0.2, 1);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.45),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.25),
-    0 8px 18px -2px rgba(0, 0, 0, 0.45);
-  border: 0.5px solid rgba(255, 255, 255, 0.2);
+    inset 0 1px 0 rgba(255, 255, 255, 0.35),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.2),
+    0 6px 16px -2px rgba(0, 0, 0, 0.4);
+  border: 0.5px solid rgba(255, 255, 255, 0.15);
   overflow: visible;
+  flex-shrink: 0;
 }
 
 .dockIconWrapper:active {
@@ -561,7 +588,7 @@
   height: 4.5px;
   border-radius: 9999px;
   background: rgba(255, 255, 255, 0.65) !important;
-  margin: 0.5rem auto 0 auto;
+  margin: 0.4rem auto 0 auto;
   border: none !important;
   cursor: pointer;
   transition: all 0.15s ease;
@@ -641,10 +668,32 @@
   text-shadow: 0 1px 2px rgba(255, 255, 255, 0.85);
 }
 
+
+:global([data-theme="light"]) .profileWidgetCard {
+  background: rgba(255, 255, 255, 0.8) !important;
+  border-color: rgba(0, 0, 0, 0.08) !important;
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.9) !important;
+}
+
+:global([data-theme="light"]) .profileWidgetCard h2 {
+  color: #0f172a !important;
+}
+
+:global([data-theme="light"]) .profileWidgetCard p {
+  color: #475569 !important;
+}
+
+:global([data-theme="light"]) .profileTechPill {
+  background: rgba(0, 0, 0, 0.05);
+  border-color: rgba(0, 0, 0, 0.08);
+  color: #1e293b;
+}
+
 :global([data-theme="light"]) .dockContainer {
-  background: rgba(255, 255, 255, 0.65) !important;
-  border-color: rgba(255, 255, 255, 0.8) !important;
-  box-shadow: 0 16px 36px rgba(0, 0, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.9) !important;
+  background: rgba(255, 255, 255, 0.42) !important;
+  border-color: rgba(255, 255, 255, 0.6) !important;
+  border-radius: 22px !important;
+  box-shadow: 0 10px 28px rgba(0, 0, 0, 0.08), inset 0 0.5px 0 rgba(255, 255, 255, 0.85) !important;
 }
 
 :global([data-theme="light"]) .homeIndicatorBar {

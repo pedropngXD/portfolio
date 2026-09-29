@@ -240,18 +240,20 @@ export default function IPhoneHomeScreen({
           </button>
         )}
       </header>
+
       {/* ========================================================
-          WIDGETS SUPERIORES ESTILO iOS (2 CARDS LADO A LADO)
+          WIDGET SUPERIOR: SOBRE MIM (CARD ÚNICO EXPANDIDO ESTILO iOS)
           ======================================================== */}
-      <section className={styles.widgetsArea}>
-        {/* Widget 1: Card de Perfil & Status */}
-        <button
-          type="button"
-          onClick={() => onOpenApp('about')}
-          className={styles.widgetCard}
-        >
-          <div className="flex items-center gap-2.5 min-w-0">
-            <div className={styles.widgetAvatar}>
+      <button
+        type="button"
+        onClick={() => onOpenApp('about')}
+        className={styles.profileWidgetCard}
+        title={isEn ? 'Tap to view full profile' : 'Toque para ver perfil completo'}
+      >
+        {/* Linha Superior: Foto de perfil, Nome, Cargo e Badge Disponível */}
+        <div className="flex items-center justify-between gap-3 w-full">
+          <div className="flex items-center gap-3.5 min-w-0 flex-1">
+            <div className={styles.profileWidgetAvatar}>
               <img
                 src={ABOUT_DATA.avatarUrl || '/profile.jpg'}
                 alt={ABOUT_DATA.name}
@@ -260,51 +262,46 @@ export default function IPhoneHomeScreen({
                 }}
               />
             </div>
-            <div className="min-w-0 flex-1">
-              <h2 className={styles.widgetName}>{ABOUT_DATA.name}</h2>
-              <p className={styles.widgetRole}>
-                {isEn ? 'Junior Developer' : 'Dev Júnior'}
+            <div className="min-w-0 flex-1 text-left">
+              <div className="flex items-center gap-2">
+                <h2 className="font-bold text-[16px] text-white tracking-tight truncate">
+                  {ABOUT_DATA.name}
+                </h2>
+                <span className="text-[10px] text-purple-300 bg-purple-500/20 border border-purple-500/30 px-2 py-0.5 rounded-full font-semibold">
+                  Dev Júnior
+                </span>
+              </div>
+              <p className="text-[12.5px] text-neutral-300 truncate mt-1 font-medium">
+                {isEn ? 'Software Engineering • Unisinos' : 'Engenharia de Software • Unisinos'}
               </p>
             </div>
           </div>
 
-          <div className="min-w-0">
-            <div className={styles.widgetBadge}>
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse flex-shrink-0" />
-              <span className="truncate">{isEn ? 'Available' : 'Disponível'}</span>
-            </div>
-            <p className={styles.widgetSubInfo}>
-              {isEn ? 'ADS @ Unisinos • 7th sem' : 'ADS @ Unisinos • 7º sem'}
-            </p>
+          <div className={styles.profileWidgetBadge}>
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse flex-shrink-0" />
+            <span className="truncate">{isEn ? 'Available' : 'Disponível'}</span>
           </div>
-        </button>
+        </div>
 
-        {/* Widget 2: Card de Tecnologias / Stack */}
-        <button
-          type="button"
-          onClick={() => onOpenApp('stack')}
-          className={styles.widgetCard}
-        >
-          <div className="flex items-center justify-between min-w-0">
-            <span className="text-[11px] font-bold text-sky-400 uppercase tracking-wider truncate">
-              {isEn ? 'Tech Stack' : 'Stack'}
-            </span>
-            <span className="text-xs flex-shrink-0">⚡</span>
+        {/* Linha Divisória Sutil */}
+        <div className="w-full h-[1px] bg-white/10 my-3" />
+
+        {/* Linha Inferior: Stack Técnica & Call-to-action */}
+        <div className="flex items-center justify-between w-full min-w-0">
+          <div className="flex items-center gap-1.5 flex-wrap">
+            <span className={styles.profileTechPill}>PHP</span>
+            <span className={styles.profileTechPill}>React</span>
+            <span className={styles.profileTechPill}>SQL</span>
+            <span className={styles.profileTechPill}>Node</span>
+            <span className={styles.profileTechPill}>Vite</span>
           </div>
 
-          <div className={styles.stackPillGrid}>
-            <span className={styles.stackMiniPill}>PHP</span>
-            <span className={styles.stackMiniPill}>React</span>
-            <span className={styles.stackMiniPill}>SQL</span>
-            <span className={styles.stackMiniPill}>Node</span>
+          <div className="flex items-center gap-1 text-[12px] text-purple-400 font-semibold flex-shrink-0 ml-2">
+            <span>{isEn ? 'View bio' : 'Ver bio'}</span>
+            <span className="text-xs">↗</span>
           </div>
-
-          <div className="flex items-center justify-between text-[9px] text-neutral-400 font-medium min-w-0">
-            <span className="truncate">{isEn ? 'Tap to view' : 'Toque p/ ver'}</span>
-            <span className="flex-shrink-0">↗</span>
-          </div>
-        </button>
-      </section>
+        </div>
+      </button>
 
       {/* ========================================================
           GRADE DE APPS ESTILO iOS (2 FILEIRAS DE 4 APPS)
@@ -381,9 +378,10 @@ export default function IPhoneHomeScreen({
         </div>
       </section>
 
+
       {/* ========================================================
           DOCK INFERIOR ESTILO iOS (FROSTED GLASS FLUTUANTE)
-          4 Apps: GitHub, LinkedIn, Email e Tradutor/Configurações
+          Menor, mais transparente e com 4 aplicativos fixados
           ======================================================== */}
       <nav aria-label="iOS Dock" className={styles.dockContainer}>
         {dockItems.map((item) => (
@@ -398,7 +396,12 @@ export default function IPhoneHomeScreen({
               background: item.gradient
             }}
           >
-            <SystemIcon type={item.iconType} size={24} color="#ffffff" />
+            <SystemIcon type={item.iconType} size={28} color="#ffffff" />
+
+            {/* Badge de notificação 1 no e-mail (idêntico ao app de Mensagens no iPhone do Pedro) */}
+            {item.id === 'email' && (
+              <span className={styles.appBadgeNumber}>1</span>
+            )}
           </button>
         ))}
       </nav>
