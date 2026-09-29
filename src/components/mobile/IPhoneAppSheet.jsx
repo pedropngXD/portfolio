@@ -91,23 +91,21 @@ export default function IPhoneAppSheet({
         </div>
 
         {/* ========================================================
-            BARRA DE NAVEGAÇÃO SUPERIOR DO APP (iOS NAVBAR EQUILIBRADA)
+            BARRA DE NAVEGAÇÃO SUPERIOR DO APP (DESIGN SYSTEM pedroOS)
             ======================================================== */}
         <header
-          className={`w-full h-14 px-5 relative flex items-center justify-between border-b select-none cursor-grab active:cursor-grabbing flex-shrink-0 ${
+          className={`w-full h-14 px-4 relative flex items-center justify-between border-b select-none cursor-grab active:cursor-grabbing flex-shrink-0 ${
             theme === 'light' ? 'border-black/10' : 'border-white/10'
           }`}
           onPointerDown={handlePointerDown}
         >
-          {/* Esquerda: Botão de voltar para a Home Screen com chevron SVG */}
+          {/* Esquerda: Botão de voltar (apenas a setinha, posicionado mais para dentro da header) */}
           <button
             type="button"
             onClick={onClose}
-            className={`flex items-center gap-1 font-semibold text-sm transition-all cursor-pointer py-1.5 px-2 -ml-2 rounded-xl z-10 ${
-              theme === 'light'
-                ? 'text-sky-600 hover:text-sky-700 active:bg-black/5'
-                : 'text-sky-400 hover:text-sky-300 active:bg-white/10'
-            }`}
+            className={styles.sheetHomeBtn}
+            title={isEn ? 'Back' : 'Voltar'}
+            aria-label={isEn ? 'Back' : 'Voltar'}
           >
             <svg
               width="18"
@@ -118,85 +116,26 @@ export default function IPhoneAppSheet({
               strokeWidth="2.5"
               strokeLinecap="round"
               strokeLinejoin="round"
-              className="flex-shrink-0"
+              className="flex-shrink-0 -translate-x-[1px]"
             >
               <polyline points="15 18 9 12 15 6" />
             </svg>
-            <span>{isEn ? 'Home' : 'Início'}</span>
           </button>
 
           {/* Centro: Título do app matematicamente centralizado na tela */}
-          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center gap-2 max-w-[50%] truncate pointer-events-none z-0">
+          <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center gap-2 max-w-[60%] truncate pointer-events-none z-0">
             <SystemIcon
               type={section.iconType}
               size={18}
               color={section.accentColor || '#38bdf8'}
             />
-            <h1 className={`font-bold text-sm truncate ${theme === 'light' ? 'text-slate-900' : 'text-white'}`}>{title}</h1>
+            <h1 className={`font-bold text-sm truncate ${theme === 'light' ? 'text-slate-900' : 'text-white'}`}>
+              {title}
+            </h1>
           </div>
 
-          {/* Direita: Controles circulares uniformes e perfeitamente alinhados */}
-          <div className="flex items-center gap-2 z-10">
-            {onToggleTheme && (
-              <button
-                type="button"
-                onClick={onToggleTheme}
-                title={
-                  theme === 'dark'
-                    ? isEn
-                      ? 'Switch to Light Mode'
-                      : 'Modo Claro'
-                    : isEn
-                    ? 'Switch to Dark Mode'
-                    : 'Modo Escuro'
-                }
-                className={`w-8 h-8 rounded-full active:scale-90 flex items-center justify-center text-xs transition-all cursor-pointer border shadow-sm ${
-                  theme === 'light'
-                    ? 'bg-black/5 hover:bg-black/10 text-slate-800 border-black/10'
-                    : 'bg-white/10 hover:bg-white/20 text-white border-white/10'
-                }`}
-              >
-                <span>{theme === 'dark' ? '☀️' : '🌙'}</span>
-              </button>
-            )}
-
-            <button
-              type="button"
-              onClick={onOpenAppSwitcher}
-              title={isEn ? 'Tabs / Multitask' : 'Abas / Multitarefa'}
-              className={`w-8 h-8 rounded-full active:scale-90 flex items-center justify-center text-xs font-bold transition-all cursor-pointer border shadow-sm ${
-                theme === 'light'
-                  ? 'bg-black/5 hover:bg-black/10 text-slate-800 border-black/10'
-                  : 'bg-white/10 hover:bg-white/20 text-white border-white/10'
-              }`}
-            >
-              <span>{openAppsCount}</span>
-            </button>
-
-            <button
-              type="button"
-              onClick={onClose}
-              title={isEn ? 'Close app' : 'Fechar app'}
-              className={`w-8 h-8 rounded-full active:scale-90 flex items-center justify-center text-xs font-bold transition-all cursor-pointer border shadow-sm ${
-                theme === 'light'
-                  ? 'bg-black/5 hover:bg-black/10 text-slate-700 hover:text-slate-900 border-black/10'
-                  : 'bg-white/10 hover:bg-white/20 text-white/80 hover:text-white border-white/10'
-              }`}
-            >
-              <svg
-                width="12"
-                height="12"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2.5"
-                strokeLinecap="round"
-              >
-                <line x1="18" y1="6" x2="6" y2="18" />
-                <line x1="6" y1="6" x2="18" y2="18" />
-              </svg>
-            </button>
-          </div>
+          {/* Direita: Espaçador equilibrado para manter o título perfeitamente centralizado */}
+          <div className="w-[36px] mr-[0.65rem] flex-shrink-0 pointer-events-none" aria-hidden="true" />
         </header>
 
         {/* ========================================================
