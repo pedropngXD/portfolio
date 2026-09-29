@@ -121,3 +121,24 @@
   border: none;
   display: block;
 }
+
+@media (max-width: 640px) {
+  .browserBar {
+    gap: 0.5rem;
+    padding: 0.5rem;
+  }
+  
+  .barLeft {
+    min-width: 0;
+    flex: 1;
+  }
+  
+  .urlBar {
+    min-width: 0;
+    flex: 1;
+  }
+  
+  .barRight {
+    display: none;
+  }
+}

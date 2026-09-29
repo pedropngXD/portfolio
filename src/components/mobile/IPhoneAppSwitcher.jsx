@@ -243,7 +243,7 @@ function SwipeableCard({ appId, section, title, isActive, gradient, theme, isEn,
         </div>
         {renderContentForSection ? (
           <div className="absolute top-0 left-0 w-[125%] h-[130%] origin-top-left pointer-events-none select-none pt-12 px-7 sm:px-10 flex flex-col items-center" style={{ transform: 'scale(0.8)' }}>
-            <div className="w-full max-w-[350px] sm:max-w-[400px] flex flex-col">
+            <div className="w-full max-w-[350px] sm:max-w-[400px] flex flex-col flex-1">
               {renderContentForSection(appId)}
             </div>
           </div>

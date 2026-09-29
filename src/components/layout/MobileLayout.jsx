@@ -99,6 +99,8 @@ export default function MobileLayout({
             onCloseApp={handleCloseTab}
             onCloseAll={handleCloseAllTabs}
             onDismiss={() => setIsAppSwitcherOpen(false)}
+            renderContentForSection={renderContentForSection}
+            theme={theme}
             lang={lang}
             t={t}
           />

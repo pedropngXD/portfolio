@@ -305,14 +305,14 @@ export default function IPhoneAppSheet({
               e.stopPropagation()
             }
           }}
-          className="flex-1 overflow-y-auto px-7 sm:px-10 pt-20 sm:pt-24 pb-28 overscroll-contain select-none cursor-grab active:cursor-grabbing touch-pan-y flex flex-col items-center"
+          className="flex-1 overflow-y-auto px-7 sm:px-10 pt-20 sm:pt-24 pb-8 overscroll-contain select-none cursor-grab active:cursor-grabbing touch-pan-y flex flex-col items-center"
           style={{
             WebkitOverflowScrolling: 'touch',
             scrollbarWidth: 'none',
             msOverflowStyle: 'none'
           }}
         >
-          <div className="w-full max-w-[350px] sm:max-w-[400px] flex flex-col">
+          <div className="w-full max-w-[350px] sm:max-w-[400px] flex flex-col flex-1">
             {renderContentForSection && renderContentForSection(appId)}
           </div>
         </main>

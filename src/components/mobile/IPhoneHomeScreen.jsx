@@ -37,6 +37,20 @@ export default function IPhoneHomeScreen({
 }) {
   const isEn = lang === 'en'
 
+  const defaultDockIds = ['github', 'linkedin', 'email', 'settings-translate']
+  const [dockOrderIds, setDockOrderIds] = useState(() => {
+    try {
+      const saved = localStorage.getItem('pedro-os-mobile-dock-order')
+      if (saved) {
+        const parsed = JSON.parse(saved)
+        const validIds = parsed.filter(id => defaultDockIds.includes(id) || id === 'settings-translate')
+        const missingIds = defaultDockIds.filter(id => !validIds.includes(id))
+        return [...validIds, ...missingIds].slice(0, 4)
+      }
+    } catch (err) {}
+    return defaultDockIds
+  })
+
   // Canais de contato para as ações da barra de tarefas inferior
   const githubChannel = CONTACT_CHANNELS.find((c) => c.id === 'github')
   const linkedinChannel = CONTACT_CHANNELS.find((c) => c.id === 'linkedin')
@@ -120,6 +134,94 @@ export default function IPhoneHomeScreen({
     }
     return SECTIONS
   })
+
+  // O estado do dock será gerenciado por dockOrderIds que já definimos no topo
+
+  const [dockDragState, setDockDragState] = useState(null)
+
+  const handleDockPointerDown = (e, index) => {
+    if (e.button !== 0 && e.pointerType === 'mouse') return
+
+    const startX = e.clientX
+    const startY = e.clientY
+    isDraggingRef.current = false
+    blockClickRef.current = false
+
+    const onPointerMove = (moveEvent) => {
+      const deltaX = moveEvent.clientX - startX
+      const deltaY = moveEvent.clientY - startY
+
+      if (!isDraggingRef.current && (Math.abs(deltaX) > 6 || Math.abs(deltaY) > 6)) {
+        isDraggingRef.current = true
+        blockClickRef.current = true
+      }
+
+      if (isDraggingRef.current) {
+        const el = document.elementFromPoint(moveEvent.clientX, moveEvent.clientY)
+        const targetAppEl = el?.closest('[data-dock-index]')
+        let currentOver = index
+        if (targetAppEl && targetAppEl.dataset.dockIndex !== undefined) {
+          const parsedIdx = parseInt(targetAppEl.dataset.dockIndex, 10)
+          if (!isNaN(parsedIdx)) {
+            currentOver = parsedIdx
+          }
+        }
+
+        setDockDragState({
+          dragIndex: index,
+          deltaX,
+          deltaY,
+          overIndex: currentOver
+        })
+      }
+    }
+
+    const onPointerUp = (upEvent) => {
+      window.removeEventListener('pointermove', onPointerMove)
+      window.removeEventListener('pointerup', onPointerUp)
+      window.removeEventListener('pointercancel', onPointerUp)
+
+      if (isDraggingRef.current) {
+        const el = document.elementFromPoint(upEvent.clientX, upEvent.clientY)
+        const targetAppEl = el?.closest('[data-dock-index]')
+        let targetIndex = index
+        if (targetAppEl && targetAppEl.dataset.dockIndex !== undefined) {
+          const parsedIdx = parseInt(targetAppEl.dataset.dockIndex, 10)
+          if (!isNaN(parsedIdx)) {
+            targetIndex = parsedIdx
+          }
+        }
+
+        if (targetIndex !== index) {
+          playToggle()
+          setDockOrderIds((prev) => {
+            const next = arrayMove(prev, index, targetIndex)
+            try {
+              localStorage.setItem(
+                'pedro-os-mobile-dock-order',
+                JSON.stringify(next)
+              )
+            } catch (err) {}
+            return next
+          })
+        }
+
+        setDockDragState(null)
+        setTimeout(() => {
+          blockClickRef.current = false
+          isDraggingRef.current = false
+        }, 80)
+      } else {
+        setDockDragState(null)
+        blockClickRef.current = false
+        isDraggingRef.current = false
+      }
+    }
+
+    window.addEventListener('pointermove', onPointerMove)
+    window.addEventListener('pointerup', onPointerUp)
+    window.addEventListener('pointercancel', onPointerUp)
+  }
 
   const [dragState, setDragState] = useState(null)
   const isDraggingRef = useRef(false)
@@ -316,24 +418,33 @@ export default function IPhoneHomeScreen({
             const isOverThis = dragState?.overIndex === index && !isDraggingThis
             const isAnyDragging = !!dragState
 
-            const itemStyle = isDraggingThis
-              ? {
-                  transform: `translate3d(${dragState.deltaX}px, ${dragState.deltaY}px, 0) scale(1.15)`,
-                  zIndex: 60,
-                  boxShadow: '0 20px 40px rgba(0, 0, 0, 0.55)',
-                  cursor: 'grabbing'
+            let itemStyle = {}
+            if (isDraggingThis) {
+              itemStyle = {
+                transform: `translate3d(${dragState.deltaX}px, ${dragState.deltaY}px, 0) scale(1.15)`,
+                zIndex: 60,
+                boxShadow: '0 20px 40px rgba(0, 0, 0, 0.55)',
+                cursor: 'grabbing'
+              }
+            } else if (dragState) {
+              const { dragIndex, overIndex } = dragState
+              let virtualIndex = index
+              if (dragIndex < overIndex && index > dragIndex && index <= overIndex) virtualIndex = index - 1
+              else if (dragIndex > overIndex && index >= overIndex && index < dragIndex) virtualIndex = index + 1
+              
+              if (virtualIndex !== index) {
+                const cellW = typeof window !== 'undefined' && window.innerWidth < 400 ? 76 : 88
+                const colDiff = (virtualIndex % 4) - (index % 4)
+                const rowDiff = Math.floor(virtualIndex / 4) - Math.floor(index / 4)
+                itemStyle = {
+                  transform: `translate3d(${colDiff * cellW}px, ${rowDiff * 102}px, 0)`,
+                  transition: 'transform 0.25s cubic-bezier(0.2, 0.9, 0.4, 1)',
+                  zIndex: 10
                 }
-              : isOverThis
-              ? {
-                  transform: 'scale(1.1)',
-                  zIndex: 10,
-                  transition: 'transform 0.2s cubic-bezier(0.2, 0.9, 0.4, 1)'
-                }
-              : isAnyDragging
-              ? {
-                  animationDelay: `${(index % 4) * 0.05}s`
-                }
-              : {}
+              } else if (isAnyDragging) {
+                itemStyle = { animationDelay: `${(index % 4) * 0.05}s` }
+              }
+            }
 
             return (
               <button
@@ -385,26 +496,71 @@ export default function IPhoneHomeScreen({
           Menor, mais transparente e com 4 aplicativos fixados
           ======================================================== */}
       <nav aria-label="iOS Dock" className={styles.dockContainer}>
-        {dockItems.map((item) => (
-          <button
-            key={item.id}
-            type="button"
-            onClick={item.onClick}
-            title={item.title}
-            aria-label={item.title}
-            className={styles.dockIconWrapper}
-            style={{
-              background: item.gradient
-            }}
-          >
-            <SystemIcon type={item.iconType} size={28} color="#ffffff" />
+        {dockOrderIds.map((itemId, index) => {
+          const item = dockItems.find((d) => d.id === itemId)
+          if (!item) return null
 
-            {/* Badge de notificação 1 no e-mail (idêntico ao app de Mensagens no iPhone do Pedro) */}
-            {item.id === 'email' && (
-              <span className={styles.appBadgeNumber}>1</span>
-            )}
-          </button>
-        ))}
+          const isDraggingThis = dockDragState?.dragIndex === index
+          const isOverThis = dockDragState?.overIndex === index && !isDraggingThis
+          const isAnyDragging = !!dockDragState
+
+          let itemStyle = { background: item.gradient }
+          if (isDraggingThis) {
+            itemStyle = {
+              transform: `translate3d(${dockDragState.deltaX}px, ${dockDragState.deltaY}px, 0) scale(1.15)`,
+              zIndex: 60,
+              boxShadow: '0 20px 40px rgba(0, 0, 0, 0.55)',
+              cursor: 'grabbing',
+              background: item.gradient
+            }
+          } else if (dockDragState) {
+            const { dragIndex, overIndex } = dockDragState
+            let virtualIndex = index
+            if (dragIndex < overIndex && index > dragIndex && index <= overIndex) virtualIndex = index - 1
+            else if (dragIndex > overIndex && index >= overIndex && index < dragIndex) virtualIndex = index + 1
+            
+            if (virtualIndex !== index) {
+              const diff = virtualIndex - index
+              const cellW = typeof window !== 'undefined' && window.innerWidth < 400 ? 68 : 74
+              itemStyle = {
+                transform: `translate3d(${diff * cellW}px, 0, 0)`,
+                transition: 'transform 0.25s cubic-bezier(0.2, 0.9, 0.4, 1)',
+                zIndex: 10,
+                background: item.gradient
+              }
+            } else if (isAnyDragging) {
+              itemStyle.animationDelay = `${(index % 4) * 0.05}s`
+            }
+          }
+
+          return (
+            <button
+              key={item.id}
+              type="button"
+              data-dock-index={index}
+              onPointerDown={(e) => handleDockPointerDown(e, index)}
+              onClick={(e) => {
+                if (blockClickRef.current) {
+                  e.preventDefault()
+                  e.stopPropagation()
+                  return
+                }
+                item.onClick()
+              }}
+              title={item.title}
+              aria-label={item.title}
+              className={`${styles.dockIconWrapper} ${isDraggingThis ? styles.appItemDragging : ''} ${isOverThis ? styles.appItemOver : ''} ${isAnyDragging && !isDraggingThis ? styles.appItemJiggle : ''}`}
+              style={itemStyle}
+            >
+              <SystemIcon type={item.iconType} size={28} color="#ffffff" />
+
+              {/* Badge de notificação 1 no e-mail */}
+              {item.id === 'email' && (
+                <span className={styles.appBadgeNumber}>1</span>
+              )}
+            </button>
+          )
+        })}
       </nav>
 
       {/* ========================================================
@@ -419,3 +575,6 @@ export default function IPhoneHomeScreen({
     </div>
   )
 }
+
+
+
