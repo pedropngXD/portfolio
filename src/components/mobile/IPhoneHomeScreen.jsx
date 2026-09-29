@@ -1,4 +1,4 @@
-import IPhoneAppIcon from './IPhoneAppIcon'
+import SystemIcon from '../SystemIcon'
 import { SECTIONS } from '../../data/sections'
 import { ABOUT_DATA } from '../../data/about'
 import { CONTACT_CHANNELS } from '../../data/contact'
@@ -21,6 +21,8 @@ export default function IPhoneHomeScreen({
   lang = 'pt',
   onToggleLang,
   onNotify,
+  theme = 'dark',
+  onToggleTheme,
   t
 }) {
   const isEn = lang === 'en'
@@ -35,6 +37,7 @@ export default function IPhoneHomeScreen({
   const dockItems = [
     {
       id: 'github',
+      iconType: 'github',
       title: 'GitHub',
       gradient: 'linear-gradient(180deg, #24292f 0%, #0d1117 100%)',
       onClick: () => {
@@ -45,6 +48,7 @@ export default function IPhoneHomeScreen({
     },
     {
       id: 'linkedin',
+      iconType: 'linkedin',
       title: 'LinkedIn',
       gradient: 'linear-gradient(180deg, #0a66c2 0%, #004182 100%)',
       onClick: () => {
@@ -55,6 +59,7 @@ export default function IPhoneHomeScreen({
     },
     {
       id: 'email',
+      iconType: 'mail',
       title: isEn ? 'Email (pgpmoser@gmail.com)' : 'E-mail (pgpmoser@gmail.com)',
       gradient: 'linear-gradient(180deg, #0a84ff 0%, #0056b3 100%)',
       onClick: () => {
@@ -72,6 +77,7 @@ export default function IPhoneHomeScreen({
     },
     {
       id: 'settings-translate',
+      iconType: 'translate',
       title: isEn ? 'Mudar idioma para Português (PT)' : 'Translate all to English (EN)',
       gradient: 'linear-gradient(180deg, #007aff 0%, #4338ca 100%)',
       onClick: () => {
@@ -90,6 +96,29 @@ export default function IPhoneHomeScreen({
 
   return (
     <div className={styles.homeScreen}>
+      {/* ========================================================
+          CABEÇALHO DA TELA DE INÍCIO COM BOTÃO DE MODO CLARO / ESCURO
+          ======================================================== */}
+      <header className={styles.homeHeader}>
+        <span className={styles.homeBrand}>pedroOS</span>
+        {onToggleTheme && (
+          <button
+            type="button"
+            onClick={onToggleTheme}
+            className={styles.themeTogglePill}
+            aria-label={theme === 'dark' ? (isEn ? 'Switch to Light Mode' : 'Modo Claro') : (isEn ? 'Switch to Dark Mode' : 'Modo Escuro')}
+          >
+            <SystemIcon
+              type={theme === 'dark' ? 'sun' : 'moon'}
+              size={14}
+              color={theme === 'dark' ? '#fbbf24' : '#6366f1'}
+            />
+            <span>
+              {theme === 'dark' ? (isEn ? 'Light Mode' : 'Modo Claro') : (isEn ? 'Dark Mode' : 'Modo Escuro')}
+            </span>
+          </button>
+        )}
+      </header>
       {/* ========================================================
           WIDGETS SUPERIORES ESTILO iOS (2 CARDS LADO A LADO)
           ======================================================== */}
@@ -179,7 +208,7 @@ export default function IPhoneHomeScreen({
                     background: gradient
                   }}
                 >
-                  <IPhoneAppIcon appId={section.id} size={32} />
+                  <SystemIcon type={section.iconType} size={28} color="#ffffff" />
 
                   {/* Badges de notificação iOS */}
                   {section.id === 'readme' && (
@@ -199,14 +228,6 @@ export default function IPhoneHomeScreen({
       </section>
 
       {/* ========================================================
-          INDICADOR DE PÁGINAS (PONTINHOS iOS)
-          ======================================================== */}
-      <div className={styles.pageDots}>
-        <span className={styles.dotActive} />
-        <span className={styles.dotInactive} />
-      </div>
-
-      {/* ========================================================
           DOCK INFERIOR ESTILO iOS (FROSTED GLASS FLUTUANTE)
           4 Apps: GitHub, LinkedIn, Email e Tradutor/Configurações
           ======================================================== */}
@@ -223,7 +244,7 @@ export default function IPhoneHomeScreen({
               background: item.gradient
             }}
           >
-            <IPhoneAppIcon appId={item.id} size={30} />
+            <SystemIcon type={item.iconType} size={24} color="#ffffff" />
           </button>
         ))}
       </nav>
