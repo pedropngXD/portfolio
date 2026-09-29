@@ -28,6 +28,7 @@ export default function VolumeControl({
   }, [isOpen])
 
   const sys = t?.system || {}
+  const isEn = sys.langLabel === 'EN'
   const volumePercent = isMuted ? 0 : Math.round(volume * 100)
 
   const handleVolumeWheel = (e) => {
@@ -47,13 +48,13 @@ export default function VolumeControl({
         onClick={() => setIsOpen((prev) => !prev)}
         onWheel={handleVolumeWheel}
         title={`${sys.systemVolume || 'Volume'}: ${volumePercent}%`}
-        aria-label="Controle de volume do sistema"
+        aria-label={sys.systemVolume || (isEn ? 'System volume' : 'Controle de volume do sistema')}
       >
         <MacSpeakerIcon volume={volume} isMuted={isMuted} size={15} />
       </button>
 
       {isOpen && (
-        <div className={styles.volumePopover} role="dialog" aria-label="Ajuste de volume">
+        <div className={styles.volumePopover} role="dialog" aria-label={sys.systemVolume || (isEn ? 'Volume settings' : 'Ajuste de volume')}>
           <div className={styles.popoverHeader}>
             <span>{sys.systemVolume || 'Som'}</span>
             <span className={styles.popoverValue}>
@@ -73,7 +74,7 @@ export default function VolumeControl({
               value={volumePercent}
               onChange={(e) => onSetVolume && onSetVolume(parseInt(e.target.value, 10) / 100)}
               className={styles.capsuleInput}
-              aria-label="Nível de volume"
+              aria-label={isEn ? 'Volume level' : 'Nível de volume'}
             />
           </div>
 

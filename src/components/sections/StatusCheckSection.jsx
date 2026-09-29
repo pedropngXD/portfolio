@@ -1,9 +1,12 @@
 import { useState } from 'react'
 import styles from './StatusCheckSection.module.css'
 
-export default function StatusCheckSection() {
+export default function StatusCheckSection({ t }) {
   const [reloadKey, setReloadKey] = useState(0)
   const url = 'https://status-check-eosin.vercel.app'
+  const isEn = t?.system?.langLabel === 'EN'
+  const sys = t?.system || {}
+  const statusData = t?.statusCheck || {}
 
   const handleReload = () => {
     setReloadKey((prev) => prev + 1)
@@ -16,7 +19,7 @@ export default function StatusCheckSection() {
         <div className={styles.barLeft}>
           <div className={styles.statusIndicator}>
             <span className={styles.statusDot} />
-            <span>Online</span>
+            <span>{statusData.online || 'Online'}</span>
           </div>
 
           <div className={styles.urlBar} title={url}>
@@ -30,10 +33,10 @@ export default function StatusCheckSection() {
             type="button"
             className={styles.actionButton}
             onClick={handleReload}
-            title="Recarregar aplicação"
+            title={statusData.reloadTitle || (isEn ? 'Reload application' : 'Recarregar aplicação')}
           >
             <span>🔄</span>
-            <span>Recarregar</span>
+            <span>{statusData.reload || (isEn ? 'Reload' : 'Recarregar')}</span>
           </button>
 
           <a
@@ -41,10 +44,9 @@ export default function StatusCheckSection() {
             target="_blank"
             rel="noopener noreferrer"
             className={styles.actionButton}
-            title="Abrir diretamente em uma nova aba do navegador"
+            title={statusData.openTitle || (isEn ? 'Open directly in a new browser tab' : 'Abrir diretamente em uma nova aba do navegador')}
           >
-            <span>Abrir no Navegador</span>
-            <span>↗</span>
+            <span>{sys.openInBrowser || (isEn ? 'Open in Browser ↗' : 'Abrir no Navegador ↗')}</span>
           </a>
         </div>
       </div>

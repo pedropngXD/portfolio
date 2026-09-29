@@ -1,10 +1,7 @@
-import { useState } from 'react'
 import { RESUME_METADATA } from '../../data/resume'
 import styles from './ResumeSection.module.css'
 
 export default function ResumeSection({ language = 'pt' }) {
-  const [reloadKey, setReloadKey] = useState(0)
-
   const isEn = language === 'en'
   const fileName = isEn ? RESUME_METADATA.fileNameEn : RESUME_METADATA.fileNamePt
   const pdfSource = `${RESUME_METADATA.pdfUrl}#view=FitH`
@@ -46,7 +43,6 @@ export default function ResumeSection({ language = 'pt' }) {
       {/* Visualizador de PDF embutido diretamente na janela do sistema */}
       <div className={styles.viewerWrapper}>
         <object
-          key={reloadKey}
           data={pdfSource}
           type="application/pdf"
           className={styles.pdfFrame}

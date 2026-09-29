@@ -35,7 +35,7 @@ export default function MenuBar({
           <span>{sys.brand || 'pedroOs'}</span>
         </div>
 
-        <nav aria-label="Navegação do sistema">
+        <nav aria-label={lang === 'pt' ? 'Navegação do sistema' : 'System navigation'}>
           {SECTIONS.filter((section) => !['readme', 'resume', 'status-check'].includes(section.id)).map((section) => {
             const isFocused = focusedWindowId === section.id
             const isOpen = openWindowIds.includes(section.id)
@@ -83,7 +83,7 @@ export default function MenuBar({
           className={styles.statusItem}
           onClick={onToggleLang}
           title={lang === 'pt' ? 'Switch to English (US)' : 'Mudar para Português (BR)'}
-          aria-label="Alternar idioma do sistema"
+          aria-label={lang === 'pt' ? 'Alternar idioma do sistema' : 'Toggle system language'}
         >
           <svg
             width="13"

@@ -27,6 +27,8 @@ export default function WifiControl({ t }) {
     return () => window.removeEventListener('mousedown', handleOutsideClick)
   }, [isOpen])
 
+  const isEn = t?.system?.langLabel === 'EN'
+
   return (
     <div className={styles.wifiWrapper} ref={wrapperRef}>
       <button
@@ -36,7 +38,7 @@ export default function WifiControl({ t }) {
         title={
           isEnabled
             ? `Wi-Fi: ${CONNECTED_WIFI.name} (${CONNECTED_WIFI.speed})`
-            : t?.wifi?.disconnected || 'Wi-Fi Desconectado'
+            : t?.wifi?.disconnected || (isEn ? 'Wi-Fi Disconnected' : 'Wi-Fi Desconectado')
         }
         aria-label="Wi-Fi"
       >
@@ -44,7 +46,7 @@ export default function WifiControl({ t }) {
       </button>
 
       {isOpen && (
-        <div className={styles.wifiPopover} role="dialog" aria-label="Ajustes de Wi-Fi">
+        <div className={styles.wifiPopover} role="dialog" aria-label={t?.wifi?.networkSettings || (isEn ? 'Wi-Fi Settings' : 'Ajustes de Wi-Fi')}>
           <div className={styles.popoverHeader}>
             <span>{t?.wifi?.title || 'Wi-Fi'}</span>
             <button
@@ -54,8 +56,8 @@ export default function WifiControl({ t }) {
                 playToggle()
                 setIsEnabled((prev) => !prev)
               }}
-              title={isEnabled ? t?.wifi?.turnOff || 'Desativar Wi-Fi' : t?.wifi?.turnOn || 'Ativar Wi-Fi'}
-              aria-label="Alternar Wi-Fi"
+              title={isEnabled ? t?.wifi?.turnOff || (isEn ? 'Turn Wi-Fi Off' : 'Desativar Wi-Fi') : t?.wifi?.turnOn || (isEn ? 'Turn Wi-Fi On' : 'Ativar Wi-Fi')}
+              aria-label={isEn ? 'Toggle Wi-Fi' : 'Alternar Wi-Fi'}
             >
               <span className={styles.switchKnob} />
             </button>
@@ -73,11 +75,11 @@ export default function WifiControl({ t }) {
                     {CONNECTED_WIFI.speed} • {CONNECTED_WIFI.band}
                   </span>
                   <span className={styles.networkMeta}>
-                    {t?.wifi?.privateIp || 'IP Local'}: {CONNECTED_WIFI.ip}
+                    {t?.wifi?.privateIp || (isEn ? 'Local IP' : 'IP Local')}: {CONNECTED_WIFI.ip}
                   </span>
                 </div>
               </div>
-              <span className={styles.connectedCheck} title="Conexão ativa">
+              <span className={styles.connectedCheck} title={isEn ? 'Active connection' : 'Conexão ativa'}>
                 ✓
               </span>
             </div>

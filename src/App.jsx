@@ -247,7 +247,7 @@ export default function App() {
         icon: '📋',
         onClick: () => {
           navigator.clipboard.writeText(section.externalUrl)
-          showNotification({ title: secTitle, message: 'Link copiado!', icon: '📋' })
+          showNotification({ title: secTitle, message: sys.linkCopied || (language === 'pt' ? 'Link copiado!' : 'Link copied!'), icon: '📋' })
         }
       })
     }

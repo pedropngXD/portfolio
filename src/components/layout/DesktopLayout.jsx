@@ -159,6 +159,7 @@ export default function DesktopLayout({
               onFocus={onFocusWindow}
               onMove={onMoveWindow}
               onResize={onResizeWindow}
+              t={t}
             >
               {renderContentForSection(section.id)}
             </Window>

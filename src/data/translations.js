@@ -34,7 +34,14 @@ export const TRANSLATIONS = {
       systemVolume: 'Volume do Sistema',
       mute: 'Silenciar',
       unmute: 'Ativar som',
-      testSound: 'Testar som'
+      testSound: 'Testar som',
+      closeWindow: 'Fechar janela',
+      minimizeWindow: 'Minimizar janela',
+      maximizeWindow: 'Maximizar janela',
+      restoreWindow: 'Restaurar tamanho',
+      dockAria: 'Barra de tarefas',
+      desktopAria: 'Atalhos da Área de Trabalho',
+      linkCopied: 'Link copiado para a área de transferência!'
     },
     sections: {
       readme: {
@@ -260,6 +267,22 @@ export const TRANSLATIONS = {
       networkSettings: 'Ajustes de Rede...',
       turnOff: 'Desativar Wi-Fi',
       turnOn: 'Ativar Wi-Fi'
+    },
+    statusCheck: {
+      online: 'Online',
+      reload: 'Recarregar',
+      reloadTitle: 'Recarregar aplicação',
+      openTitle: 'Abrir diretamente em uma nova aba do navegador'
+    },
+    mobile: {
+      brand: 'Pedro • Mobile',
+      underConstruction: 'Em Construção',
+      title: 'Sistema mobile em construção',
+      description: 'A experiência mobile dedicada e adaptada para smartphones e telas verticais está em construção.',
+      notice: '💡 Para acessar o sistema operacional completo com janelas, efeitos sonoros e dock, visite este portfólio através de um computador ou desktop.',
+      directContacts: 'Contatos Diretos',
+      sendEmail: 'Enviar E-mail',
+      copy: 'Copiar'
     }
   },
   en: {
@@ -294,7 +317,14 @@ export const TRANSLATIONS = {
       systemVolume: 'System Volume',
       mute: 'Mute',
       unmute: 'Unmute',
-      testSound: 'Test sound'
+      testSound: 'Test sound',
+      closeWindow: 'Close window',
+      minimizeWindow: 'Minimize window',
+      maximizeWindow: 'Maximize window',
+      restoreWindow: 'Restore size',
+      dockAria: 'Taskbar',
+      desktopAria: 'Desktop Shortcuts',
+      linkCopied: 'Link copied to clipboard!'
     },
     sections: {
       readme: {
@@ -518,6 +548,22 @@ export const TRANSLATIONS = {
       networkSettings: 'Network Settings...',
       turnOff: 'Turn Wi-Fi Off',
       turnOn: 'Turn Wi-Fi On'
+    },
+    statusCheck: {
+      online: 'Online',
+      reload: 'Reload',
+      reloadTitle: 'Reload application',
+      openTitle: 'Open directly in a new browser tab'
+    },
+    mobile: {
+      brand: 'Pedro • Mobile',
+      underConstruction: 'Under Construction',
+      title: 'Mobile version under construction',
+      description: 'The dedicated mobile experience tailored for smartphones and vertical screens is under construction.',
+      notice: '💡 To explore the full operating system experience with floating windows and dock, please visit this portfolio on a desktop computer.',
+      directContacts: 'Direct Contacts',
+      sendEmail: 'Send Email',
+      copy: 'Copy'
     }
   }
 }

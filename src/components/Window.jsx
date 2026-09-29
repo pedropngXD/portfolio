@@ -22,6 +22,7 @@ export default function Window({
   onFocus,
   onMove,
   onResize,
+  t,
   children
 }) {
   const [isInteracting, setIsInteracting] = useState(false)
@@ -196,6 +197,14 @@ export default function Window({
   const maxTransitionClass = isMaximizingTransition ? styles.windowMaximizingTransition : ''
   const interactingClass = isInteracting ? styles.windowInteracting : ''
 
+  const sys = t?.system || {}
+  const isEn = sys.langLabel === 'EN'
+  const closeTitle = sys.closeWindow || (isEn ? 'Close window' : 'Fechar janela')
+  const minimizeTitle = sys.minimizeWindow || (isEn ? 'Minimize window' : 'Minimizar janela')
+  const maximizeTitle = isMaximized
+    ? (sys.restoreWindow || (isEn ? 'Restore size' : 'Restaurar tamanho'))
+    : (sys.maximizeWindow || (isEn ? 'Maximize window' : 'Maximizar janela'))
+
   return (
     <div
       className={`${styles.windowContainer} ${isMaximized ? styles.windowContainerMaximized : ''} ${maxTransitionClass} ${animClass} ${interactingClass}`}
@@ -226,8 +235,8 @@ export default function Window({
               e.stopPropagation()
               onClose && onClose(id)
             }}
-            title="Fechar janela"
-            aria-label="Fechar janela"
+            title={closeTitle}
+            aria-label={closeTitle}
           />
           <button
             type="button"
@@ -236,8 +245,8 @@ export default function Window({
               e.stopPropagation()
               onMinimize && onMinimize(id)
             }}
-            title="Minimizar janela"
-            aria-label="Minimizar janela"
+            title={minimizeTitle}
+            aria-label={minimizeTitle}
           />
           <button
             type="button"
@@ -246,8 +255,8 @@ export default function Window({
               e.stopPropagation()
               onMaximize && onMaximize(id)
             }}
-            title={isMaximized ? "Restaurar tamanho" : "Maximizar janela"}
-            aria-label="Maximizar ou restaurar janela"
+            title={maximizeTitle}
+            aria-label={maximizeTitle}
           />
         </div>
 

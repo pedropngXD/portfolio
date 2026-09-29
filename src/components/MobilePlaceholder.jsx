@@ -12,6 +12,7 @@ export default function MobilePlaceholder({
   t
 }) {
   const sys = t?.system || {}
+  const mob = t?.mobile || {}
 
   const githubChannel = CONTACT_CHANNELS.find((c) => c.id === 'github')
   const linkedinChannel = CONTACT_CHANNELS.find((c) => c.id === 'linkedin')
@@ -22,8 +23,8 @@ export default function MobilePlaceholder({
     navigator.clipboard.writeText(emailChannel.value).then(() => {
       playNotification()
       onNotify && onNotify({
-        title: sys.emailToastTitle || 'Área de Transferência',
-        message: sys.emailToastMessage || 'E-mail copiado para a área de transferência!',
+        title: sys.emailToastTitle || (lang === 'pt' ? 'Área de Transferência' : 'Clipboard'),
+        message: sys.emailToastMessage || (lang === 'pt' ? 'E-mail copiado para a área de transferência!' : 'Email copied to clipboard!'),
         icon: '📋'
       })
     })
@@ -45,7 +46,7 @@ export default function MobilePlaceholder({
       <header className={styles.header}>
         <div className={styles.brand}>
           <span className={styles.brandIcon} aria-hidden="true">📱</span>
-          <span>Pedro • Mobile</span>
+          <span>{mob.brand || 'Pedro • Mobile'}</span>
         </div>
 
         <div className={styles.headerActions}>
@@ -53,7 +54,7 @@ export default function MobilePlaceholder({
             type="button"
             className={styles.actionBtn}
             onClick={handleToggleLangInternal}
-            title={lang === 'pt' ? 'Mudar para Inglês' : 'Switch to Portuguese'}
+            title={lang === 'pt' ? (sys.switchLang || 'Mudar para Inglês') : (sys.switchLang || 'Switch to Portuguese')}
           >
             <span>{lang === 'pt' ? '🇧🇷 PT' : '🇺🇸 EN'}</span>
           </button>
@@ -61,7 +62,7 @@ export default function MobilePlaceholder({
             type="button"
             className={styles.actionBtn}
             onClick={handleToggleThemeInternal}
-            title={theme === 'dark' ? 'Modo Claro' : 'Modo Escuro'}
+            title={theme === 'dark' ? (sys.switchThemeLight || 'Modo Claro') : (sys.switchThemeDark || 'Modo Escuro')}
           >
             <span>{theme === 'dark' ? '☀️' : '🌙'}</span>
           </button>
@@ -81,30 +82,30 @@ export default function MobilePlaceholder({
           <div className={styles.textGroup}>
             <span className={styles.statusTag}>
               <span>🚧</span>
-              <span>{lang === 'pt' ? 'Em Construção' : 'Under Construction'}</span>
+              <span>{mob.underConstruction || (lang === 'pt' ? 'Em Construção' : 'Under Construction')}</span>
             </span>
 
             <h1 className={styles.title}>
-              {lang === 'pt' ? 'Sistema mobile em construção' : 'Mobile version under construction'}
+              {mob.title || (lang === 'pt' ? 'Sistema mobile em construção' : 'Mobile version under construction')}
             </h1>
 
             <p className={styles.description}>
-              {lang === 'pt'
+              {mob.description || (lang === 'pt'
                 ? 'A experiência mobile dedicada e adaptada para smartphones e telas verticais está em construção.'
-                : 'The dedicated mobile experience tailored for smartphones and vertical screens is under construction.'}
+                : 'The dedicated mobile experience tailored for smartphones and vertical screens is under construction.')}
             </p>
 
             <div className={styles.notice}>
-              {lang === 'pt'
+              {mob.notice || (lang === 'pt'
                 ? '💡 Para acessar o sistema operacional completo com janelas, efeitos sonoros e dock, visite este portfólio através de um computador ou desktop.'
-                : '💡 To explore the full operating system experience with floating windows and dock, please visit this portfolio on a desktop computer.'}
+                : '💡 To explore the full operating system experience with floating windows and dock, please visit this portfolio on a desktop computer.')}
             </div>
           </div>
 
           {/* Atalhos rápidos de contato */}
           <div className={styles.contactsRow}>
             <span className={styles.contactsLabel}>
-              {lang === 'pt' ? 'Contatos Diretos' : 'Direct Contacts'}
+              {mob.directContacts || (lang === 'pt' ? 'Contatos Diretos' : 'Direct Contacts')}
             </span>
             <div className={styles.contactsChips}>
               {githubChannel && (
@@ -138,7 +139,7 @@ export default function MobilePlaceholder({
                     className={styles.chip}
                   >
                     <span>✉️</span>
-                    <span>{lang === 'pt' ? 'Enviar E-mail' : 'Send Email'}</span>
+                    <span>{mob.sendEmail || (lang === 'pt' ? 'Enviar E-mail' : 'Send Email')}</span>
                   </a>
                   <button
                     type="button"
@@ -147,7 +148,7 @@ export default function MobilePlaceholder({
                     title={lang === 'pt' ? 'Copiar endereço de e-mail' : 'Copy email address'}
                   >
                     <span>📋</span>
-                    <span>{lang === 'pt' ? 'Copiar' : 'Copy'}</span>
+                    <span>{mob.copy || (lang === 'pt' ? 'Copiar' : 'Copy')}</span>
                   </button>
                 </>
               )}

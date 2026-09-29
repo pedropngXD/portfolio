@@ -34,6 +34,7 @@ export default function DesktopIconsArea({
             onClick={onSelectSection}
             onDrop={onDropIcon || onMoveIcon}
             onContextMenu={onContextMenu}
+            t={t}
           />
         )
       })}

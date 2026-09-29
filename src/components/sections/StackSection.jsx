@@ -48,9 +48,9 @@ export default function StackSection({ t }) {
           <article key={tech.name} className={styles.card}>
             <div className={styles.cardHeader}>
               <h3 className={styles.techName}>{tech.name}</h3>
-              <span className={styles.levelBadge}>{tech.level}</span>
+              <span className={styles.levelBadge}>{isEn ? (tech.levelEn || tech.level) : tech.level}</span>
             </div>
-            <p className={styles.description}>{tech.description}</p>
+            <p className={styles.description}>{isEn ? (tech.descriptionEn || tech.description) : tech.description}</p>
           </article>
         ))}
       </div>

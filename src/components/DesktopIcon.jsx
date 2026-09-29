@@ -12,8 +12,10 @@ export default function DesktopIcon({
   onClick,
   onDrop,
   onMove,
-  onContextMenu
+  onContextMenu,
+  t
 }) {
+  const isEn = t?.system?.langLabel === 'EN'
   const [isDragging, setIsDragging] = useState(false)
   const [dragPos, setDragPos] = useState(null)
   const dragRef = useRef({
@@ -123,7 +125,7 @@ export default function DesktopIcon({
       onMouseDown={handleMouseDown}
       onTouchStart={handleTouchStart}
       onContextMenu={handleContextMenu}
-      title={`${title} (Arraste para mover, clique direito para opções)`}
+      title={`${title} (${isEn ? 'Drag to move, right-click for options' : 'Arraste para mover, clique direito para opções'})`}
       aria-label={title}
     >
       <div className={styles.iconBadge}>

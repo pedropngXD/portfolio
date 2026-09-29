@@ -37,6 +37,7 @@ export default function Dock({
   const isDraggingRef = useRef(false)
   const blockClickRef = useRef(false)
   const sys = t?.system || {}
+  const isEn = sys.langLabel === 'EN'
 
   // Apps abertos que não estão na lista de fixados no Dock
   const openUnpinnedIds = Object.keys(windows).filter(
@@ -219,7 +220,7 @@ export default function Dock({
                   window.open(githubChannel.href, '_blank', 'noopener,noreferrer')
                 )
               }
-              aria-label="Acessar perfil do GitHub de Pedro"
+              aria-label={isEn ? "Visit Pedro's GitHub profile" : "Acessar perfil do GitHub de Pedro"}
             >
               <SystemIcon
                 type="github"
@@ -248,7 +249,7 @@ export default function Dock({
                   window.open(linkedinChannel.href, '_blank', 'noopener,noreferrer')
                 )
               }
-              aria-label="Acessar perfil do LinkedIn de Pedro"
+              aria-label={isEn ? "Visit Pedro's LinkedIn profile" : "Acessar perfil do LinkedIn de Pedro"}
             >
               <SystemIcon
                 type="linkedin"
@@ -287,7 +288,7 @@ export default function Dock({
                 e.stopPropagation()
                 onContextMenu && onContextMenu(e, 'email', 'dock')
               }}
-              aria-label={`Enviar e-mail para ${emailChannel.value}`}
+              aria-label={isEn ? `Send email to ${emailChannel.value}` : `Enviar e-mail para ${emailChannel.value}`}
             >
               <SystemIcon
                 type="mail"
@@ -335,7 +336,7 @@ export default function Dock({
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
       role="region"
-      aria-label="Barra de tarefas"
+      aria-label={sys.dockAria || (isEn ? 'Taskbar' : 'Barra de tarefas')}
     >
       {/* SEÇÃO ESQUERDA: Atalhos para as janelas do sistema operacional (reordenáveis apenas entre si) */}
       {orderedSections.map((section, index) => {
@@ -369,7 +370,7 @@ export default function Dock({
                 e.stopPropagation()
                 onContextMenu && onContextMenu(e, section.id, 'dock')
               }}
-              aria-label={`Abrir ${section.title}`}
+              aria-label={`${isEn ? 'Open' : 'Abrir'} ${sectionTitle}`}
               aria-pressed={isOpen && !isMinimized}
             >
               <div
