@@ -83,6 +83,8 @@ export default function MobileLayout({
             onOpenAppSwitcher={() => setIsAppSwitcherOpen(true)}
             renderContentForSection={renderContentForSection}
             openAppsCount={openAppIds.length}
+            theme={theme}
+            onToggleTheme={onToggleTheme}
             lang={lang}
             t={t}
           />

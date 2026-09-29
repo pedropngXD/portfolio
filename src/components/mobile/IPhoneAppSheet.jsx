@@ -69,7 +69,13 @@ export default function IPhoneAppSheet({
       />
 
       {/* Conteúdo da Folha Modal do App (Bottom Sheet iOS) */}
-      <div className="w-full h-[94dvh] bg-slate-900/95 dark:bg-slate-950/95 text-slate-100 rounded-t-[36px] border-t border-white/20 shadow-[0_-12px_40px_rgba(0,0,0,0.6)] flex flex-col overflow-hidden backdrop-blur-2xl">
+      <div
+        className={`w-full h-[94dvh] rounded-t-[36px] shadow-[0_-12px_40px_rgba(0,0,0,0.6)] flex flex-col overflow-hidden backdrop-blur-2xl transition-colors duration-200 ${
+          theme === 'light'
+            ? 'bg-slate-50/98 text-slate-900 border-t border-black/10'
+            : 'bg-slate-900/95 dark:bg-slate-950/95 text-slate-100 border-t border-white/20'
+        }`}
+      >
         {/* ========================================================
             BARRA DE ARRASTO SUPERIOR (GRAB HANDLE iOS)
             ======================================================== */}
@@ -77,21 +83,31 @@ export default function IPhoneAppSheet({
           className="w-full pt-3 pb-1 cursor-grab active:cursor-grabbing flex flex-col items-center select-none"
           onPointerDown={handlePointerDown}
         >
-          <div className="w-12 h-1.5 bg-white/40 rounded-full hover:bg-white/60 transition-colors" />
+          <div
+            className={`w-12 h-1.5 rounded-full transition-colors ${
+              theme === 'light' ? 'bg-black/25 hover:bg-black/40' : 'bg-white/40 hover:bg-white/60'
+            }`}
+          />
         </div>
 
         {/* ========================================================
             BARRA DE NAVEGAÇÃO SUPERIOR DO APP (iOS NAVBAR EQUILIBRADA)
             ======================================================== */}
         <header
-          className="w-full h-14 px-5 relative flex items-center justify-between border-b border-white/10 select-none cursor-grab active:cursor-grabbing flex-shrink-0"
+          className={`w-full h-14 px-5 relative flex items-center justify-between border-b select-none cursor-grab active:cursor-grabbing flex-shrink-0 ${
+            theme === 'light' ? 'border-black/10' : 'border-white/10'
+          }`}
           onPointerDown={handlePointerDown}
         >
           {/* Esquerda: Botão de voltar para a Home Screen com chevron SVG */}
           <button
             type="button"
             onClick={onClose}
-            className="flex items-center gap-1 text-sky-400 hover:text-sky-300 font-semibold text-sm transition-all cursor-pointer py-1.5 px-2 -ml-2 rounded-xl active:bg-white/10 z-10"
+            className={`flex items-center gap-1 font-semibold text-sm transition-all cursor-pointer py-1.5 px-2 -ml-2 rounded-xl z-10 ${
+              theme === 'light'
+                ? 'text-sky-600 hover:text-sky-700 active:bg-black/5'
+                : 'text-sky-400 hover:text-sky-300 active:bg-white/10'
+            }`}
           >
             <svg
               width="18"
@@ -116,7 +132,7 @@ export default function IPhoneAppSheet({
               size={18}
               color={section.accentColor || '#38bdf8'}
             />
-            <h1 className="font-bold text-sm text-white truncate">{title}</h1>
+            <h1 className={`font-bold text-sm truncate ${theme === 'light' ? 'text-slate-900' : 'text-white'}`}>{title}</h1>
           </div>
 
           {/* Direita: Controles circulares uniformes e perfeitamente alinhados */}
@@ -134,7 +150,11 @@ export default function IPhoneAppSheet({
                     ? 'Switch to Dark Mode'
                     : 'Modo Escuro'
                 }
-                className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 active:scale-90 text-white flex items-center justify-center text-xs transition-all cursor-pointer border border-white/10 shadow-sm"
+                className={`w-8 h-8 rounded-full active:scale-90 flex items-center justify-center text-xs transition-all cursor-pointer border shadow-sm ${
+                  theme === 'light'
+                    ? 'bg-black/5 hover:bg-black/10 text-slate-800 border-black/10'
+                    : 'bg-white/10 hover:bg-white/20 text-white border-white/10'
+                }`}
               >
                 <span>{theme === 'dark' ? '☀️' : '🌙'}</span>
               </button>
@@ -144,7 +164,11 @@ export default function IPhoneAppSheet({
               type="button"
               onClick={onOpenAppSwitcher}
               title={isEn ? 'Tabs / Multitask' : 'Abas / Multitarefa'}
-              className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 active:scale-90 text-white flex items-center justify-center text-xs font-bold transition-all cursor-pointer border border-white/10 shadow-sm"
+              className={`w-8 h-8 rounded-full active:scale-90 flex items-center justify-center text-xs font-bold transition-all cursor-pointer border shadow-sm ${
+                theme === 'light'
+                  ? 'bg-black/5 hover:bg-black/10 text-slate-800 border-black/10'
+                  : 'bg-white/10 hover:bg-white/20 text-white border-white/10'
+              }`}
             >
               <span>{openAppsCount}</span>
             </button>
@@ -153,7 +177,11 @@ export default function IPhoneAppSheet({
               type="button"
               onClick={onClose}
               title={isEn ? 'Close app' : 'Fechar app'}
-              className="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 active:scale-90 text-white/80 hover:text-white flex items-center justify-center text-xs font-bold transition-all cursor-pointer border border-white/10 shadow-sm"
+              className={`w-8 h-8 rounded-full active:scale-90 flex items-center justify-center text-xs font-bold transition-all cursor-pointer border shadow-sm ${
+                theme === 'light'
+                  ? 'bg-black/5 hover:bg-black/10 text-slate-700 hover:text-slate-900 border-black/10'
+                  : 'bg-white/10 hover:bg-white/20 text-white/80 hover:text-white border-white/10'
+              }`}
             >
               <svg
                 width="12"
