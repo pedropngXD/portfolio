@@ -1,0 +1,58 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  min-height: 480px;
+  background: var(--window-bg);
+  color: var(--window-text-primary);
+  font-family: Consolas, 'Cascadia Mono', 'Courier New', monospace;
+  overflow: hidden;
+}
+
+/* Área de Texto Puro do Bloco de Notas */
+.notepadBody {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1.25rem 1.5rem;
+  margin: 0;
+  font-family: Consolas, 'Cascadia Mono', 'Courier New', monospace;
+  font-size: 0.84rem;
+  line-height: 1.55;
+  color: var(--window-text-primary);
+  background: var(--window-bg);
+  white-space: pre-wrap;
+  word-break: break-word;
+  user-select: text;
+  cursor: text;
+  tab-size: 4;
+}
+
+/* Barra de Status Inferior estilo Notepad */
+.statusBar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 1.5rem;
+  padding: 0.3rem 1rem;
+  background: var(--window-surface);
+  border-top: 1px solid var(--window-border);
+  font-family: var(--font-sans);
+  font-size: 0.725rem;
+  color: var(--window-text-muted);
+  user-select: none;
+  flex-shrink: 0;
+}
+
+.statusItem {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  border-left: 1px solid var(--window-border);
+  padding-left: 0.85rem;
+}
+
+.statusItem:first-child {
+  border-left: none;
+  padding-left: 0;
+}

@@ -12,6 +12,7 @@ import MobileLayout from './components/layout/MobileLayout'
 import NotificationToast from './components/NotificationToast'
 
 // Seções internas das janelas
+import ReadmeSection from './components/sections/ReadmeSection'
 import ResumeSection from './components/sections/ResumeSection'
 import AboutSection from './components/sections/AboutSection'
 import StackSection from './components/sections/StackSection'
@@ -314,6 +315,8 @@ export default function App() {
   // Renderizador de seções de janelas
   const renderContentForSection = (sectionId) => {
     switch (sectionId) {
+      case 'readme':
+        return <ReadmeSection onNavigate={handleOpenApp} t={t} onNotify={showNotification} />
       case 'resume':
         return <ResumeSection language={language} />
       case 'about':

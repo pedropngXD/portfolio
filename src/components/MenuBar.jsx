@@ -36,7 +36,7 @@ export default function MenuBar({
         </div>
 
         <nav aria-label="Navegação do sistema">
-          {SECTIONS.filter((section) => !['resume', 'status-check'].includes(section.id)).map((section) => {
+          {SECTIONS.filter((section) => !['readme', 'resume', 'status-check'].includes(section.id)).map((section) => {
             const isFocused = focusedWindowId === section.id
             const isOpen = openWindowIds.includes(section.id)
             const sectionLabel = t?.sections?.[section.id]?.shortLabel || section.shortLabel

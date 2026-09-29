@@ -1,5 +1,13 @@
 export const SECTIONS = [
   {
+    id: 'readme',
+    title: 'readme.txt',
+    shortLabel: 'readme.txt',
+    accentColor: '#38bdf8',
+    tag: 'Documento • Texto',
+    iconType: 'file-text'
+  },
+  {
     id: 'resume',
     title: 'currículo.pdf',
     shortLabel: 'currículo.pdf',

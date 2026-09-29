@@ -37,6 +37,11 @@ export const TRANSLATIONS = {
       testSound: 'Testar som'
     },
     sections: {
+      readme: {
+        title: 'readme.txt',
+        shortLabel: 'readme.txt',
+        tag: 'Documento • Texto'
+      },
       resume: {
         title: 'currículo.pdf',
         shortLabel: 'currículo.pdf',
@@ -72,6 +77,55 @@ export const TRANSLATIONS = {
         shortLabel: 'Formação',
         tag: 'Unisinos'
       }
+    },
+    readme: {
+      fileName: 'readme.txt',
+      badge: 'TEXTO • UTF-8',
+      fullscreenBtn: 'Tela Cheia',
+      exitFullscreenBtn: 'Sair de Tela Cheia',
+      aboutBtn: 'Sobre Mim',
+      statusLines: 'Linhas: 42, Colunas: 1',
+      statusEncoding: 'UTF-8',
+      statusOs: 'Windows (CRLF)',
+      titleHeader: '=== BEM-VINDO AO PEDRO OS (v2.0) ===',
+      subtitleHeader: 'Portfólio Interativo & Experiência de Sistema Operacional • Pedro Moser',
+      f11Title: 'DICA DE OURO: EXPERIÊNCIA COMPLETA EM TELA CHEIA',
+      f11Text: 'Para vivenciar a experiência autêntica de um sistema operacional desktop, pressione a tecla F11 no seu teclado (ou clique no botão "Tela Cheia" acima). Isso oculta as barras do seu navegador e coloca o pedroOs em 100% da sua tela!',
+      featuresTitle: 'PRINCIPAIS RECURSOS & INTERATIVIDADE:',
+      features: [
+        {
+          icon: '🖥️',
+          name: 'Área de Trabalho Livre',
+          desc: 'Arraste e solte os ícones para organizar o desktop como quiser. Clique com o botão direito no papel de parede para realinhar a grade ou alternar o modo claro/escuro.'
+        },
+        {
+          icon: '🪟',
+          name: 'Gerenciamento de Janelas',
+          desc: 'Mova janelas pela barra de título, redimensione pelas bordas, maximize em tela cheia e minimize com animação suave para a barra de tarefas.'
+        },
+        {
+          icon: '⚡',
+          name: 'Barra de Tarefas Dinâmica (Dock)',
+          desc: 'Apps abertos aparecem na barra e saem ao serem fechados (estilo Windows). Clique com o botão direito para fixar/desafixar ou fechar. Quando uma janela está maximizada, o dock se oculta e reaparece ao aproximar o mouse da borda inferior.'
+        },
+        {
+          icon: '🔊',
+          name: 'Sistema de Áudio Interativo',
+          desc: 'Feedback sonoro ao abrir, fechar e minimizar janelas. Ajuste o volume, silencie ou teste os sons pelo controle na barra de menus superior.'
+        },
+        {
+          icon: '🌐',
+          name: 'Bilinguismo & Temas Instantâneos',
+          desc: 'Alterne entre Português e Inglês, e entre Tema Escuro e Claro a qualquer momento pela barra superior ou pelo Dock.'
+        },
+        {
+          icon: '📄',
+          name: 'Currículo & Projetos Nativos',
+          desc: 'Visualize o currículo oficial em PDF diretamente embutido na janela ou confira projetos com telemetria em tempo real.'
+        }
+      ],
+      quickStartTitle: '🎯 Por onde começar?',
+      quickStartText: 'Conheça minha trajetória profissional, tecnologias dominadas ou projetos navegando pelos atalhos abaixo ou explorando os ícones na área de trabalho:'
     },
     about: {
       role: 'Desenvolvedor Júnior',
@@ -243,6 +297,11 @@ export const TRANSLATIONS = {
       testSound: 'Test sound'
     },
     sections: {
+      readme: {
+        title: 'readme.txt',
+        shortLabel: 'readme.txt',
+        tag: 'Document • Text'
+      },
       resume: {
         title: 'resume.pdf',
         shortLabel: 'resume.pdf',
@@ -278,6 +337,55 @@ export const TRANSLATIONS = {
         shortLabel: 'Education',
         tag: 'Unisinos'
       }
+    },
+    readme: {
+      fileName: 'readme.txt',
+      badge: 'TEXT • UTF-8',
+      fullscreenBtn: 'Fullscreen',
+      exitFullscreenBtn: 'Exit Fullscreen',
+      aboutBtn: 'About Me',
+      statusLines: 'Lines: 42, Columns: 1',
+      statusEncoding: 'UTF-8',
+      statusOs: 'Windows (CRLF)',
+      titleHeader: '=== WELCOME TO PEDRO OS (v2.0) ===',
+      subtitleHeader: 'Interactive Portfolio & Operating System Experience • Pedro Moser',
+      f11Title: 'PRO TIP: BEST EXPERIENCE IN FULLSCREEN',
+      f11Text: 'To experience the true desktop operating system feel, press the F11 key on your keyboard (or click the "Fullscreen" button above). This hides browser navigation bars and renders pedroOs across your entire screen!',
+      featuresTitle: 'KEY FEATURES & INTERACTIVITY:',
+      features: [
+        {
+          icon: '🖥️',
+          name: 'Free Desktop Workspace',
+          desc: 'Drag and drop icons anywhere on the desktop. Right-click the wallpaper to auto-align icons or switch theme.'
+        },
+        {
+          icon: '🪟',
+          name: 'Window Management',
+          desc: 'Drag windows by their titlebars, resize from edges, maximize to fullscreen, and minimize with smooth animations.'
+        },
+        {
+          icon: '⚡',
+          name: 'Dynamic Taskbar (Dock)',
+          desc: 'Open apps appear dynamically in the taskbar and leave when closed (Windows taskbar behavior). Right-click apps to pin/unpin or close. In maximized mode, the dock auto-hides and reveals on bottom hover.'
+        },
+        {
+          icon: '🔊',
+          name: 'Interactive Audio Feedback',
+          desc: 'Sound effects when opening, closing, or minimizing windows. Adjust volume, mute, or test sounds from the top MenuBar.'
+        },
+        {
+          icon: '🌐',
+          name: 'Bilingual & Theme Switcher',
+          desc: 'Switch between Portuguese and English, and toggle Dark/Light mode anytime from the top bar or dock.'
+        },
+        {
+          icon: '📄',
+          name: 'Native Resume & Projects',
+          desc: 'View the official PDF resume directly inside a desktop window or check live project telemetry.'
+        }
+      ],
+      quickStartTitle: '🎯 Where should I begin?',
+      quickStartText: 'Explore my professional background, technical stack, or projects by clicking the quick links below or exploring the icons on the desktop workspace:'
     },
     about: {
       role: 'Junior Software Developer',

@@ -22,7 +22,7 @@ export function useDockApps() {
       try {
         const parsed = JSON.parse(saved)
         if (Array.isArray(parsed) && parsed.length > 0) {
-          const cleaned = parsed.filter((id) => id !== 'resume' && id !== 'status-check')
+          const cleaned = parsed.filter((id) => id !== 'resume' && id !== 'status-check' && id !== 'readme')
           return cleaned.length > 0 ? cleaned : DEFAULT_DOCK_APPS
         }
       } catch (e) {
