@@ -36,6 +36,30 @@ export function getInitialWindowBounds(sectionId) {
   }
 }
 
+/**
+ * Garante que a janela alvo receba um zIndex estritamente maior que todas as outras janelas abertas.
+ * Normaliza os zIndexes quando necessário para manter ampla folga abaixo da MenuBar (1000) e do Dock (1060).
+ */
+function getNextWindowZIndex(windowsMap, targetId) {
+  const entries = Object.entries(windowsMap)
+    .filter(([id, win]) => win.isOpen && id !== targetId)
+    .sort((a, b) => (a[1].zIndex || 10) - (b[1].zIndex || 10))
+
+  const highestZ = entries.length > 0 ? entries[entries.length - 1][1].zIndex || 100 : 100
+
+  // Se o maior zIndex passar de 850, normaliza a pilha para manter folga abaixo do MenuBar (1000)
+  if (highestZ > 850) {
+    let base = 100
+    const normalized = { ...windowsMap }
+    for (const [id, win] of entries) {
+      normalized[id] = { ...win, zIndex: base++ }
+    }
+    return { nextMap: normalized, nextZ: base }
+  }
+
+  return { nextMap: windowsMap, nextZ: Math.max(highestZ + 1, 101) }
+}
+
 export function useWindowManager() {
   const [windows, setWindows] = useState(() => {
     const initialMap = {}
@@ -56,33 +80,28 @@ export function useWindowManager() {
     return initialMap
   })
 
-  const [topZIndex, setTopZIndex] = useState(100)
   const [focusedWindowId, setFocusedWindowId] = useState('about')
 
-  // Foca em uma janela (traz para frente)
+  // Foca em uma janela (traz para frente como camada superior absoluta)
   const focusWindow = useCallback((id) => {
-    setTopZIndex((prevZ) => {
-      const nextZ = Math.max(prevZ + 1, 100)
-      setWindows((prev) => {
-        if (!prev[id] || !prev[id].isOpen) return prev
-        return {
-          ...prev,
-          [id]: {
-            ...prev[id],
-            isMinimized: false,
-            zIndex: prev[id].isMaximized ? Math.max(nextZ, 950) : nextZ
-          }
+    setWindows((prev) => {
+      if (!prev[id] || !prev[id].isOpen) return prev
+      const { nextMap, nextZ } = getNextWindowZIndex(prev, id)
+      return {
+        ...nextMap,
+        [id]: {
+          ...nextMap[id],
+          isMinimized: false,
+          zIndex: nextZ
         }
-      })
-      return nextZ
+      }
     })
     setFocusedWindowId(id)
   }, [])
 
   // Abre ou foca (com animação macOS de sugar/cuspir pela barra de tarefas)
+  // Garante que o app clicado sempre vá para a primeira camada da tela (zIndex mais alto)
   const openWindow = useCallback((id) => {
-    setTopZIndex((prevZ) => Math.max(prevZ + 1, 100))
-
     setWindows((prev) => {
       const current = prev[id]
       if (!current) return prev
@@ -110,7 +129,7 @@ export function useWindowManager() {
         }
       }
 
-      const nextZ = topZIndex + 1
+      const { nextMap, nextZ } = getNextWindowZIndex(prev, id)
 
       // Se já está aberta (estava minimizada ou em segundo plano), traz para a frente ("cuspida")
       if (current.isOpen) {
@@ -131,12 +150,12 @@ export function useWindowManager() {
         }
 
         return {
-          ...prev,
+          ...nextMap,
           [id]: {
             ...current,
             isMinimized: false,
             animState: wasMinimized ? 'restoring' : 'idle',
-            zIndex: current.isMaximized ? Math.max(nextZ, 960) : nextZ
+            zIndex: nextZ
           }
         }
       }
@@ -158,7 +177,7 @@ export function useWindowManager() {
       }, 280)
 
       return {
-        ...prev,
+        ...nextMap,
         [id]: {
           ...current,
           isOpen: true,
@@ -173,7 +192,7 @@ export function useWindowManager() {
       }
     })
     setFocusedWindowId(id)
-  }, [focusedWindowId, topZIndex])
+  }, [focusedWindowId])
 
   const closeWindow = useCallback((id) => {
     setWindows((prev) => {
@@ -235,31 +254,34 @@ export function useWindowManager() {
       const current = prev[id]
       if (!current) return prev
 
+      const { nextMap, nextZ } = getNextWindowZIndex(prev, id)
+
       if (current.isMaximized) {
         // Restaura tamanho e posição guardados (ou tamanho padrão)
         const initialBounds = getInitialWindowBounds(id)
         return {
-          ...prev,
+          ...nextMap,
           [id]: {
             ...current,
             isMaximized: false,
             position: current.prevBounds?.position || initialBounds.position,
             size: current.prevBounds?.size || initialBounds.size,
-            prevBounds: null
+            prevBounds: null,
+            zIndex: nextZ
           }
         }
       } else {
         // Maximiza ocupando toda a tela até a base
         const menubarH = 32
-        const maxWidth = window.innerWidth
-        const maxHeight = window.innerHeight - menubarH
+        const maxWidth = typeof window !== 'undefined' ? window.innerWidth : 1280
+        const maxHeight = typeof window !== 'undefined' ? window.innerHeight - menubarH : 768
 
         return {
-          ...prev,
+          ...nextMap,
           [id]: {
             ...current,
             isMaximized: true,
-            zIndex: 960, // Fica acima do Dock (que é 900)
+            zIndex: nextZ,
             prevBounds: {
               position: { ...current.position },
               size: { ...current.size }
@@ -270,8 +292,8 @@ export function useWindowManager() {
         }
       }
     })
-    focusWindow(id)
-  }, [focusWindow])
+    setFocusedWindowId(id)
+  }, [])
 
   const updateWindowPosition = useCallback((id, newPos) => {
     setWindows((prev) => {
