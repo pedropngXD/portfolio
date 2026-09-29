@@ -183,3 +183,39 @@
   text-decoration: underline;
   text-underline-offset: 3px;
 }
+
+@media (max-width: 640px) {
+  .container {
+    gap: 1.5rem;
+    padding: 0.25rem 0.25rem;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
+  }
+
+  .projectCard {
+    padding: 1.35rem 1.25rem;
+    gap: 1.15rem;
+    border-radius: 18px;
+  }
+
+  .cardActions {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .actionLink {
+    width: 100%;
+    justify-content: center;
+    height: 42px;
+    border-radius: 12px;
+  }
+
+  .footerCallout {
+    padding: 1.15rem 1.25rem;
+    border-radius: 14px;
+    border-left: 4px solid var(--accent-projects);
+  }
+}

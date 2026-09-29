@@ -487,3 +487,154 @@
   color: var(--window-text-secondary);
   line-height: 1.4;
 }
+
+/* ========================================================
+   OTIMIZAÇÕES RESPONSIVAS DEDICADAS PARA TELAS MOBILE (iOS)
+   ======================================================== */
+@media (max-width: 640px) {
+  .container {
+    gap: 1.5rem;
+    padding: 0.25rem 0.25rem;
+  }
+
+  .profileHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.25rem;
+    padding-bottom: 1.25rem;
+  }
+
+  .profileLeft {
+    gap: 1.15rem;
+    width: 100%;
+  }
+
+  .avatar {
+    width: 72px;
+    height: 72px;
+    border-radius: 20px;
+    font-size: 1.6rem;
+    box-shadow: 0 8px 24px rgba(139, 92, 246, 0.35);
+  }
+
+  .name {
+    font-size: 1.45rem;
+    letter-spacing: -0.02em;
+  }
+
+  .role {
+    font-size: 0.92rem;
+  }
+
+  .subInfo {
+    font-size: 0.76rem;
+    line-height: 1.4;
+  }
+
+  .profileRight {
+    align-items: flex-start;
+    width: 100%;
+    gap: 0.75rem;
+  }
+
+  .statusPill {
+    font-size: 0.72rem;
+    padding: 0.35rem 0.85rem;
+    border-radius: 9999px;
+  }
+
+  .contactChips {
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.6rem;
+  }
+
+  .contactChip {
+    width: 100%;
+    justify-content: center;
+    padding: 0.55rem 0.35rem;
+    font-size: 0.74rem;
+    border-radius: 12px;
+  }
+
+  .headlineBox {
+    padding: 1.1rem 1.25rem;
+    border-radius: 14px;
+    border-left: 4px solid var(--accent-about);
+    margin: 0.25rem 0;
+    background: linear-gradient(135deg, rgba(139, 92, 246, 0.12) 0%, rgba(99, 102, 241, 0.06) 100%);
+  }
+
+  .headline {
+    font-size: 0.98rem;
+    line-height: 1.5;
+  }
+
+  .paragraphsGroup {
+    gap: 1.15rem;
+  }
+
+  .paragraph {
+    font-size: 0.92rem;
+    line-height: 1.75;
+    color: var(--window-text-secondary);
+  }
+
+  .actionsBar {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 0.65rem;
+    padding-top: 0.5rem;
+  }
+
+  .actionBtn {
+    width: 100%;
+    height: 44px;
+    font-size: 0.85rem;
+    border-radius: 12px;
+    justify-content: center;
+    font-weight: 600;
+  }
+
+  .quickInfoGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+  }
+
+  .infoCard {
+    padding: 0.85rem 0.95rem;
+    border-radius: 14px;
+  }
+
+  .infoLabel {
+    font-size: 0.65rem;
+  }
+
+  .infoValue {
+    font-size: 0.78rem;
+    line-height: 1.35;
+  }
+
+  .competenciesBox {
+    padding: 1.1rem 1.2rem;
+    border-radius: 18px;
+    gap: 0.85rem;
+  }
+
+  .competencyItem {
+    padding: 0.75rem 0.9rem;
+    border-radius: 12px;
+    gap: 0.75rem;
+  }
+
+  .competencyTitle {
+    font-size: 0.82rem;
+  }
+
+  .competencyDesc {
+    font-size: 0.75rem;
+    line-height: 1.45;
+  }
+}
