@@ -1,5 +1,6 @@
 import { SECTIONS } from '../data/sections'
 import DesktopIcon from './DesktopIcon'
+import { getDefaultDesktopPositions } from '../utils/desktopGrid'
 import styles from './DesktopIconsArea.module.css'
 
 export default function DesktopIconsArea({
@@ -13,19 +14,17 @@ export default function DesktopIconsArea({
   onWorkspaceContextMenu,
   t
 }) {
+  const defaultPositions = getDefaultDesktopPositions()
+
   return (
     <nav
       className={styles.iconsArea}
       aria-label={t?.system?.desktopAria || "Atalhos da Área de Trabalho"}
       onContextMenu={onWorkspaceContextMenu}
     >
-      {SECTIONS.map((section, idx) => {
+      {SECTIONS.map((section) => {
         const title = t?.sections?.[section.id]?.title || section.title
-        // Posição salva ou padrão em coluna no canto esquerdo
-        const position = iconPositions[section.id] || {
-          x: 24,
-          y: 24 + (idx * 88)
-        }
+        const position = iconPositions[section.id] || defaultPositions[section.id] || { x: 24, y: 24 }
 
         return (
           <DesktopIcon

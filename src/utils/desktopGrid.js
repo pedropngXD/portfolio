@@ -110,18 +110,62 @@ export function getAvailableGridPosition(
   return gridToCoords(col, row)
 }
 
+// Ordem e agrupamento do layout padrão do desktop:
+// Esquerda: Apenas informações pessoais
+export const LEFT_PERSONAL_APPS = ['about', 'stack', 'experience', 'contact', 'projects']
+// Direita: Documentos do sistema e status
+export const RIGHT_SYSTEM_APPS = ['readme', 'resume', 'status-check']
+
 /**
- * Higieniza todas as posições salvas (ex: no carregamento inicial) garantindo que nenhum ícone fique sobreposto
+ * Retorna o layout padrão do desktop macOS:
+ * - Canto esquerdo: Informações pessoais em coluna
+ * - Canto direito: readme, currículo e status check alinhados à margem direita
+ */
+export function getDefaultDesktopPositions(
+  viewportWidth = (typeof window !== 'undefined' ? window.innerWidth : 1200),
+  viewportHeight = (typeof window !== 'undefined' ? window.innerHeight : 800)
+) {
+  const positions = {}
+
+  // Coluna esquerda (24px de margem)
+  LEFT_PERSONAL_APPS.forEach((id, idx) => {
+    positions[id] = {
+      x: DESKTOP_GRID.OFFSET_X,
+      y: DESKTOP_GRID.OFFSET_Y + idx * DESKTOP_GRID.CELL_HEIGHT
+    }
+  })
+
+  // Coluna direita (24px da borda direita da viewport)
+  const rightX = Math.max(
+    DESKTOP_GRID.OFFSET_X + DESKTOP_GRID.CELL_WIDTH,
+    viewportWidth - DESKTOP_GRID.OFFSET_X - DESKTOP_GRID.ICON_WIDTH
+  )
+
+  RIGHT_SYSTEM_APPS.forEach((id, idx) => {
+    positions[id] = {
+      x: rightX,
+      y: DESKTOP_GRID.OFFSET_Y + idx * DESKTOP_GRID.CELL_HEIGHT
+    }
+  })
+
+  return positions
+}
+
+/**
+ * Higieniza todas as posições salvas garantindo que nenhum ícone fique sobreposto
+ * e que valores vazios usem o layout padrão
  */
 export function sanitizeAllPositions(
-  positions,
-  sectionIds,
-  viewportWidth = window.innerWidth,
-  viewportHeight = window.innerHeight
+  positions = {},
+  sectionIds = [],
+  viewportWidth = (typeof window !== 'undefined' ? window.innerWidth : 1200),
+  viewportHeight = (typeof window !== 'undefined' ? window.innerHeight : 800)
 ) {
+  const defaultPos = getDefaultDesktopPositions(viewportWidth, viewportHeight)
   const result = {}
-  sectionIds.forEach((id, idx) => {
-    const rawPos = positions[id] || gridToCoords(0, idx)
+
+  sectionIds.forEach((id) => {
+    const rawPos = positions[id] || defaultPos[id] || { x: DESKTOP_GRID.OFFSET_X, y: DESKTOP_GRID.OFFSET_Y }
     const validPos = getAvailableGridPosition(rawPos, id, result, viewportWidth, viewportHeight)
     result[id] = validPos
   })
