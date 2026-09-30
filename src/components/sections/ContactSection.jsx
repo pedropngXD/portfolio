@@ -17,7 +17,6 @@ export default function ContactSection({ t }) {
 
   return (
     <div className={styles.container}>
-      {/* Cabeçalho Reutilizável */}
       <SectionHeader
         title={t?.contact?.title || (isEn ? 'Education' : 'Formação')}
         subtitle={
@@ -28,7 +27,6 @@ export default function ContactSection({ t }) {
         }
       />
 
-      {/* Bloco Único: Formação */}
       <section className={styles.sectionBlock} aria-label={t?.contact?.academicCardTitle || (isEn ? 'Education' : 'Formação')}>
         <h3 className={styles.blockTitle}>
           <span>🎓</span>

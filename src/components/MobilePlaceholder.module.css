@@ -12,7 +12,7 @@
   transition: background 0.4s ease;
 }
 
-/* Header superior limpo */
+
 .header {
   height: 56px;
   padding: 0 1.25rem;
@@ -66,7 +66,7 @@
   transform: translateY(-1px);
 }
 
-/* Área central de conteúdo */
+
 .contentArea {
   flex: 1;
   display: flex;
@@ -75,7 +75,7 @@
   padding: 2rem 1.25rem;
 }
 
-/* Card central simulando telefone ou card de destaque */
+
 .phoneCard {
   width: 100%;
   max-width: 440px;
@@ -104,7 +104,7 @@
   }
 }
 
-/* Ícone animado */
+
 .iconWrapper {
   position: relative;
   width: 84px;
@@ -144,7 +144,7 @@
   }
 }
 
-/* Textos informativos */
+
 .textGroup {
   display: flex;
   flex-direction: column;
@@ -192,7 +192,7 @@
   margin-top: 0.25rem;
 }
 
-/* Links Rápidos de Contato */
+
 .contactsRow {
   width: 100%;
   padding-top: 1.25rem;

@@ -9,15 +9,13 @@
   transition: max-width 0.28s ease;
 }
 
-/* Modo Maximizado / Widescreen: expande o limite horizontal e centraliza */
+
 .containerMaximized {
   max-width: 1440px;
   gap: 2rem;
 }
 
-/* ========================================================
-   CABEÇALHO DE PERFIL
-   ======================================================== */
+
 .profileHeader {
   display: flex;
   align-items: center;
@@ -159,9 +157,7 @@
   transform: translateY(-1px);
 }
 
-/* ========================================================
-   GRID PRINCIPAL DE CONTEÚDO (DUAS COLUNAS EM WIDESCREEN)
-   ======================================================== */
+
 .contentLayout {
   display: flex;
   flex-direction: column;
@@ -259,7 +255,7 @@
   }
 }
 
-/* Coluna Esquerda: Bio e Narrativa */
+
 .bioColumn {
   display: flex;
   flex-direction: column;
@@ -361,7 +357,7 @@
   color: #f87171;
 }
 
-/* Coluna Direita: Cards Estruturados & Destaques de Atuação */
+
 .sideColumn {
   display: flex;
   flex-direction: column;
@@ -417,7 +413,7 @@
   line-height: 1.35;
 }
 
-/* Card de Destaques de Competências / Metodologia */
+
 .competenciesBox {
   background: var(--window-surface);
   border: 1px solid var(--window-border);
@@ -488,9 +484,7 @@
   line-height: 1.4;
 }
 
-/* ========================================================
-   OTIMIZAÇÕES RESPONSIVAS DEDICADAS PARA TELAS MOBILE (iOS)
-   ======================================================== */
+
 @media (max-width: 640px) {
   .container {
     gap: 1.5rem;

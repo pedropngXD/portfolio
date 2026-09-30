@@ -14,7 +14,6 @@ export default function StackSection({ t }) {
 
   return (
     <div className={styles.container}>
-      {/* Cabeçalho Reutilizável */}
       <SectionHeader
         title={t?.stack?.title || 'Tecnologias & Ferramentas'}
         subtitle={
@@ -23,7 +22,6 @@ export default function StackSection({ t }) {
         }
       />
 
-      {/* Barra de Filtro por Categoria com Indicador de Scroll */}
       <div className={styles.filterWrapper}>
         <div className={styles.filterBar} role="tablist" aria-label="Categorias de tecnologias">
           {STACK_CATEGORIES.map((cat) => {
@@ -45,7 +43,6 @@ export default function StackSection({ t }) {
         <div className={styles.fadeRight} aria-hidden="true" />
       </div>
 
-      {/* Grid de Cards de Tecnologias */}
       <div className={styles.cardsGrid}>
         {filteredStack.map((tech) => (
           <article key={tech.name} className={styles.card}>

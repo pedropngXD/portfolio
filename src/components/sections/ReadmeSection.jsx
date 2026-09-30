@@ -286,7 +286,6 @@ export default function ReadmeSection({ t, isMobile: isMobileProp }) {
 
   return (
     <div className={styles.container}>
-      {/* Conteúdo de Texto Puro (TXT) */}
       <pre className={styles.notepadBody}>
         {textContent}
       </pre>

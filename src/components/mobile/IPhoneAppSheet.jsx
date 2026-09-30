@@ -21,7 +21,6 @@ export default function IPhoneAppSheet({
   }
   const title = t?.sections?.[appId]?.title || section.title
 
-  // Estado para suporte a arrastar a gaveta para baixo (drag-to-dismiss iOS nativo)
   const [dragOffsetY, setDragOffsetY] = useState(0)
   const [isDragging, setIsDragging] = useState(false)
   const [isClosing, setIsClosing] = useState(false)
@@ -31,10 +30,7 @@ export default function IPhoneAppSheet({
   const lastTimeRef = useRef(0)
   const velocityYRef = useRef(0)
 
-  // ========================================================
-  // ROLAGEM ARRASTÁVEL COM INÉRCIA MOBILE (DRAG-TO-SCROLL & PULL-TO-DISMISS)
   // Permite arrastar o conteúdo para cima/baixo tanto via Touch quanto Mouse
-  // ========================================================
   const scrollRef = useRef(null)
   const isInteractingScrollRef = useRef(false)
   const isDraggingScrollRef = useRef(false)
@@ -46,7 +42,6 @@ export default function IPhoneAppSheet({
   const momentumRafRef = useRef(null)
   const isPullingDownSheetRef = useRef(false)
 
-  // Encerramento suave com animação de descida e som de fechamento
   const handleDismiss = () => {
     if (isClosing) return
     setIsClosing(true)
@@ -56,7 +51,6 @@ export default function IPhoneAppSheet({
     }, 220)
   }
 
-  // Início do arraste pela barra de pegada (grab handle) ou header
   const handlePointerDown = (e) => {
     if (e.target.closest('button')) return
 
@@ -107,7 +101,6 @@ export default function IPhoneAppSheet({
     window.addEventListener('pointercancel', onPointerUp)
   }
 
-  // Arraste do conteúdo para rolar com inércia nativa mobile
   const handleContentPointerDown = (e) => {
     if (momentumRafRef.current) {
       cancelAnimationFrame(momentumRafRef.current)
@@ -152,7 +145,6 @@ export default function IPhoneAppSheet({
         return
       }
 
-      // Caso contrário, arrasta o scroll do app
       if (!isPullingDownSheetRef.current) {
         scrollRef.current.scrollTop = initialScrollTopRef.current - deltaY
       }
@@ -212,7 +204,6 @@ export default function IPhoneAppSheet({
 
   return (
     <div className="fixed inset-0 z-40 flex flex-col justify-end overflow-hidden select-none pointer-events-auto">
-      {/* Background Backdrop escuro com blur: permanece fixo e desvanece na medida do arraste */}
       <div
         className="absolute inset-0 bg-black/65 backdrop-blur-xl -z-10"
         style={{
@@ -223,7 +214,6 @@ export default function IPhoneAppSheet({
         aria-hidden="true"
       />
 
-      {/* Conteúdo da Gaveta Modal (Bottom Sheet iOS com rastreamento 1:1) */}
       <div
         className={`w-full h-[94dvh] rounded-t-[36px] shadow-[0_-12px_40px_rgba(0,0,0,0.6)] flex flex-col overflow-hidden backdrop-blur-2xl transition-colors duration-200 ${
           theme === 'light'
@@ -239,10 +229,6 @@ export default function IPhoneAppSheet({
             : 'transform 0.25s cubic-bezier(0.2, 0.9, 0.4, 1)'
         }}
       >
-        {/* ========================================================
-            BARRA DE ARRASTO SUPERIOR (GRAB HANDLE iOS)
-            Área de toque ampla (44px de altura) com touch-action: none
-            ======================================================== */}
         <div
           className="w-full pt-3 pb-2 cursor-grab active:cursor-grabbing flex flex-col items-center select-none touch-none"
           onPointerDown={handlePointerDown}
@@ -254,16 +240,12 @@ export default function IPhoneAppSheet({
           />
         </div>
 
-        {/* ========================================================
-            BARRA DE NAVEGAÇÃO SUPERIOR DO APP (DESIGN SYSTEM pedroOS)
-            ======================================================== */}
         <header
           className={`w-full h-14 px-4 relative flex items-center justify-between border-b select-none cursor-grab active:cursor-grabbing flex-shrink-0 touch-none ${
             theme === 'light' ? 'border-black/10' : 'border-white/10'
           }`}
           onPointerDown={handlePointerDown}
         >
-          {/* Esquerda: Botão de voltar (padrão nativo iOS) */}
           <button
             type="button"
             onClick={handleDismiss}
@@ -278,7 +260,6 @@ export default function IPhoneAppSheet({
             <span className="ml-0.5">{isEn ? 'Back' : 'Voltar'}</span>
           </button>
 
-          {/* Centro: Título do app matematicamente centralizado na tela */}
           <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center justify-center gap-2 max-w-[60%] truncate pointer-events-none z-0">
             <SystemIcon
               type={section.iconType}
@@ -290,13 +271,9 @@ export default function IPhoneAppSheet({
             </h1>
           </div>
 
-          {/* Direita: Espaçador equilibrado para manter o título perfeitamente centralizado */}
           <div className="w-[36px] mr-[0.65rem] flex-shrink-0 pointer-events-none" aria-hidden="true" />
         </header>
 
-        {/* ========================================================
-            CORPO ROLÁVEL COM O COMPONENTE DO APP
-            ======================================================== */}
         <main
           ref={scrollRef}
                     onTouchStart={(e) => {
@@ -313,7 +290,6 @@ export default function IPhoneAppSheet({
               if (deltaY > 10) {
                 // Passa o controle para o drag da gaveta e cancela o scroll nativo
                 e.preventDefault();
-                // Opcional: invocar fechar direto ou deixar a barra de topo cuidar
                 handleDismiss(); 
               }
             }
@@ -330,12 +306,6 @@ export default function IPhoneAppSheet({
           </div>
         </main>
 
-        {/* ========================================================
-            HOME INDICATOR BAR INFERIOR (DESLIZÁVEL / TOQUE)
-            ======================================================== */}
-                  {/* ========================================================
-              HOME INDICATOR BAR (COMPONENTE PADRAO)
-              ======================================================== */}
           <div className="w-full border-t border-white/5 bg-slate-950/70 backdrop-blur-md mt-auto">
             <HomeIndicator 
               onClick={handleDismiss} 

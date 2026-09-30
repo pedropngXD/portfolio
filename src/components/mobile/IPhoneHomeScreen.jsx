@@ -52,13 +52,10 @@ export default function IPhoneHomeScreen({
     return defaultDockIds
   })
 
-  // Canais de contato para as ações da barra de tarefas inferior
   const githubChannel = CONTACT_CHANNELS.find((c) => c.id === 'github')
   const linkedinChannel = CONTACT_CHANNELS.find((c) => c.id === 'linkedin')
   const emailChannel = CONTACT_CHANNELS.find((c) => c.id === 'email')
 
-  // 4 aplicativos fixados na barra de tarefas inferior estilo iOS:
-  // GitHub, LinkedIn, E-mail e o novo App de Configurações / Tradução
   const dockItems = [
     {
       id: 'github',
@@ -116,7 +113,6 @@ export default function IPhoneHomeScreen({
     }
   ]
 
-  // Ordem reordenável dos aplicativos da tela de início (com persistência no localStorage)
   const [appOrder, setAppOrder] = useState(() => {
     if (typeof window !== 'undefined') {
       try {
@@ -136,7 +132,6 @@ export default function IPhoneHomeScreen({
     return SECTIONS
   })
 
-  // O estado do dock será gerenciado por dockOrderIds que já definimos no topo
 
   const [dockDragState, setDockDragState] = useState(null)
 
@@ -228,7 +223,6 @@ export default function IPhoneHomeScreen({
   const isDraggingRef = useRef(false)
   const blockClickRef = useRef(false)
 
-  // Manipulador de arraste estilo iPhone (funciona com Touch e Mouse)
   const handlePointerDown = (e, index) => {
     if (e.button !== 0 && e.pointerType === 'mouse') return
 
@@ -247,7 +241,6 @@ export default function IPhoneHomeScreen({
       }
 
       if (isDraggingRef.current) {
-        // Encontra o elemento de app sob o cursor/dedo
         const el = document.elementFromPoint(moveEvent.clientX, moveEvent.clientY)
         const targetAppEl = el?.closest('[data-app-index]')
         let currentOver = index
@@ -316,9 +309,6 @@ export default function IPhoneHomeScreen({
 
   return (
     <div className={styles.homeScreen}>
-      {/* ========================================================
-          CABEÇALHO DA TELA DE INÍCIO COM BOTÃO DE MODO CLARO / ESCURO
-          ======================================================== */}
       <header className={styles.homeHeader}>
         <span className={styles.homeBrand}>pedroOs</span>
         {onToggleTheme && (
@@ -340,16 +330,12 @@ export default function IPhoneHomeScreen({
         )}
       </header>
 
-      {/* ========================================================
-          WIDGET SUPERIOR: SOBRE MIM (CARD ÚNICO EXPANDIDO ESTILO iOS)
-          ======================================================== */}
       <button
         type="button"
         onClick={() => onOpenApp('about')}
         className={styles.profileWidgetCard}
         title={isEn ? 'Tap to view full profile' : 'Toque para ver perfil completo'}
       >
-        {/* Linha Superior: Foto de perfil, Nome, Cargo e Badge Disponível */}
         <div className="flex items-center justify-between gap-3 w-full">
           <div className="flex items-center gap-3.5 min-w-0 flex-1">
             <div className={styles.profileWidgetAvatar}>
@@ -380,10 +366,8 @@ export default function IPhoneHomeScreen({
           </div>
         </div>
 
-        {/* Linha Divisória Sutil */}
         <div className="w-full h-[1px] bg-white/10 my-3" />
 
-        {/* Linha Inferior: Stack Técnica & Call-to-action */}
         <div className="flex items-center justify-between w-full min-w-0">
           <div className="flex items-center gap-1.5 flex-wrap">
             <span 
@@ -401,9 +385,6 @@ export default function IPhoneHomeScreen({
         </div>
       </button>
 
-      {/* ========================================================
-          GRADE DE APPS ESTILO iOS (2 FILEIRAS DE 4 APPS)
-          ======================================================== */}
       <section className={styles.appsGridContainer}>
         <div className={styles.appsGrid}>
           {appOrder.map((section, index) => {
@@ -459,7 +440,6 @@ export default function IPhoneHomeScreen({
                 className={`${styles.appItem} ${isDraggingThis ? styles.appItemDragging : ''} ${isOverThis ? styles.appItemOver : ''} ${isAnyDragging && !isDraggingThis ? styles.appItemJiggle : ''}`}
                 style={itemStyle}
               >
-                {/* Ícone Squircle iOS com Gradiente e Sombra */}
                 <div
                   className={styles.appIconWrapper}
                   style={{
@@ -471,7 +451,6 @@ export default function IPhoneHomeScreen({
                   
                 </div>
 
-                {/* Rótulo do App */}
                 <span className={styles.appLabel}>{title}</span>
               </button>
             )
@@ -480,10 +459,6 @@ export default function IPhoneHomeScreen({
       </section>
 
 
-      {/* ========================================================
-          DOCK INFERIOR ESTILO iOS (FROSTED GLASS FLUTUANTE)
-          Menor, mais transparente e com 4 aplicativos fixados
-          ======================================================== */}
       <nav aria-label="iOS Dock" className={styles.dockContainer}>
         {dockOrderIds.map((itemId, index) => {
           const item = dockItems.find((d) => d.id === itemId)
@@ -549,9 +524,6 @@ export default function IPhoneHomeScreen({
         })}
       </nav>
 
-            {/* ========================================================
-          HOME INDICATOR BAR (COMPONENTE PADRAO)
-          ======================================================== */}
       <HomeIndicator 
         onClick={onOpenAppSwitcher} 
         title={isEn ? 'Multitask / App Switcher' : 'Ver Abas / Multitarefa'} 

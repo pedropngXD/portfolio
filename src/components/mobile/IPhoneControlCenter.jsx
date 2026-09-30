@@ -48,12 +48,9 @@ export default function IPhoneControlCenter({
 
   return (
     <div className="fixed inset-0 z-50 flex flex-col justify-start bg-black/60 backdrop-blur-2xl animate-fadeIn select-none">
-      {/* Backdrop para fechar ao tocar fora */}
       <div className="absolute inset-0 -z-10" onClick={onClose} aria-hidden="true" />
 
-      {/* Painel da Central de Controle (Control Center iOS) */}
       <div className="w-full max-w-md mx-auto p-5 space-y-4">
-        {/* Cabeçalho */}
         <div className="flex items-center justify-between text-white pb-2 border-b border-white/10">
           <div className="flex items-center gap-2">
             <span className="text-base">⚙️</span>
@@ -70,9 +67,7 @@ export default function IPhoneControlCenter({
           </button>
         </div>
 
-        {/* Grade de Controles do Sistema 2x2 */}
         <div className="grid grid-cols-2 gap-3">
-          {/* Alternância de Idioma (PT / EN) */}
           <button
             type="button"
             onClick={handleToggleLangWithSound}
@@ -89,7 +84,6 @@ export default function IPhoneControlCenter({
             <span className="text-xl">🌐</span>
           </button>
 
-          {/* Alternância de Tema (Escuro / Claro) */}
           <button
             type="button"
             onClick={handleToggleThemeWithSound}
@@ -106,7 +100,6 @@ export default function IPhoneControlCenter({
             <span className="text-xl">{theme === 'dark' ? '🌙' : '☀️'}</span>
           </button>
 
-          {/* Controle de Áudio / Som */}
           <button
             type="button"
             onClick={handleToggleMuteWithSound}
@@ -121,7 +114,6 @@ export default function IPhoneControlCenter({
             <span className="text-xl">{isMuted ? '🔇' : '🔊'}</span>
           </button>
 
-          {/* Botão Copiar E-mail Rápido */}
           <button
             type="button"
             onClick={handleCopyEmail}
@@ -137,7 +129,6 @@ export default function IPhoneControlCenter({
           </button>
         </div>
 
-        {/* Links Diretos de Rede / Contato */}
         <div className="bg-white/10 backdrop-blur-md rounded-2xl p-3 border border-white/15 space-y-2">
           <span className="text-[10px] font-bold text-neutral-300 uppercase tracking-wider block px-1">
             {isEn ? 'Quick Profiles' : 'Perfis & Redes'}

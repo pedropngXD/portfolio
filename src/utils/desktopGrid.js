@@ -8,7 +8,6 @@ export const DESKTOP_GRID = {
   OFFSET_Y: 24,
   ICON_WIDTH: 80,
   ICON_HEIGHT: 88,
-  // Limiar para detectar sobreposição visual
   COLLISION_THRESHOLD_X: 72,
   COLLISION_THRESHOLD_Y: 78
 }
@@ -59,7 +58,6 @@ export function getAvailableGridPosition(
   const col = Math.max(0, Math.min(maxCols - 1, rawCol))
   const row = Math.max(0, Math.min(maxRows - 1, rawRow))
 
-  // Células e posições já ocupadas por outros ícones
   const occupiedCells = new Set()
   const otherPositions = []
 
@@ -70,7 +68,6 @@ export function getAvailableGridPosition(
     otherPositions.push(pos)
   })
 
-  // Testa se uma célula específica está livre e sem colisão
   const isCellAvailable = (c, r) => {
     if (occupiedCells.has(`${c},${r}`)) return false
     const coords = gridToCoords(c, r)
@@ -80,12 +77,10 @@ export function getAvailableGridPosition(
     return true
   }
 
-  // Se a célula desejada estiver livre, utiliza ela
   if (isCellAvailable(col, row)) {
     return gridToCoords(col, row)
   }
 
-  // Caso contrário, busca a célula livre mais próxima (menor distância euclidiana)
   let bestCell = null
   let minDistance = Infinity
 
@@ -106,14 +101,10 @@ export function getAvailableGridPosition(
     return gridToCoords(bestCell.c, bestCell.r)
   }
 
-  // Fallback seguro caso a tela esteja cheia
   return gridToCoords(col, row)
 }
 
-// Ordem e agrupamento do layout padrão do desktop:
-// Esquerda: Apenas informações pessoais
 export const LEFT_PERSONAL_APPS = ['about', 'stack', 'experience', 'contact', 'projects']
-// Direita: Documentos do sistema e status
 export const RIGHT_SYSTEM_APPS = ['readme', 'resume', 'status-check']
 
 /**
@@ -127,7 +118,6 @@ export function getDefaultDesktopPositions(
 ) {
   const positions = {}
 
-  // Coluna esquerda (24px de margem)
   LEFT_PERSONAL_APPS.forEach((id, idx) => {
     positions[id] = {
       x: DESKTOP_GRID.OFFSET_X,
@@ -135,7 +125,6 @@ export function getDefaultDesktopPositions(
     }
   })
 
-  // Coluna direita (24px da borda direita da viewport)
   const rightX = Math.max(
     DESKTOP_GRID.OFFSET_X + DESKTOP_GRID.CELL_WIDTH,
     viewportWidth - DESKTOP_GRID.OFFSET_X - DESKTOP_GRID.ICON_WIDTH

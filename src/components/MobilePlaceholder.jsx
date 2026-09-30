@@ -42,7 +42,6 @@ export default function MobilePlaceholder({
 
   return (
     <div className={styles.container}>
-      {/* Header superior */}
       <header className={styles.header}>
         <div className={styles.brand}>
           <span className={styles.brandIcon} aria-hidden="true">📱</span>
@@ -69,16 +68,13 @@ export default function MobilePlaceholder({
         </div>
       </header>
 
-      {/* Conteúdo central com o card explicativo */}
       <main className={styles.contentArea}>
         <div className={styles.phoneCard}>
-          {/* Ícone com engrenagem animada */}
           <div className={styles.iconWrapper} aria-hidden="true">
             📱
             <div className={styles.gearBadge}>⚙️</div>
           </div>
 
-          {/* Textos informativos */}
           <div className={styles.textGroup}>
             <span className={styles.statusTag}>
               <span>🚧</span>
@@ -102,7 +98,6 @@ export default function MobilePlaceholder({
             </div>
           </div>
 
-          {/* Atalhos rápidos de contato */}
           <div className={styles.contactsRow}>
             <span className={styles.contactsLabel}>
               {mob.directContacts || (lang === 'pt' ? 'Contatos Diretos' : 'Direct Contacts')}

@@ -12,13 +12,11 @@ export default function ExperienceSection({ t }) {
 
   return (
     <div className={styles.container}>
-      {/* Cabeçalho Reutilizável */}
       <SectionHeader
         title={title}
         subtitle={subtitle}
       />
 
-      {/* Lista de Cards de Experiência */}
       <div className={styles.cardsList}>
         {experiences.map((exp) => {
           const responsibilities = exp.responsibilities || []
@@ -49,7 +47,6 @@ export default function ExperienceSection({ t }) {
 
               <p className={styles.summaryText}>{exp.summary}</p>
 
-              {/* Detalhamento das Áreas de Impacto */}
               {responsibilities.length > 0 && (
                 <ul className={styles.responsibilitiesList}>
                   {responsibilities.map((resp, idx) => (
@@ -63,7 +60,6 @@ export default function ExperienceSection({ t }) {
                 </ul>
               )}
 
-              {/* Stack Aplicada */}
               {techStack.length > 0 && (
                 <div className={styles.techSection}>
                   <span className={styles.techHeading}>

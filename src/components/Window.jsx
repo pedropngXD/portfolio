@@ -34,11 +34,8 @@ export default function Window({
   const isDraggingRef = useRef(false)
   const isResizingRef = useRef(false)
 
-  // ========================================================
-  // ARRASTAR JANELA (DRAG)
   // Permite arrastar janelas normais e também restaurar o tamanho
   // automaticamente ao começar a arrastar uma janela maximizada
-  // ========================================================
   const handleHeaderMouseDown = (e) => {
     if (e.target.closest(`.${styles.controlButton}`)) return
 
@@ -103,9 +100,6 @@ export default function Window({
     window.addEventListener('mouseup', onMouseUp)
   }
 
-  // ========================================================
-  // REDIMENSIONAR JANELA (RESIZE EM 8 DIREÇÕES)
-  // ========================================================
   const handleResizeStart = (e, direction) => {
     e.preventDefault()
     e.stopPropagation()
@@ -133,15 +127,12 @@ export default function Window({
       let newPosX = startPosX
       let newPosY = startPosY
 
-      // Leste (direita)
       if (direction.includes('e')) {
         newWidth = Math.max(MIN_WIDTH, startWidth + deltaX)
       }
-      // Sul (baixo)
       if (direction.includes('s')) {
         newHeight = Math.max(MIN_HEIGHT, startHeight + deltaY)
       }
-      // Oeste (esquerda)
       if (direction.includes('w')) {
         const potentialWidth = startWidth - deltaX
         if (potentialWidth >= MIN_WIDTH) {
@@ -149,7 +140,6 @@ export default function Window({
           newPosX = startPosX + deltaX
         }
       }
-      // Norte (cima)
       if (direction.includes('n')) {
         const potentialHeight = startHeight - deltaY
         const potentialY = startPosY + deltaY
@@ -188,7 +178,6 @@ export default function Window({
     }
   }, [isMaximized])
 
-  // Cálculo preciso da distância do centro da janela até o ícone correspondente no Dock
   const getDockTargetCoords = () => {
     if (typeof window === 'undefined' || typeof document === 'undefined') {
       return { x: 0, y: 350 }
@@ -198,13 +187,11 @@ export default function Window({
     const winH = window.innerHeight
     const menubarHeight = 32
 
-    // Centro da janela em coordenadas da viewport
     const windowCenterX = isMaximized ? winW / 2 : position.x + size.width / 2
     const windowCenterY = isMaximized
       ? (winH - menubarHeight) / 2 + menubarHeight
       : position.y + menubarHeight + size.height / 2
 
-    // Busca o botão correspondente deste app no Dock
     const dockEl = document.querySelector(`[data-dock-id="${id}"]`)
     if (dockEl) {
       const rect = dockEl.getBoundingClientRect()
@@ -217,7 +204,6 @@ export default function Window({
       }
     }
 
-    // Fallback: centro inferior da tela
     return {
       x: Math.round(winW / 2 - windowCenterX),
       y: Math.round(winH - 36 - windowCenterY)
@@ -259,7 +245,6 @@ export default function Window({
       role="dialog"
       aria-label={title}
     >
-      {/* Barra de Título */}
       <header
         className={styles.windowHeader}
         onMouseDown={handleHeaderMouseDown}
@@ -314,7 +299,6 @@ export default function Window({
         </div>
       </header>
 
-      {/* Conteúdo Rolável ou Aviso de Problema de Conexão */}
       <section className={`${styles.windowBody} ${isFlush && isWifiEnabled ? styles.windowBodyFlush : ''}`}>
         {!isWifiEnabled ? (
           <div className={styles.offlineState} role="alert">
@@ -376,7 +360,6 @@ export default function Window({
         )}
       </section>
 
-      {/* 8 Handles de Redimensionamento */}
       {!isMaximized && (
         <>
           <div className={`${styles.resizeHandle} ${styles.handleN}`} onMouseDown={(e) => handleResizeStart(e, 'n')} />

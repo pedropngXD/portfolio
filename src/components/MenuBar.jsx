@@ -28,7 +28,6 @@ export default function MenuBar({
 
   return (
     <header className={styles.menuBar} role="banner">
-      {/* Lado Esquerdo: Identidade do OS e Seções de Navegação */}
       <div className={styles.leftGroup}>
         <div className={styles.brand}>
           <span className={styles.brandIcon} aria-hidden="true">
@@ -62,9 +61,7 @@ export default function MenuBar({
         </nav>
       </div>
 
-      {/* Lado Direito: Status, Controles e Relógio */}
       <div className={styles.rightGroup}>
-        {/* Controle de Volume macOS */}
         <VolumeControl
           volume={volume}
           isMuted={isMuted}
@@ -76,10 +73,8 @@ export default function MenuBar({
           t={t}
         />
 
-        {/* Controle de Wi-Fi macOS */}
         <WifiControl isWifiEnabled={isWifiEnabled} onToggleWifi={onToggleWifi} t={t} />
 
-        {/* Alternador de Idioma (PT / EN) */}
         <button
           type="button"
           className={styles.statusItem}
@@ -105,7 +100,6 @@ export default function MenuBar({
           <span className={styles.statusLabel}>{lang === 'pt' ? 'PT' : 'EN'}</span>
         </button>
 
-        {/* Relógio do Sistema */}
         <Clock lang={lang} className={styles.clock} />
       </div>
     </header>

@@ -10,7 +10,6 @@ import FullscreenPrompt from '../FullscreenPrompt'
 import dockStyles from '../Dock.module.css'
 
 export default function DesktopLayout({
-  // Sistema e Janelas
   windows,
   focusedWindowId,
   openWindowIds,
@@ -24,7 +23,6 @@ export default function DesktopLayout({
   onRestoreFromDrag,
   renderContentForSection,
 
-  // Área de Trabalho e Dock
   iconPositions,
   onDropIcon,
   onDesktopIconContextMenu,
@@ -36,7 +34,6 @@ export default function DesktopLayout({
   hasMaximizedWindow,
   onWorkspaceContextMenu,
 
-  // Áudio e Configurações
   volume,
   isMuted,
   onIncreaseVolume,
@@ -47,7 +44,6 @@ export default function DesktopLayout({
   isWifiEnabled = true,
   onToggleWifi,
 
-  // Tema, Idioma e Notificações
   theme,
   onToggleTheme,
   lang,
@@ -105,7 +101,6 @@ export default function DesktopLayout({
 
   return (
     <div className="hidden md:flex md:flex-col desktop-workspace" onContextMenu={onWorkspaceContextMenu}>
-      {/* Barra superior de menus do SO */}
       <MenuBar
         focusedWindowId={focusedWindowId}
         openWindowIds={openWindowIds}
@@ -126,7 +121,6 @@ export default function DesktopLayout({
         t={t}
       />
 
-      {/* Área central do desktop com ícones livres e janelas */}
       <main
         className="desktop-content-area"
         onContextMenu={onWorkspaceContextMenu}
@@ -143,10 +137,8 @@ export default function DesktopLayout({
           t={t}
         />
 
-        {/* Mensagem central de convite para tela cheia (F11 ou clique) */}
         <FullscreenPrompt t={t} />
 
-        {/* Janelas abertas */}
         {SECTIONS.map((section) => {
           const win = windows[section.id]
           if (!win || !win.isOpen || (win.isMinimized && win.animState !== 'minimizing')) return null
@@ -185,7 +177,6 @@ export default function DesktopLayout({
         })}
       </main>
 
-      {/* Área invisível na borda inferior para revelar Dock quando maximizado (estilo macOS) */}
       {hasMaximizedWindow && (
         <div
           className={`${dockStyles.dockTriggerZone} ${dockIsRevealed ? dockStyles.dockTriggerZoneActive : ''}`}
@@ -197,7 +188,6 @@ export default function DesktopLayout({
         />
       )}
 
-      {/* Barra de tarefas (Dock) */}
       <Dock
         windows={windows}
         dockAppIds={dockAppIds}
@@ -218,7 +208,6 @@ export default function DesktopLayout({
         t={t}
       />
 
-      {/* Menu de contexto nativo com botão direito */}
       {contextMenu.isOpen && (
         <ContextMenu
           x={contextMenu.x}
@@ -228,7 +217,6 @@ export default function DesktopLayout({
         />
       )}
 
-      {/* Notificação Toast do Sistema */}
       {notification.isOpen && (
         <NotificationToast
           title={notification.title}

@@ -62,14 +62,8 @@ export default function IPhoneAppSwitcher({
       className="absolute inset-0 z-50 bg-black/60 backdrop-blur-[25px] flex flex-col justify-between pt-6 pb-0 px-0 animate-fadeIn select-none"
       onClick={onDismiss}
     >
-      {/* ========================================================
-          ESPAÇO SUPERIOR (No iOS, o topo é limpo)
-          ======================================================== */}
       <div className="w-full h-8" />
 
-      {/* ========================================================
-          CARROSSEL DESLIZÁVEL DE CARDS (APP SWITCHER iOS)
-          ======================================================== */}
       <div
         ref={carouselRef}
         onPointerDown={handleCarouselPointerDown}
@@ -130,10 +124,6 @@ export default function IPhoneAppSwitcher({
         )}
       </div>
 
-      {/* ========================================================
-          HOME BAR INFERIOR (RETORNAR À TELA DE INÍCIO) E LIMPAR TUDO
-          ======================================================== */}
-            {/* Botao Limpar Tudo (Proporcao de pill nativa do iOS) */}
       {openAppIds.length > 1 && (
         <button
           type="button"
@@ -155,7 +145,6 @@ export default function IPhoneAppSwitcher({
         </button>
       )}
 
-      {/* HOME INDICATOR (COMPONENTE PADRAO) */}
       <HomeIndicator 
         onClick={onDismiss} 
         title={isEn ? 'Close App Switcher' : 'Fechar Multitarefa'} 
@@ -170,7 +159,6 @@ function SwipeableCard({ appId, section, title, isActive, gradient, theme, isEn,
   const currentYRef = useRef(0)
 
   const handlePointerDown = (e) => {
-    // Only drag with touch or left mouse button
     if (e.pointerType === 'mouse' && e.button !== 0) return
     const isCloseBtn = e.target.closest('[data-close-btn]')
     if (isCloseBtn) return
@@ -248,7 +236,6 @@ function SwipeableCard({ appId, section, title, isActive, gradient, theme, isEn,
         >
           <span className="text-[10px] font-bold">✕</span>
         </div>
-        {/* Escudo protetor para garantir que toques e scrolls fiquem travados na miniatura */}
         <div className="absolute inset-0 z-10 pointer-events-none" />
 
         {renderContentForSection ? (

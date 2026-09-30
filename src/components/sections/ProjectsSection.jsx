@@ -45,7 +45,6 @@ export default function ProjectsSection({ t }) {
 
   return (
     <div className={styles.container}>
-      {/* Cabeçalho Reutilizável */}
       <SectionHeader
         title={t?.projects?.title || 'Projetos & Código'}
         subtitle={
@@ -54,7 +53,6 @@ export default function ProjectsSection({ t }) {
         }
       />
 
-      {/* Grid de Cards de Projetos */}
       <div className={styles.grid}>
         {localizedProjects.map((project) => (
           <article key={project.id} className={styles.projectCard}>
@@ -66,7 +64,6 @@ export default function ProjectsSection({ t }) {
 
               <p className={styles.description}>{project.description}</p>
 
-              {/* Destaques Técnicos do Projeto */}
               <ul className={styles.highlightsList} style={{ marginTop: '0.6rem' }}>
                 {project.highlights.map((highlight, idx) => (
                   <li key={idx} className={styles.highlightItem}>
@@ -78,7 +75,6 @@ export default function ProjectsSection({ t }) {
             </div>
 
             <div>
-              {/* Tags da Stack */}
               <div className={styles.techTags}>
                 {project.techStack.map((tech) => (
                   <span key={tech} className={styles.techTag}>
@@ -87,7 +83,6 @@ export default function ProjectsSection({ t }) {
                 ))}
               </div>
 
-              {/* Ações / Links */}
               <div className={styles.cardFooter}>
                 {project.githubUrl && (
                   <a
@@ -118,7 +113,6 @@ export default function ProjectsSection({ t }) {
         ))}
       </div>
 
-      {/* Chamada para repositório completo */}
       <div className={styles.footerCallout}>
         <span>
           {t?.projects?.footerText || 'Mais projetos de estudos e scripts estão disponíveis diretamente no meu perfil do GitHub.'}

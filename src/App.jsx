@@ -13,7 +13,6 @@ import DesktopLayout from './components/layout/DesktopLayout'
 import MobileLayout from './components/layout/MobileLayout'
 import NotificationToast from './components/NotificationToast'
 
-// Seções internas das janelas
 import ReadmeSection from './components/sections/ReadmeSection'
 import ResumeSection from './components/sections/ResumeSection'
 import AboutSection from './components/sections/AboutSection'
@@ -31,7 +30,6 @@ import {
 } from './utils/soundEffects'
 
 export default function App() {
-  // Hooks customizados e desacoplados
   const { theme, toggleTheme } = useTheme()
   const { language, toggleLanguage, t } = useLanguage()
   const audio = useSystemAudio()
@@ -59,7 +57,6 @@ export default function App() {
     updateWindowSize
   } = useWindowManager()
 
-  // Estados de ContextMenu e Notificação
   const [contextMenu, setContextMenu] = useState({ isOpen: false, x: 0, y: 0, items: [] })
   const [notification, setNotification] = useState({ isOpen: false, title: '', message: '', icon: '✓' })
 
@@ -68,7 +65,6 @@ export default function App() {
     setNotification({ isOpen: true, title, message, icon })
   }
 
-  // Ações de Janelas com Feedback Sonoro
   const handleOpenApp = (sectionId, options = {}) => {
     playWindowOpen()
     openWindow(sectionId, options)
@@ -94,7 +90,6 @@ export default function App() {
     unmaximizeWindow(id, newPos)
   }
 
-  // Menus de Contexto
   const handleDesktopIconContextMenu = (e, sectionId) => {
     const section = SECTIONS.find((s) => s.id === sectionId)
     const inDock = dockAppIds.includes(sectionId)
@@ -316,7 +311,6 @@ export default function App() {
   const openWindowIds = Object.keys(windows).filter((id) => windows[id].isOpen)
   const hasMaximizedWindow = Object.values(windows).some((w) => w.isOpen && !w.isMinimized && w.isMaximized)
 
-  // Renderizador de seções de janelas
   const renderContentForSection = (sectionId, options = {}) => {
     switch (sectionId) {
       case 'readme':
@@ -342,7 +336,6 @@ export default function App() {
 
   return (
     <>
-      {/* Versão Mobile: isolada via media query Tailwind (< 768px) */}
       <div className="block md:hidden w-full h-screen h-[100dvh] overflow-hidden">
         <MobileLayout
           lang={language}
@@ -364,7 +357,6 @@ export default function App() {
         )}
       </div>
 
-      {/* Versão Desktop: ativada via media query Tailwind (≥ 768px) */}
       <DesktopLayout
         windows={windows}
         focusedWindowId={focusedWindowId}

@@ -82,7 +82,7 @@
   box-shadow: 0 0 8px var(--accent-stack);
 }
 
-/* Item de Status Geral da MenuBar (Padrão macOS) */
+
 .statusItem {
   display: inline-flex;
   align-items: center;
@@ -138,14 +138,14 @@
   color: var(--menubar-text);
 }
 
-/* Wrapper do Botão e Popover de Volume */
+
 .volumeWrapper {
   position: relative;
   display: flex;
   align-items: center;
 }
 
-/* Popover Flutuante de Volume estilo Central de Controle macOS */
+
 .volumePopover {
   position: absolute;
   top: calc(100% + 8px);
@@ -192,7 +192,7 @@
   color: var(--window-text-muted);
 }
 
-/* Cápsula deslizante de volume estilo macOS Big Sur / Sonoma */
+
 .capsuleTrack {
   position: relative;
   width: 100%;
@@ -250,7 +250,7 @@
   margin: 0;
 }
 
-/* Informações do dispositivo de saída de áudio */
+
 .deviceInfoRow {
   display: flex;
   align-items: center;
@@ -274,7 +274,7 @@
   font-weight: 700;
 }
 
-/* Ações Rápidas no Popover */
+
 .popoverActions {
   display: flex;
   align-items: center;
@@ -310,14 +310,14 @@
   color: #10b981;
 }
 
-/* Wrapper do Botão e Popover de Wi-Fi */
+
 .wifiWrapper {
   position: relative;
   display: flex;
   align-items: center;
 }
 
-/* Popover Flutuante de Wi-Fi estilo Central de Controle macOS */
+
 .wifiPopover {
   position: absolute;
   top: calc(100% + 8px);
@@ -337,7 +337,7 @@
   animation: popoverFadeIn 0.15s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-/* Switch estilo iOS/macOS para ligar/desligar Wi-Fi */
+
 .switchToggle {
   position: relative;
   width: 36px;
@@ -370,7 +370,7 @@
   transform: translateX(16px);
 }
 
-/* Seção de Rede Ativa / Conectada */
+
 .connectedCard {
   display: flex;
   align-items: flex-start;

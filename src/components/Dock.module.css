@@ -42,7 +42,7 @@
   height: 88px;
 }
 
-/* Oculta tooltips durante o arraste */
+
 .dockContainerDragging .tooltip {
   display: none !important;
 }

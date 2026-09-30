@@ -11,7 +11,6 @@ export default function ResumeSection({ language = 'pt' }) {
 
   return (
     <div className={styles.container}>
-      {/* Barra superior de ferramentas do leitor de PDF */}
       <div className={styles.toolbar}>
         <div className={styles.fileInfo}>
           <span className={styles.fileIcon} aria-hidden="true">📕</span>
@@ -43,7 +42,6 @@ export default function ResumeSection({ language = 'pt' }) {
         </div>
       </div>
 
-      {/* Visualizador de PDF embutido diretamente na janela do sistema */}
       <div className={styles.viewerWrapper}>
         <object
           key={`pdf-object-${pdfUrl}`}

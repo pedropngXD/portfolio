@@ -2,7 +2,7 @@
 @import './styles/tokens.css';
 @import './styles/reset.css';
 
-/* Container principal de tela inteira do Desktop OS */
+
 .desktop-workspace {
   width: 100vw;
   height: 100vh;
@@ -19,17 +19,17 @@
   }
 }
 
-/* Área central de trabalho (logo abaixo da MenuBar até a base) */
+
 .desktop-content-area {
   flex: 1;
   position: relative;
   width: 100%;
   height: calc(100% - var(--menubar-height));
   overflow: hidden;
-  padding: 0; /* Padding zerado para que janelas maximizadas encostem perfeitamente nas bordas */
+  padding: 0;
 }
 
-/* Scrollbar refinada para quando as janelas tiverem rolagem interna */
+
 ::-webkit-scrollbar {
   width: 8px;
   height: 8px;

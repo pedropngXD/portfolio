@@ -17,7 +17,6 @@ export default function IPhoneAppIcon({ appId, size = 32 }) {
     case 'readme':
       return (
         <svg width={size} height={size} viewBox="0 0 36 36" fill="none" aria-hidden="true">
-          {/* Folha de anotações com cantos arredondados e sombra suave */}
           <rect
             x="7"
             y="4"
@@ -27,12 +26,10 @@ export default function IPhoneAppIcon({ appId, size = 32 }) {
             fill="#ffffff"
             filter="drop-shadow(0 2px 4px rgba(0,0,0,0.18))"
           />
-          {/* Cabeçalho amarelo âmbar clássico do Apple Notes */}
           <path
             d="M7 7.5a3.5 3.5 0 0 1 3.5-3.5h15a3.5 3.5 0 0 1 3.5 3.5V11H7V7.5z"
             fill="#f59e0b"
           />
-          {/* Linhas pautadas horizontais do caderno */}
           <line
             x1="11"
             y1="16"
@@ -67,15 +64,12 @@ export default function IPhoneAppIcon({ appId, size = 32 }) {
     case 'resume':
       return (
         <svg width={size} height={size} viewBox="0 0 36 36" fill="none" aria-hidden="true">
-          {/* Folha branca com o canto superior direito dobrado estilo Adobe / Files */}
           <path
             d="M9 5a3 3 0 0 1 3-3h9l7 7v20a3 3 0 0 1-3 3H12a3 3 0 0 1-3-3V5z"
             fill="#ffffff"
             filter="drop-shadow(0 2px 4px rgba(0,0,0,0.2))"
           />
-          {/* Aba dobrada com sombreamento de relevo */}
           <path d="M21 2v5a2 2 0 0 0 2 2h5" fill="#e2e8f0" />
-          {/* Linhas e indicador do documento */}
           <rect x="13" y="14" width="8" height="2.5" rx="1.25" fill="#ef4444" />
           <line
             x1="13"
@@ -101,13 +95,11 @@ export default function IPhoneAppIcon({ appId, size = 32 }) {
     case 'about':
       return (
         <svg width={size} height={size} viewBox="0 0 36 36" fill="none" aria-hidden="true">
-          {/* Abas laterais de índice alfabético (A, B, C, D) como no app Contatos do iOS */}
           <rect x="27.5" y="8" width="2.5" height="3.5" rx="1" fill="#ff453a" />
           <rect x="27.5" y="13" width="2.5" height="3.5" rx="1" fill="#ffd60a" />
           <rect x="27.5" y="18" width="2.5" height="3.5" rx="1" fill="#30d158" />
           <rect x="27.5" y="23" width="2.5" height="3.5" rx="1" fill="#0a84ff" />
 
-          {/* Silhueta humana centralizada em branco */}
           <circle
             cx="17"
             cy="13.5"
@@ -126,7 +118,6 @@ export default function IPhoneAppIcon({ appId, size = 32 }) {
     case 'stack':
       return (
         <svg width={size} height={size} viewBox="0 0 36 36" fill="none" aria-hidden="true">
-          {/* Pinos conectores externos do barramento */}
           <line x1="13" y1="3" x2="13" y2="7" stroke="#ffffff" strokeWidth="1.8" strokeLinecap="round" opacity="0.9" />
           <line x1="18" y1="3" x2="18" y2="7" stroke="#ffffff" strokeWidth="1.8" strokeLinecap="round" opacity="0.9" />
           <line x1="23" y1="3" x2="23" y2="7" stroke="#ffffff" strokeWidth="1.8" strokeLinecap="round" opacity="0.9" />
@@ -143,11 +134,8 @@ export default function IPhoneAppIcon({ appId, size = 32 }) {
           <line x1="29" y1="18" x2="33" y2="18" stroke="#ffffff" strokeWidth="1.8" strokeLinecap="round" opacity="0.9" />
           <line x1="29" y1="23" x2="33" y2="23" stroke="#ffffff" strokeWidth="1.8" strokeLinecap="round" opacity="0.9" />
 
-          {/* Encapsulamento cerâmico do chip */}
           <rect x="7" y="7" width="22" height="22" rx="4" fill="rgba(255,255,255,0.22)" stroke="#ffffff" strokeWidth="1.5" />
-          {/* Núcleo de processamento interno */}
           <rect x="11.5" y="11.5" width="13" height="13" rx="2.5" fill="#ffffff" filter="drop-shadow(0 2px 4px rgba(0,0,0,0.15))" />
-          {/* Símbolo de código < / > gravado no silício */}
           <path
             d="M15 16l-2 2 2 2M21 16l2 2-2 2M19 15l-2 6"
             stroke="#059669"
@@ -161,9 +149,7 @@ export default function IPhoneAppIcon({ appId, size = 32 }) {
     case 'experience':
       return (
         <svg width={size} height={size} viewBox="0 0 36 36" fill="none" aria-hidden="true">
-          {/* Cartão de fundo sobreposto estilo Apple Wallet */}
           <rect x="8" y="7" width="20" height="13" rx="2.5" fill="#34d399" opacity="0.85" />
-          {/* Cartão frontal principal */}
           <rect
             x="5.5"
             y="12"
@@ -173,11 +159,8 @@ export default function IPhoneAppIcon({ appId, size = 32 }) {
             fill="#ffffff"
             filter="drop-shadow(0 3px 6px rgba(0,0,0,0.25))"
           />
-          {/* Tarja de segurança superior */}
           <rect x="5.5" y="15" width="25" height="3" fill="#0284c7" opacity="0.85" />
-          {/* Chip EMV de pagamento dourado */}
           <rect x="8.5" y="21" width="4.5" height="3.5" rx="0.8" fill="#f59e0b" />
-          {/* Linhas elegantes de relevo */}
           <line x1="16" y1="22.5" x2="26" y2="22.5" stroke="#94a3b8" strokeWidth="1.4" strokeLinecap="round" />
         </svg>
       )
@@ -185,13 +168,11 @@ export default function IPhoneAppIcon({ appId, size = 32 }) {
     case 'contact':
       return (
         <svg width={size} height={size} viewBox="0 0 36 36" fill="none" aria-hidden="true">
-          {/* Losango superior do capelo acadêmico */}
           <polygon
             points="18,7 32,14 18,21 4,14"
             fill="#ffffff"
             filter="drop-shadow(0 2px 4px rgba(0,0,0,0.2))"
           />
-          {/* Arco inferior da touca de formatura */}
           <path
             d="M10 18v5.5c0 3.5 3.5 6 8 6s8-2.5 8-6V18"
             fill="none"
@@ -199,7 +180,6 @@ export default function IPhoneAppIcon({ appId, size = 32 }) {
             strokeWidth="2.2"
             strokeLinecap="round"
           />
-          {/* Cordão e borla de honra dourada */}
           <path d="M29 15.5v8" stroke="#fef08a" strokeWidth="1.8" strokeLinecap="round" />
           <circle cx="29" cy="24.5" r="1.5" fill="#fef08a" />
         </svg>
@@ -208,8 +188,6 @@ export default function IPhoneAppIcon({ appId, size = 32 }) {
     case 'projects':
       return (
         <svg width={size} height={size} viewBox="0 0 36 36" fill="none" aria-hidden="true">
-          {/* O icônico símbolo 'A' da Apple App Store formado pelo cruzamento de instrumentos */}
-          {/* Haste esquerda (régua) */}
           <line
             x1="11"
             y1="28"
@@ -220,7 +198,6 @@ export default function IPhoneAppIcon({ appId, size = 32 }) {
             strokeLinecap="round"
             filter="drop-shadow(0 1px 2px rgba(0,0,0,0.2))"
           />
-          {/* Haste direita (lápis) */}
           <line
             x1="25"
             y1="28"
@@ -231,7 +208,6 @@ export default function IPhoneAppIcon({ appId, size = 32 }) {
             strokeLinecap="round"
             filter="drop-shadow(0 1px 2px rgba(0,0,0,0.2))"
           />
-          {/* Barra horizontal cruzada (pincel) */}
           <line
             x1="9"
             y1="21"
@@ -248,19 +224,14 @@ export default function IPhoneAppIcon({ appId, size = 32 }) {
         case 'status-check':
       return (
         <svg width={size} height={size} viewBox="0 0 36 36" fill="none" aria-hidden="true">
-          {/* Apple Fitness / Activity Rings (Status Metaphor) */}
-          {/* Fundo escuro sutil para os aneis vazios */}
           <circle cx="18" cy="18" r="11" stroke="#ff0033" strokeWidth="2.75" opacity="0.2" />
           <circle cx="18" cy="18" r="7.5" stroke="#a6ff00" strokeWidth="2.75" opacity="0.2" />
           <circle cx="18" cy="18" r="4" stroke="#00e5ff" strokeWidth="2.75" opacity="0.2" />
           
-          {/* Anel Externo Vermelho (Progresso) */}
           <path d="M18 7 A11 11 0 1 1 7.2 20" stroke="#ff0033" strokeWidth="2.75" strokeLinecap="round" filter="drop-shadow(0 0 2px rgba(255,0,51,0.5))" />
           
-          {/* Anel do Meio Verde (Progresso) */}
           <path d="M18 10.5 A7.5 7.5 0 1 1 12.7 23.3" stroke="#a6ff00" strokeWidth="2.75" strokeLinecap="round" filter="drop-shadow(0 0 2px rgba(166,255,0,0.5))" />
           
-          {/* Anel Interno Azul (Progresso) */}
           <path d="M18 14 A4 4 0 1 1 15.2 20.8" stroke="#00e5ff" strokeWidth="2.75" strokeLinecap="round" filter="drop-shadow(0 0 2px rgba(0,229,255,0.5))" />
         </svg>
       )
@@ -279,7 +250,6 @@ export default function IPhoneAppIcon({ appId, size = 32 }) {
     case 'linkedin':
       return (
         <svg width={size} height={size} viewBox="0 0 36 36" fill="none" aria-hidden="true">
-          {/* O clássico 'in' do LinkedIn com tipografia e sombra suave */}
           <circle cx="10.5" cy="11.5" r="2.2" fill="#ffffff" filter="drop-shadow(0 1px 2px rgba(0,0,0,0.25))" />
           <rect x="8.5" y="15.5" width="4" height="11.5" rx="1.2" fill="#ffffff" filter="drop-shadow(0 1px 2px rgba(0,0,0,0.25))" />
           <path
@@ -293,7 +263,6 @@ export default function IPhoneAppIcon({ appId, size = 32 }) {
     case 'email':
       return (
         <svg width={size} height={size} viewBox="0 0 36 36" fill="none" aria-hidden="true">
-          {/* Envelope Apple Mail em relevo branco */}
           <rect
             x="6"
             y="9.5"
@@ -303,7 +272,6 @@ export default function IPhoneAppIcon({ appId, size = 32 }) {
             fill="#ffffff"
             filter="drop-shadow(0 2px 4px rgba(0,0,0,0.2))"
           />
-          {/* Aba do envelope */}
           <path
             d="M7 11.5l10.2 7.2a1.5 1.5 0 0 0 1.6 0L29 11.5"
             stroke="#0a84ff"
@@ -320,25 +288,21 @@ export default function IPhoneAppIcon({ appId, size = 32 }) {
     case 'translate':
       return (
         <svg width={size} height={size} viewBox="0 0 36 36" fill="none" aria-hidden="true">
-          {/* Balão 1: Letra 'A' */}
           <path
             d="M6 8h12a3 3 0 0 1 3 3v8a3 3 0 0 1-3 3h-3l-4 3.5V22H6a3 3 0 0 1-3-3v-8a3 3 0 0 1 3-3z"
             fill="#ffffff"
             filter="drop-shadow(0 2px 4px rgba(0,0,0,0.25))"
           />
-          {/* Letra A estilizada dentro do balão */}
           <path
             d="M10 18l2.5-6h1L16 18h-1.3l-.7-1.8h-2.9L10.4 18H10zm2-3.1h2.1l-1-2.7h-.1l-1 2.7z"
             fill="#007aff"
           />
 
-          {/* Balão 2 sobreposto: Tradução '文' / Idioma */}
           <path
             d="M18 13h12a3 3 0 0 1 3 3v8a3 3 0 0 1-3 3h-2v3.5l-4-3.5h-6a3 3 0 0 1-3-3v-8a3 3 0 0 1 3-3z"
             fill="#38bdf8"
             filter="drop-shadow(0 2px 4px rgba(0,0,0,0.25))"
           />
-          {/* Caractere 文 (Universal de tradução) */}
           <path
             d="M22 17h6M25 15.5v1.8M24.8 19.5c-1 1.6-2.2 2.7-3.8 3.3M24.2 20.2c.8.8 2 2.1 3.6 2.6"
             stroke="#ffffff"

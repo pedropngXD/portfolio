@@ -1,4 +1,4 @@
-/* Reset para Sistema Operacional Desktop */
+
 *, *::before, *::after {
   box-sizing: border-box;
   margin: 0;
@@ -11,7 +11,7 @@ html, body, #root {
   height: 100dvh;
   margin: 0;
   padding: 0;
-  overflow: hidden; /* Desktop real não rola a tela inteira; janelas rolam internamente */
+  overflow: hidden;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -20,7 +20,7 @@ body {
   font-family: var(--font-sans);
   background: var(--wallpaper);
   color: var(--desktop-text);
-  user-select: none; /* Sensação de aplicação de sistema operacional */
+  user-select: none;
 }
 
 /* Permitir seleção de texto dentro das janelas */

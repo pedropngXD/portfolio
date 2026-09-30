@@ -70,7 +70,6 @@ export default function FullscreenPrompt({ t }) {
       aria-hidden={isHidden}
     >
       <div className={styles.alertCard} role="dialog" aria-modal="false" aria-labelledby="fullscreen-dialog-title">
-        {/* Botão de Fechar discreto no canto */}
         <button
           type="button"
           className={styles.closeButton}
@@ -90,9 +89,7 @@ export default function FullscreenPrompt({ t }) {
           </svg>
         </button>
 
-        {/* Ícone de Sistema macOS */}
         <div className={styles.appIcon} aria-hidden="true">
-          {/* Monitor Apple Retina */}
           <svg
             width="28"
             height="28"
@@ -108,7 +105,6 @@ export default function FullscreenPrompt({ t }) {
             <line x1="12" y1="17" x2="12" y2="21" />
           </svg>
 
-          {/* Badge verde do semáforo macOS de tela cheia */}
           <div className={styles.greenDotBadge}>
             <svg
               className={styles.greenDotArrows}
@@ -124,12 +120,10 @@ export default function FullscreenPrompt({ t }) {
           </div>
         </div>
 
-        {/* Título Indicativo do Alerta macOS */}
         <h3 id="fullscreen-dialog-title" className={styles.title}>
           {t?.system?.fullscreenPromptTitle || 'Modo Tela Cheia Recomendado'}
         </h3>
 
-        {/* Mensagem e instrução F11 */}
         <p className={styles.message}>
           {t?.system?.langLabel === 'EN' ? (
             <>
@@ -142,7 +136,6 @@ export default function FullscreenPrompt({ t }) {
           )}
         </p>
 
-        {/* Botão Primário macOS */}
         <button
           type="button"
           className={styles.primaryButton}

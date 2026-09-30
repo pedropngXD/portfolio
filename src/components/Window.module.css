@@ -13,7 +13,7 @@
   will-change: transform, opacity;
 }
 
-/* Transição suave EXCLUSIVAMENTE ao maximizar ou restaurar tamanho de tela cheia */
+
 .windowMaximizingTransition {
   transition: top 0.28s cubic-bezier(0.16, 1, 0.3, 1),
               left 0.28s cubic-bezier(0.16, 1, 0.3, 1),
@@ -27,7 +27,7 @@
   transition: none !important;
 }
 
-/* Animações macOS: Sugar para o Dock e Cuspir do Dock (Rápidas, Limpas e Nativas) */
+
 .windowMinimizing {
   animation: genieSuck 0.22s cubic-bezier(0.25, 0.1, 0.25, 1) forwards !important;
   transform-origin: center center !important;
@@ -61,7 +61,7 @@
   }
 }
 
-/* Quando maximizada: cola perfeitamente na borda inferior do MenuBar e ocupa toda a tela */
+
 .windowContainerMaximized {
   border-radius: 0;
   border: none;
@@ -181,7 +181,7 @@
   overflow: hidden !important;
 }
 
-/* Handles de redimensionamento em 8 direções */
+
 .resizeHandle {
   position: absolute;
   z-index: 10;
@@ -257,7 +257,7 @@
   }
 }
 
-/* Estado Offline / Problema de Conexão na Janela do App */
+
 .offlineState {
   display: flex;
   flex-direction: column;

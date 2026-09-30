@@ -1,6 +1,3 @@
-/**
- * Dicionário completo de traduções para suporte bilíngue (Português / Inglês)
- */
 export const TRANSLATIONS = {
   pt: {
     system: {

@@ -39,15 +39,12 @@ export default function Dock({
   const sys = t?.system || {}
   const isEn = sys.langLabel === 'EN'
 
-  // Apps abertos que não estão na lista de fixados no Dock
   const openUnpinnedIds = Object.keys(windows).filter(
     (id) => windows[id]?.isOpen && !dockAppIds.includes(id)
   )
 
-  // Combina os fixados com os abertos não fixados
   const effectiveAppIds = [...dockAppIds, ...openUnpinnedIds]
 
-  // Seções da esquerda ordenadas de acordo com effectiveAppIds
   const orderedSections = effectiveAppIds
     .map((id) => SECTIONS.find((sec) => sec.id === id))
     .filter(Boolean)
@@ -79,7 +76,6 @@ export default function Dock({
     callback()
   }
 
-  // Inicia o arraste isolado por seção
   const handlePointerDown = (e, index, sectionType, itemsCount) => {
     if (e.button !== 0 && e.pointerType === 'mouse') return
 
@@ -152,7 +148,6 @@ export default function Dock({
     window.addEventListener('pointercancel', onPointerUp)
   }
 
-  // Calcula o deslocamento visual de cada item durante o arraste
   const getItemStyle = (i, sectionType) => {
     if (!dragState || dragState.section !== sectionType) {
       return {
@@ -196,7 +191,6 @@ export default function Dock({
     }
   }
 
-  // Renderiza cada um dos itens da seção direita
   const renderRightItem = (actionId, index) => {
     const itemStyle = getItemStyle(index, 'right')
     const isThisItemDragging = dragState?.section === 'right' && dragState?.dragIndex === index
@@ -338,7 +332,6 @@ export default function Dock({
       role="region"
       aria-label={sys.dockAria || (isEn ? 'Taskbar' : 'Barra de tarefas')}
     >
-      {/* SEÇÃO ESQUERDA: Atalhos para as janelas do sistema operacional (reordenáveis apenas entre si) */}
       {orderedSections.map((section, index) => {
         const win = windows[section.id]
         const isOpen = win?.isOpen
@@ -384,16 +377,13 @@ export default function Dock({
               />
             </button>
 
-            {/* Pontinho indicador de aplicativo em execução no SO */}
             {isOpen && <span className={styles.activeDot} />}
           </div>
         )
       })}
 
-      {/* DIVISOR VERTICAL: Barreira rígida entre as duas seções */}
       <div className={styles.separator} aria-hidden="true" />
 
-      {/* SEÇÃO DIREITA: Atalhos e utilitários (reordenáveis apenas entre si) */}
       {dockRightIds.map((actionId, index) => renderRightItem(actionId, index))}
     </footer>
   )

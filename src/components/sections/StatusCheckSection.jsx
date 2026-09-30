@@ -14,7 +14,6 @@ export default function StatusCheckSection({ t, isAppSwitcher = false }) {
 
   return (
     <div className={styles.container} style={isAppSwitcher ? { pointerEvents: 'none', overflow: 'hidden' } : undefined}>
-      {/* Barra de Navegador do SO */}
       <div className={styles.browserBar}>
         <div className={styles.barLeft}>
           
@@ -48,7 +47,6 @@ export default function StatusCheckSection({ t, isAppSwitcher = false }) {
         </div>
       </div>
 
-      {/* Frame interativo do projeto */}
       <div className={styles.iframeWrapper}>
         <iframe
           key={reloadKey}

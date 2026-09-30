@@ -10,7 +10,6 @@ export default function AboutSection({ onNavigate, t, isMaximized }) {
 
   return (
     <div className={`${styles.container} ${isMaximized ? styles.containerMaximized : ''}`}>
-      {/* Cabeçalho de Perfil */}
       <div className={styles.profileHeader}>
         <div className={styles.profileLeft}>
           <div className={styles.avatar}>
@@ -58,9 +57,7 @@ export default function AboutSection({ onNavigate, t, isMaximized }) {
         </div>
       </div>
 
-      {/* Grid Principal de Conteúdo (2 colunas em widescreen / maximizado) */}
       <div className={styles.contentLayout}>
-        {/* Coluna Esquerda: Narrativa, Headline e Ações */}
         <div className={styles.bioColumn}>
           <div className={styles.headlineBox}>
             <h2 className={styles.headline}>{data.headline || ABOUT_DATA.headline}</h2>
@@ -75,9 +72,7 @@ export default function AboutSection({ onNavigate, t, isMaximized }) {
           </div>
         </div>
 
-        {/* Coluna Direita: Cards Estruturados & Destaques de Atuação */}
         <div className={styles.sideColumn}>
-          {/* Grid de Pílulas Rápidas para Recrutadores */}
           <div className={styles.quickInfoGrid}>
             {quickInfo.map((item, idx) => (
               <div key={idx} className={styles.infoCard}>
