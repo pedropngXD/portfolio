@@ -299,14 +299,26 @@ export default function IPhoneAppSheet({
             ======================================================== */}
         <main
           ref={scrollRef}
-          onPointerDown={handleContentPointerDown}
-          onClickCapture={(e) => {
-            if (isDraggingScrollRef.current) {
-              e.preventDefault()
-              e.stopPropagation()
+                    onTouchStart={(e) => {
+            if (scrollRef.current && scrollRef.current.scrollTop <= 0) {
+              scrollStartYRef.current = e.touches[0].clientY;
+            } else {
+              scrollStartYRef.current = null;
             }
           }}
-          className="flex-1 overflow-y-auto px-7 sm:px-10 pt-20 sm:pt-24 pb-8 overscroll-contain select-none cursor-grab active:cursor-grabbing touch-pan-y flex flex-col items-center"
+          onTouchMove={(e) => {
+            if (scrollStartYRef.current !== null && scrollRef.current && scrollRef.current.scrollTop <= 0) {
+              const deltaY = e.touches[0].clientY - scrollStartYRef.current;
+              // Se est puxando para baixo estando no topo
+              if (deltaY > 10) {
+                // Passa o controle para o drag da gaveta e cancela o scroll nativo
+                e.preventDefault();
+                // Opcional: invocar fechar direto ou deixar a barra de topo cuidar
+                handleDismiss(); 
+              }
+            }
+          }}
+          className="flex-1 overflow-y-auto px-7 sm:px-10 pt-20 sm:pt-24 pb-8 overscroll-contain touch-pan-y flex flex-col items-center"
           style={{
             WebkitOverflowScrolling: 'touch',
             scrollbarWidth: 'none',
@@ -334,6 +346,8 @@ export default function IPhoneAppSheet({
     </div>
   )
 }
+
+
 
 
 
