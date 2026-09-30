@@ -295,11 +295,6 @@ export default function IPhoneHomeScreen({
             } catch (err) {}
             return next
           })
-          onNotify && onNotify({
-            title: isEn ? 'Home Screen' : 'Tela de Início',
-            message: isEn ? 'App position updated' : 'Posição do aplicativo atualizada',
-            icon: '📱'
-          })
         }
 
         setDragState(null)
