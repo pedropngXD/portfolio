@@ -24,12 +24,17 @@ export const EXPERIENCE_DATA = [
     ],
     techStack: [
       'PHP',
+      'Laravel',
+      'Python',
       'JavaScript',
       'React',
+      'CodeIgniter/MVC',
       'SQL Server',
+      'MySQL',
+      'PostgreSQL',
       'APIs REST',
-      'Git',
-      'CodeIgniter/MVC'
+      'IAs',
+      'Git'
     ]
   },
   {

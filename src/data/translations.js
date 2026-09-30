@@ -207,12 +207,17 @@ export const TRANSLATIONS = {
           ],
           techStack: [
             'PHP',
+            'Laravel',
+            'Python',
             'JavaScript',
             'HTML/CSS',
             'React',
             'CodeIgniter/MVC',
             'SQL Server',
+            'MySQL',
+            'PostgreSQL',
             'APIs REST',
+            'IAs',
             'Git',
             'BitBucket'
           ]
@@ -514,12 +519,17 @@ export const TRANSLATIONS = {
           ],
           techStack: [
             'PHP',
+            'Laravel',
+            'Python',
             'JavaScript',
             'React',
+            'CodeIgniter/MVC',
             'SQL Server',
+            'MySQL',
+            'PostgreSQL',
             'APIs REST',
-            'Git',
-            'CodeIgniter/MVC'
+            'AI / IAs',
+            'Git'
           ]
         },
         {
