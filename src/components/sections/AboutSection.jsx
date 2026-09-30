@@ -38,7 +38,7 @@ export default function AboutSection({ onNavigate, t, isMaximized }) {
         <div className={styles.profileRight}>
           <div className={styles.statusPill}>
             <span className={styles.statusDot} aria-hidden="true" />
-            <span>{t?.system?.statusAvailable || (isEn ? 'Available for Work' : 'Disponível para Projetos')}</span>
+            <span>{t?.system?.statusAvailable || (isEn ? 'Available' : 'Disponível')}</span>
           </div>
           <div className={styles.contactChips}>
             {CONTACT_CHANNELS.map((ch) => (
