@@ -73,34 +73,6 @@ export default function AboutSection({ onNavigate, t, isMaximized }) {
               </p>
             ))}
           </div>
-
-          {/* Ações Rápidas de Navegação */}
-          <div className={styles.actionsBar}>
-            <button
-              type="button"
-              className={`${styles.actionBtn} ${styles.actionBtnExperience}`}
-              onClick={() => onNavigate && onNavigate('experience')}
-            >
-              <span>💼</span>
-              <span>{data.btnExperience || (isEn ? 'View Professional Experience' : 'Ver Experiências Profissionais')}</span>
-            </button>
-            <button
-              type="button"
-              className={`${styles.actionBtn} ${styles.actionBtnStack}`}
-              onClick={() => onNavigate && onNavigate('stack')}
-            >
-              <span>⚡</span>
-              <span>{data.btnStack || (isEn ? 'Explore Tech Stack' : 'Explorar Stack Técnica')}</span>
-            </button>
-            <button
-              type="button"
-              className={`${styles.actionBtn} ${styles.actionBtnResume}`}
-              onClick={() => onNavigate && onNavigate('resume')}
-            >
-              <span>📄</span>
-              <span>{data.btnResume || (isEn ? 'View Resume (PDF)' : 'Visualizar Currículo (PDF)')}</span>
-            </button>
-          </div>
         </div>
 
         {/* Coluna Direita: Cards Estruturados & Destaques de Atuação */}
