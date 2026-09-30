@@ -16,11 +16,11 @@ export default function ProjectsSection({ t }) {
         title: 'Personal Portfolio Desktop OS',
         tag: 'Frontend & UI',
         status: 'Completed',
-        description: 'Interactive operating system simulation showcasing real stack, hands-on experience, and technical projects.',
+        description: 'Interactive web operating system developed with React, Vite, Tailwind CSS, and CSS Modules, featuring dynamic window management, design tokens, and theme support.',
         highlights: [
-          'Modular React component architecture with Vite',
-          'Pure CSS design tokens (dark/light mode and translucent glassmorphism)',
-          'Multi-window state management with real OS controls and shortcut navigation'
+          'Component-driven architecture in React 18 with ultra-fast Vite bundling',
+          'Modern responsive styling with Tailwind CSS, CSS Modules, and design tokens (Dark/Light mode)',
+          'Multitasking window state management with native OS controls, keyboard shortcuts, and Web Audio API'
         ]
       }
     }

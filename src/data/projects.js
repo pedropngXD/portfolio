@@ -4,13 +4,13 @@ export const PROJECTS_DATA = [
     title: 'Portfólio Pessoal Desktop OS',
     tag: 'Frontend & UI',
     status: 'Concluído',
-    description: 'Simulação interativa de sistema operacional para apresentação de stack real, experiência prática e projetos técnicos.',
+    description: 'Sistema operacional interativo para web desenvolvido com React, Vite, Tailwind CSS e CSS Modules, integrando gerenciamento dinâmico de janelas, design tokens e suporte a temas.',
     highlights: [
-      'Arquitetura modular de componentes em React com Vite',
-      'Design tokens nativos em CSS puro (dark/light mode e blur translúcido)',
-      'Gestão de estado para janelas com controles reais e navegação por atalhos'
+      'Arquitetura modular e componentizada em React 18 com Vite',
+      'Estilização moderna e responsiva com Tailwind CSS, CSS Modules e design tokens (Dark/Light mode)',
+      'Gerenciamento de janelas multitarefa com controles nativos de SO, atalhos de teclado e Web Audio API'
     ],
-    techStack: ['React', 'JavaScript', 'CSS Modules', 'Vite', 'Git'],
+    techStack: ['React', 'JavaScript', 'Tailwind CSS', 'CSS Modules', 'Vite', 'Git'],
     githubUrl: 'https://github.com/pedropngXD',
     liveUrl: '#'
   },
