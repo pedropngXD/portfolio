@@ -1,13 +1,9 @@
-import { getResumePdf, RESUME_METADATA } from '../../data/resume'
+import { getResumePdf } from '../../data/resume'
 import styles from './ResumeSection.module.css'
 
 export default function ResumeSection({ language = 'pt' }) {
   const isEn = language === 'en'
-  const resume = getResumePdf ? getResumePdf(language) : {
-    url: isEn ? RESUME_METADATA.pdfUrlEn : RESUME_METADATA.pdfUrlPt,
-    downloadName: isEn ? RESUME_METADATA.pdfDownloadNameEn : RESUME_METADATA.pdfDownloadNamePt,
-    fileName: isEn ? RESUME_METADATA.fileNameEn : RESUME_METADATA.fileNamePt
-  }
+  const resume = getResumePdf(language)
   const fileName = resume.fileName
   const pdfUrl = resume.url
   const downloadName = resume.downloadName
