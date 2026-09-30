@@ -17,7 +17,6 @@ export default function ContactSection({ t }) {
 
   return (
     <div className={styles.container}>
-      {/* Cabeçalho Reutilizável */}
       <SectionHeader
         title={t?.contact?.title || (isEn ? 'Education' : 'Formação')}
         subtitle={
@@ -27,14 +26,11 @@ export default function ContactSection({ t }) {
             : 'Graduação em andamento e fundamentos de engenharia de software na Unisinos.')
         }
       />
-
-      {/* Bloco Único: Formação */}
       <section className={styles.sectionBlock} aria-label={t?.contact?.academicCardTitle || (isEn ? 'Education' : 'Formação')}>
         <h3 className={styles.blockTitle}>
           <span>🎓</span>
           <span>{isEn ? 'Education' : 'Formação'}</span>
         </h3>
-
         <article className={styles.educationCard}>
           <div className={styles.eduHeader}>
             <div>
@@ -47,11 +43,9 @@ export default function ContactSection({ t }) {
               {isEn ? '7th Semester — In progress' : EDUCATION_DATA.status}
             </span>
           </div>
-
           <p className={styles.graduationDate}>
             {isEn ? 'Expected graduation: December / 2026' : EDUCATION_DATA.graduationDate} • {isEn ? 'Rio Grande do Sul, Brazil' : EDUCATION_DATA.location}
           </p>
-
           <div className={styles.subjectsSection}>
             <span className={styles.subjectsLabel}>
               {isEn ? 'Core Foundations & Applied Subjects:' : 'Fundamentos & Disciplinas aplicadas:'}

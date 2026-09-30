@@ -1,7 +1,3 @@
-/* ========================================================
-   DESIGN SYSTEM NATIVO DO IPHONE / iOS (pedroOS Mobile)
-   ======================================================== */
-
 .phoneContainer {
   width: 100%;
   height: 100vh;
@@ -19,9 +15,6 @@
   box-sizing: border-box;
 }
 
-/* ========================================================
-   STATUS BAR & DYNAMIC ISLAND
-   ======================================================== */
 .statusBar {
   width: 100%;
   height: 48px;
@@ -110,9 +103,6 @@
   margin-left: -1px;
 }
 
-/* ========================================================
-   TELA DE INÍCIO (HOME SCREEN) COM ESPAÇAMENTO CONFORTÁVEL
-   ======================================================== */
 .homeScreen {
   flex: 1;
   width: 100%;
@@ -124,7 +114,6 @@
   overflow: hidden;
 }
 
-/* CABEÇALHO SUPERIOR DA TELA DE INÍCIO */
 .homeHeader {
   width: 100%;
   display: flex;
@@ -139,7 +128,7 @@
   font-size: 0.8rem;
   font-weight: 700;
   letter-spacing: 0.08em;
-  
+
   opacity: 0.75;
 }
 
@@ -166,7 +155,6 @@
   background: rgba(255, 255, 255, 0.2);
 }
 
-/* WIDGET SUPERIOR: SOBRE MIM (CARD ÚNICO EXPANDIDO ESTILO iOS) */
 .profileWidgetCard {
   width: 100%;
   min-width: 0;
@@ -241,9 +229,6 @@
   text-align: center;
 }
 
-/* ========================================================
-   TRANSIÇÕES SUAVES DO APP MODAL SHEET (ESTILO iOS 18)
-   ======================================================== */
 @keyframes sheetSlideUp {
   0% {
     transform: translateY(100%);
@@ -361,9 +346,6 @@
   text-align: center;
 }
 
-/* ========================================================
-   GRADE DE APLICATIVOS (iOS APP GRID)
-   ======================================================== */
 .appsGridContainer {
   flex: 1;
   display: flex;
@@ -511,9 +493,6 @@
   margin-top: 0.15rem;
 }
 
-/* ========================================================
-   INDICADOR DE PÁGINAS & DOCK INFERIOR
-   ======================================================== */
 .pageDots {
   display: flex;
   align-items: center;
@@ -537,10 +516,6 @@
   background: rgba(255, 255, 255, 0.35);
 }
 
-/* ========================================================
-   DOCK INFERIOR ESTILO iOS (FROSTED GLASS FLUTUANTE)
-   Ajustado com espaço mínimo entre os apps e a borda
-   ======================================================== */
 .dockContainer {
   width: calc(100% - 1.8rem);
   max-width: 308px;
@@ -583,11 +558,6 @@
   transform: scale(0.88);
 }
 
-
-
-/* ========================================================
-   SUPORTE AO MODO CLARO (LIGHT MODE iOS)
-   ======================================================== */
 :global([data-theme="light"]) .phoneContainer {
   background: radial-gradient(circle at 50% 15%, #e0e7ff 0%, #f1f5f9 45%, #cbd5e1 100%);
   color: #0f172a;
@@ -654,7 +624,6 @@
   text-shadow: 0 1px 2px rgba(255, 255, 255, 0.85);
 }
 
-
 :global([data-theme="light"]) .profileWidgetCard {
   background: rgba(255, 255, 255, 0.8) !important;
   border-color: rgba(0, 0, 0, 0.08) !important;
@@ -700,11 +669,3 @@
   pointer-events: none !important;
   touch-action: none !important;
 }
-
-
-
-
-
-
-
-

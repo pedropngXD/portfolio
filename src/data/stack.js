@@ -7,7 +7,7 @@ export const STACK_CATEGORIES = [
 ]
 
 export const STACK_DATA = [
-  // Backend & Linguagens
+
   {
     name: 'PHP',
     category: 'backend',
@@ -72,7 +72,7 @@ export const STACK_DATA = [
     descriptionEn: 'Semantic markup, CSS Modules, Flexbox, CSS Grid, responsive layout, and design tokens.'
   },
 
-  // Bancos de Dados
+
   {
     name: 'SQL Server',
     category: 'database',
@@ -101,7 +101,7 @@ export const STACK_DATA = [
     descriptionEn: 'Relational database structuring with referential integrity, indexes, and SQL best practices.'
   },
 
-  // Ferramentas & DevOps
+
   {
     name: 'Git & GitHub',
     category: 'tools',

@@ -10,7 +10,6 @@
   overflow: hidden;
 }
 
-/* Área de Texto Puro do Bloco de Notas */
 .notepadBody {
   flex: 1;
   overflow-y: auto;
@@ -28,7 +27,6 @@
   tab-size: 4;
 }
 
-/* Barra de Status Inferior estilo Notepad */
 .statusBar {
   display: flex;
   align-items: center;

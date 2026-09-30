@@ -1,18 +1,9 @@
+import { arrayMove } from '../utils/arrayMove'
 import { useState, useRef } from 'react'
 import { SECTIONS } from '../data/sections'
 import { CONTACT_CHANNELS } from '../data/contact'
 import SystemIcon from './SystemIcon'
 import styles from './Dock.module.css'
-
-/**
- * Move um elemento de uma posição para outra dentro de um array
- */
-function arrayMove(array, fromIndex, toIndex) {
-  const newArray = [...array]
-  const [removed] = newArray.splice(fromIndex, 1)
-  newArray.splice(toIndex, 0, removed)
-  return newArray
-}
 
 export default function Dock({
   windows = {},
@@ -24,7 +15,6 @@ export default function Dock({
   onMouseLeave,
   onSelectSection,
   onContextMenu,
-  onNotify,
   theme,
   onToggleTheme,
   onReorderLeft,
@@ -32,7 +22,7 @@ export default function Dock({
   t
 }) {
   const isEffectivelyHidden = isHidden && !isRevealed
-  const [isEmailCopied, setIsEmailCopied] = useState(false)
+  const isEmailCopied = false
   const [dragState, setDragState] = useState(null)
   const isDraggingRef = useRef(false)
   const blockClickRef = useRef(false)
@@ -44,10 +34,8 @@ export default function Dock({
     (id) => windows[id]?.isOpen && !dockAppIds.includes(id)
   )
 
-  // Combina os fixados com os abertos não fixados
   const effectiveAppIds = [...dockAppIds, ...openUnpinnedIds]
 
-  // Seções da esquerda ordenadas de acordo com effectiveAppIds
   const orderedSections = effectiveAppIds
     .map((id) => SECTIONS.find((sec) => sec.id === id))
     .filter(Boolean)
@@ -55,19 +43,6 @@ export default function Dock({
   const githubChannel = CONTACT_CHANNELS.find((c) => c.id === 'github')
   const linkedinChannel = CONTACT_CHANNELS.find((c) => c.id === 'linkedin')
   const emailChannel = CONTACT_CHANNELS.find((c) => c.id === 'email')
-
-  const handleCopyEmail = () => {
-    if (!emailChannel) return
-    navigator.clipboard.writeText(emailChannel.value).then(() => {
-      setIsEmailCopied(true)
-      onNotify && onNotify({
-        title: sys.emailToastTitle || 'Área de Transferência',
-        message: sys.emailToastMessage || 'E-mail copiado para a área de transferência!',
-        icon: '📋'
-      })
-      setTimeout(() => setIsEmailCopied(false), 2400)
-    })
-  }
 
   // Previne clique acidental ao soltar um arraste
   const handleItemClick = (e, callback) => {
@@ -196,7 +171,6 @@ export default function Dock({
     }
   }
 
-  // Renderiza cada um dos itens da seção direita
   const renderRightItem = (actionId, index) => {
     const itemStyle = getItemStyle(index, 'right')
     const isThisItemDragging = dragState?.section === 'right' && dragState?.dragIndex === index
@@ -357,7 +331,6 @@ export default function Dock({
             <span className={styles.tooltip}>
               {sectionTitle} {isMinimized ? `(${sys.minimized || 'Minimizada'})` : isOpen ? `(${sys.open || 'Aberta'})` : ''}
             </span>
-
             <button
               type="button"
               data-dock-id={section.id}
@@ -384,13 +357,10 @@ export default function Dock({
               />
             </button>
 
-            {/* Pontinho indicador de aplicativo em execução no SO */}
             {isOpen && <span className={styles.activeDot} />}
           </div>
         )
       })}
-
-      {/* DIVISOR VERTICAL: Barreira rígida entre as duas seções */}
       <div className={styles.separator} aria-hidden="true" />
 
       {/* SEÇÃO DIREITA: Atalhos e utilitários (reordenáveis apenas entre si) */}

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { playWindowMaximize, playWindowClose } from '../utils/soundEffects'
 import styles from './FullscreenPrompt.module.css'
 
@@ -70,7 +70,6 @@ export default function FullscreenPrompt({ t }) {
       aria-hidden={isHidden}
     >
       <div className={styles.alertCard} role="dialog" aria-modal="false" aria-labelledby="fullscreen-dialog-title">
-        {/* Botão de Fechar discreto no canto */}
         <button
           type="button"
           className={styles.closeButton}
@@ -89,10 +88,7 @@ export default function FullscreenPrompt({ t }) {
             <path d="M1.5 1.5l7 7M8.5 1.5l-7 7" />
           </svg>
         </button>
-
-        {/* Ícone de Sistema macOS */}
         <div className={styles.appIcon} aria-hidden="true">
-          {/* Monitor Apple Retina */}
           <svg
             width="28"
             height="28"
@@ -107,8 +103,6 @@ export default function FullscreenPrompt({ t }) {
             <line x1="8" y1="21" x2="16" y2="21" />
             <line x1="12" y1="17" x2="12" y2="21" />
           </svg>
-
-          {/* Badge verde do semáforo macOS de tela cheia */}
           <div className={styles.greenDotBadge}>
             <svg
               className={styles.greenDotArrows}
@@ -123,13 +117,9 @@ export default function FullscreenPrompt({ t }) {
             </svg>
           </div>
         </div>
-
-        {/* Título Indicativo do Alerta macOS */}
         <h3 id="fullscreen-dialog-title" className={styles.title}>
           {t?.system?.fullscreenPromptTitle || 'Modo Tela Cheia Recomendado'}
         </h3>
-
-        {/* Mensagem e instrução F11 */}
         <p className={styles.message}>
           {t?.system?.langLabel === 'EN' ? (
             <>
@@ -141,8 +131,6 @@ export default function FullscreenPrompt({ t }) {
             </>
           )}
         </p>
-
-        {/* Botão Primário macOS */}
         <button
           type="button"
           className={styles.primaryButton}

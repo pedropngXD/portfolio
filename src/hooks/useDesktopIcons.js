@@ -18,7 +18,7 @@ export function useDesktopIcons() {
     if (saved) {
       try {
         parsed = JSON.parse(saved)
-      } catch (e) {
+      } catch {
         /* ignore */
       }
     }

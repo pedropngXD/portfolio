@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { SECTIONS } from '../../data/sections'
 import MenuBar from '../MenuBar'
 import DesktopIconsArea from '../DesktopIconsArea'
@@ -10,7 +10,6 @@ import FullscreenPrompt from '../FullscreenPrompt'
 import dockStyles from '../Dock.module.css'
 
 export default function DesktopLayout({
-  // Sistema e Janelas
   windows,
   focusedWindowId,
   openWindowIds,
@@ -23,8 +22,6 @@ export default function DesktopLayout({
   onResizeWindow,
   onRestoreFromDrag,
   renderContentForSection,
-
-  // Área de Trabalho e Dock
   iconPositions,
   onDropIcon,
   onDesktopIconContextMenu,
@@ -35,8 +32,6 @@ export default function DesktopLayout({
   onReorderDockRight,
   hasMaximizedWindow,
   onWorkspaceContextMenu,
-
-  // Áudio e Configurações
   volume,
   isMuted,
   onIncreaseVolume,
@@ -46,8 +41,6 @@ export default function DesktopLayout({
   onTestSound,
   isWifiEnabled = true,
   onToggleWifi,
-
-  // Tema, Idioma e Notificações
   theme,
   onToggleTheme,
   lang,
@@ -56,7 +49,6 @@ export default function DesktopLayout({
   onCloseContextMenu,
   notification,
   onCloseNotification,
-  showNotification,
   t
 }) {
   const [isDockRevealed, setIsDockRevealed] = useState(false)
@@ -105,13 +97,10 @@ export default function DesktopLayout({
 
   return (
     <div className="hidden md:flex md:flex-col desktop-workspace" onContextMenu={onWorkspaceContextMenu}>
-      {/* Barra superior de menus do SO */}
       <MenuBar
         focusedWindowId={focusedWindowId}
         openWindowIds={openWindowIds}
         onOpenSection={(id) => onOpenApp && onOpenApp(id, { fromDock: false })}
-        theme={theme}
-        onToggleTheme={onToggleTheme}
         lang={lang}
         onToggleLang={onToggleLang}
         volume={volume}
@@ -125,16 +114,12 @@ export default function DesktopLayout({
         onToggleWifi={onToggleWifi}
         t={t}
       />
-
-      {/* Área central do desktop com ícones livres e janelas */}
       <main
         className="desktop-content-area"
         onContextMenu={onWorkspaceContextMenu}
         style={{ marginTop: 'var(--menubar-height)' }}
       >
         <DesktopIconsArea
-          openWindowIds={openWindowIds}
-          focusedWindowId={focusedWindowId}
           iconPositions={iconPositions}
           onSelectSection={(id) => onOpenApp && onOpenApp(id, { fromDock: false })}
           onDropIcon={onDropIcon}
@@ -142,11 +127,8 @@ export default function DesktopLayout({
           onWorkspaceContextMenu={onWorkspaceContextMenu}
           t={t}
         />
-
-        {/* Mensagem central de convite para tela cheia (F11 ou clique) */}
         <FullscreenPrompt t={t} />
 
-        {/* Janelas abertas */}
         {SECTIONS.map((section) => {
           const win = windows[section.id]
           if (!win || !win.isOpen || (win.isMinimized && win.animState !== 'minimizing')) return null
@@ -196,8 +178,6 @@ export default function DesktopLayout({
           aria-hidden="true"
         />
       )}
-
-      {/* Barra de tarefas (Dock) */}
       <Dock
         windows={windows}
         dockAppIds={dockAppIds}
@@ -210,7 +190,6 @@ export default function DesktopLayout({
         }}
         onSelectSection={(id, opts) => onOpenApp && onOpenApp(id, { fromDock: true, ...opts })}
         onContextMenu={onDockContextMenu}
-        onNotify={showNotification}
         theme={theme}
         onToggleTheme={onToggleTheme}
         onReorderLeft={onReorderDockLeft}
@@ -218,7 +197,6 @@ export default function DesktopLayout({
         t={t}
       />
 
-      {/* Menu de contexto nativo com botão direito */}
       {contextMenu.isOpen && (
         <ContextMenu
           x={contextMenu.x}
@@ -228,7 +206,6 @@ export default function DesktopLayout({
         />
       )}
 
-      {/* Notificação Toast do Sistema */}
       {notification.isOpen && (
         <NotificationToast
           title={notification.title}

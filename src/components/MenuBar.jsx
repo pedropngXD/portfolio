@@ -1,4 +1,3 @@
-import React from 'react'
 import { SECTIONS } from '../data/sections'
 import Clock from './menubar/Clock'
 import VolumeControl from './menubar/VolumeControl'
@@ -9,8 +8,6 @@ export default function MenuBar({
   focusedWindowId,
   openWindowIds = [],
   onOpenSection,
-  theme,
-  onToggleTheme,
   lang = 'pt',
   onToggleLang,
   volume = 0.7,
@@ -28,7 +25,6 @@ export default function MenuBar({
 
   return (
     <header className={styles.menuBar} role="banner">
-      {/* Lado Esquerdo: Identidade do OS e Seções de Navegação */}
       <div className={styles.leftGroup}>
         <div className={styles.brand}>
           <span className={styles.brandIcon} aria-hidden="true">
@@ -36,7 +32,6 @@ export default function MenuBar({
           </span>
           <span>{sys.brand || 'pedroOs'}</span>
         </div>
-
         <nav aria-label={lang === 'pt' ? 'Navegação do sistema' : 'System navigation'}>
           {SECTIONS.filter((section) => !['readme', 'resume', 'status-check'].includes(section.id)).map((section) => {
             const isFocused = focusedWindowId === section.id
@@ -61,10 +56,7 @@ export default function MenuBar({
           })}
         </nav>
       </div>
-
-      {/* Lado Direito: Status, Controles e Relógio */}
       <div className={styles.rightGroup}>
-        {/* Controle de Volume macOS */}
         <VolumeControl
           volume={volume}
           isMuted={isMuted}
@@ -75,11 +67,7 @@ export default function MenuBar({
           onTestSound={onTestSound}
           t={t}
         />
-
-        {/* Controle de Wi-Fi macOS */}
         <WifiControl isWifiEnabled={isWifiEnabled} onToggleWifi={onToggleWifi} t={t} />
-
-        {/* Alternador de Idioma (PT / EN) */}
         <button
           type="button"
           className={styles.statusItem}
@@ -104,8 +92,6 @@ export default function MenuBar({
           </svg>
           <span className={styles.statusLabel}>{lang === 'pt' ? 'PT' : 'EN'}</span>
         </button>
-
-        {/* Relógio do Sistema */}
         <Clock lang={lang} className={styles.clock} />
       </div>
     </header>

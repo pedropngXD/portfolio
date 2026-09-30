@@ -10,7 +10,6 @@
   overflow: hidden;
 }
 
-/* Barra de Ferramentas estilo Visualizador de PDF do SO */
 .toolbar {
   display: flex;
   align-items: center;
@@ -103,7 +102,6 @@
   color: #f87171;
 }
 
-/* Área de Visualização do PDF Integrada */
 .viewerWrapper {
   flex: 1;
   position: relative;

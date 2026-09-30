@@ -26,7 +26,6 @@
   transition: transform 0.24s cubic-bezier(0.4, 0, 0.9, 1), opacity 0.2s ease !important;
 }
 
-/* Área invisível na borda inferior da tela para revelar o dock em tela cheia (estilo macOS) */
 .dockTriggerZone {
   position: fixed;
   bottom: 0;
@@ -42,7 +41,6 @@
   height: 88px;
 }
 
-/* Oculta tooltips durante o arraste */
 .dockContainerDragging .tooltip {
   display: none !important;
 }

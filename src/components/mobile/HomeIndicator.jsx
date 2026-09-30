@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 
 export default function HomeIndicator({ onClick, title }) {
   const [isLight, setIsLight] = useState(false)
-  
+
   useEffect(() => {
     const checkTheme = () => {
       const container = document.querySelector('[data-theme]')
@@ -18,7 +18,7 @@ export default function HomeIndicator({ onClick, title }) {
   }, [])
 
   return (
-    <footer 
+    <footer
       className="w-full flex flex-col items-center justify-end flex-shrink-0 touch-none mt-auto z-40"
       style={{ paddingTop: '16px', paddingBottom: '20px' }}
     >

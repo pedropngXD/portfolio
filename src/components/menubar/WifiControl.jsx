@@ -1,6 +1,7 @@
-import { useState, useEffect, useRef } from 'react'
+import { useOutsideClick } from '../../hooks/useOutsideClick'
+import { useState, useRef } from 'react'
 import MacWifiIcon from './MacWifiIcon'
-import { playToggle } from '../../utils/soundEffects'
+
 import styles from '../MenuBar.module.css'
 
 const CONNECTED_WIFI = {
@@ -14,17 +15,7 @@ export default function WifiControl({ isWifiEnabled = true, onToggleWifi, t }) {
   const [isOpen, setIsOpen] = useState(false)
   const wrapperRef = useRef(null)
 
-  useEffect(() => {
-    const handleOutsideClick = (e) => {
-      if (wrapperRef.current && !wrapperRef.current.contains(e.target)) {
-        setIsOpen(false)
-      }
-    }
-    if (isOpen) {
-      window.addEventListener('mousedown', handleOutsideClick)
-    }
-    return () => window.removeEventListener('mousedown', handleOutsideClick)
-  }, [isOpen])
+  useOutsideClick(wrapperRef, isOpen, setIsOpen)
 
   const isEn = t?.system?.langLabel === 'EN'
   const isEnabled = isWifiEnabled

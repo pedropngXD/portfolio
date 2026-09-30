@@ -1,5 +1,5 @@
 /**
- * Dados e conteúdo textual do currículo para o visualizador .txt do sistema operacional
+ * Texto legado do currículo e metadados do visualizador de PDF.
  */
 export const RESUME_TEXT_PT = `================================================================================
 PEDRO GABRIEL PINHEIRO MOSER

@@ -128,19 +128,19 @@
     gap: 0.5rem;
     padding: 0.5rem;
   }
-  
+
   .barLeft {
     width: 100%;
     justify-content: center;
   }
-  
+
   .urlBar {
     flex: 1;
     min-width: 0;
     max-width: 100%;
     justify-content: center;
   }
-  
+
   .barRight {
     width: 100%;
     justify-content: center;

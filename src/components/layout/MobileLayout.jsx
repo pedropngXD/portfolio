@@ -9,21 +9,11 @@ import {
   playWindowMinimize
 } from '../../utils/soundEffects'
 
-export default function MobileLayout({
-  lang,
-  onToggleLang,
-  theme,
-  onToggleTheme,
-  onNotify,
-  renderContentForSection,
-  audio,
-  t
-}) {
+export default function MobileLayout({ lang, onToggleLang, theme, onToggleTheme, onNotify, renderContentForSection, t }) {
   const [activeAppId, setActiveAppId] = useState(null)
   const [openAppIds, setOpenAppIds] = useState(['about'])
   const [isAppSwitcherOpen, setIsAppSwitcherOpen] = useState(false)
 
-  // Abrir um aplicativo
   const handleOpenApp = (appId) => {
     playWindowOpen()
     setActiveAppId(appId)
@@ -37,13 +27,11 @@ export default function MobileLayout({
     })
   }
 
-  // Fechar o app atual e voltar para a Home Screen
   const handleCloseActiveApp = () => {
     playWindowMinimize()
     setActiveAppId(null)
   }
 
-  // Fechar aba específica no App Switcher
   const handleCloseTab = (appId) => {
     playWindowClose()
     setOpenAppIds((prev) => prev.filter((id) => id !== appId))
@@ -52,7 +40,6 @@ export default function MobileLayout({
     }
   }
 
-  // Fechar todas as abas
   const handleCloseAllTabs = () => {
     playWindowClose()
     setOpenAppIds([])
@@ -66,7 +53,6 @@ export default function MobileLayout({
 
   return (
     <div className={styles.phoneContainer}>
-      {/* Conteúdo Principal: Home Screen (Widgets + Grade de Apps + Dock) */}
       <main className="flex-1 relative w-full h-full overflow-hidden flex flex-col">
         <IPhoneHomeScreen
           onOpenApp={handleOpenApp}
@@ -79,7 +65,6 @@ export default function MobileLayout({
           t={t}
         />
 
-        {/* Modal Sheet do App Ativo (quando um app está aberto) */}
         {activeAppId && (
           <IPhoneAppSheet
             appId={activeAppId}
@@ -94,7 +79,6 @@ export default function MobileLayout({
           />
         )}
 
-        {/* Multitarefa / Abas estilo iOS (App Switcher) */}
         {isAppSwitcherOpen && (
           <IPhoneAppSwitcher
             openAppIds={openAppIds}

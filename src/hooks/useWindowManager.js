@@ -82,7 +82,6 @@ export function useWindowManager() {
 
   const [focusedWindowId, setFocusedWindowId] = useState(null)
 
-  // Foca em uma janela (traz para frente como camada superior absoluta)
   const focusWindow = useCallback((id) => {
     setWindows((prev) => {
       if (!prev[id] || !prev[id].isOpen) return prev
@@ -99,7 +98,6 @@ export function useWindowManager() {
     setFocusedWindowId(id)
   }, [])
 
-  // Abre ou foca janelas no SO
   // Quando o clique vem da barra de tarefas (fromDock = true): executa a animação macOS Genie (sugar/cuspir)
   // Quando o clique vem da área de trabalho (fromDock = false): a janela apenas aparece instantaneamente sem animação
   const openWindow = useCallback((id, { fromDock = false } = {}) => {

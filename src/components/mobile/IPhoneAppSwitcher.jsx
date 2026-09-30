@@ -1,3 +1,4 @@
+import { APP_GRADIENTS } from '../../data/appGradients'
 import { useRef, useState } from 'react'
 import SystemIcon from '../SystemIcon'
 
@@ -58,18 +59,11 @@ export default function IPhoneAppSwitcher({
   }
 
   return (
-    <div 
+    <div
       className="absolute inset-0 z-50 bg-black/60 backdrop-blur-[25px] flex flex-col justify-between pt-6 pb-0 px-0 animate-fadeIn select-none"
       onClick={onDismiss}
     >
-      {/* ========================================================
-          ESPAÇO SUPERIOR (No iOS, o topo é limpo)
-          ======================================================== */}
       <div className="w-full h-8" />
-
-      {/* ========================================================
-          CARROSSEL DESLIZÁVEL DE CARDS (APP SWITCHER iOS)
-          ======================================================== */}
       <div
         ref={carouselRef}
         onPointerDown={handleCarouselPointerDown}
@@ -99,18 +93,9 @@ export default function IPhoneAppSwitcher({
             }
             const title = t?.sections?.[appId]?.title || section.title
             const isActive = appId === activeAppId
-            const APP_GRADIENTS = {
-              readme: 'linear-gradient(180deg, #ffd60a 0%, #f59e0b 100%)',
-              resume: 'linear-gradient(180deg, #ef4444 0%, #dc2626 100%)',
-              about: 'linear-gradient(180deg, #8b5cf6 0%, #6366f1 100%)',
-              stack: 'linear-gradient(180deg, #10b981 0%, #059669 100%)',
-              experience: 'linear-gradient(180deg, #3b82f6 0%, #1d4ed8 100%)',
-              projects: 'linear-gradient(180deg, #f97316 0%, #ea580c 100%)',
-              'status-check': 'linear-gradient(180deg, #10b981 0%, #047857 100%)',
-              contact: 'linear-gradient(180deg, #06b6d4 0%, #0891b2 100%)'
-            }
+
             const gradient = APP_GRADIENTS[section.id] || 'linear-gradient(180deg, #007aff 0%, #0051ba 100%)'
-            
+
             return (
               <SwipeableCard
                 key={appId}
@@ -130,10 +115,6 @@ export default function IPhoneAppSwitcher({
         )}
       </div>
 
-      {/* ========================================================
-          HOME BAR INFERIOR (RETORNAR À TELA DE INÍCIO) E LIMPAR TUDO
-          ======================================================== */}
-            {/* Botao Limpar Tudo (Proporcao de pill nativa do iOS) */}
       {openAppIds.length > 1 && (
         <button
           type="button"
@@ -154,16 +135,25 @@ export default function IPhoneAppSwitcher({
           {isEn ? 'Clear All' : 'Limpar Tudo'}
         </button>
       )}
-
-      {/* HOME INDICATOR (COMPONENTE PADRAO) */}
-      <HomeIndicator 
-        onClick={onDismiss} 
-        title={isEn ? 'Close App Switcher' : 'Fechar Multitarefa'} 
+      <HomeIndicator
+        onClick={onDismiss}
+        title={isEn ? 'Close App Switcher' : 'Fechar Multitarefa'}
       />
     </div>
   )
 }
-function SwipeableCard({ appId, section, title, isActive, gradient, theme, isEn, onSelectApp, onCloseApp, renderContentForSection }) {
+function SwipeableCard({
+  appId,
+  section,
+  title,
+  isActive,
+  gradient,
+  theme,
+  isEn,
+  onSelectApp,
+  onCloseApp,
+  renderContentForSection
+}) {
   const [offsetY, setOffsetY] = useState(0)
   const [isSwipingOut, setIsSwipingOut] = useState(false)
   const startYRef = useRef(0)
@@ -174,10 +164,10 @@ function SwipeableCard({ appId, section, title, isActive, gradient, theme, isEn,
     if (e.pointerType === 'mouse' && e.button !== 0) return
     const isCloseBtn = e.target.closest('[data-close-btn]')
     if (isCloseBtn) return
-    
+
     startYRef.current = e.clientY
     currentYRef.current = 0
-    
+
     const handlePointerMove = (moveEvent) => {
       const deltaY = moveEvent.clientY - startYRef.current
       if (deltaY < 0) { // Only swipe UP
@@ -185,12 +175,12 @@ function SwipeableCard({ appId, section, title, isActive, gradient, theme, isEn,
         setOffsetY(deltaY)
       }
     }
-    
+
     const handlePointerUp = () => {
       window.removeEventListener('pointermove', handlePointerMove)
       window.removeEventListener('pointerup', handlePointerUp)
       window.removeEventListener('pointercancel', handlePointerUp)
-      
+
       if (currentYRef.current < -100) {
         setIsSwipingOut(true)
         setTimeout(() => onCloseApp(appId), 250)
@@ -198,7 +188,7 @@ function SwipeableCard({ appId, section, title, isActive, gradient, theme, isEn,
         setOffsetY(0)
       }
     }
-    
+
     window.addEventListener('pointermove', handlePointerMove)
     window.addEventListener('pointerup', handlePointerUp)
     window.addEventListener('pointercancel', handlePointerUp)
@@ -267,11 +257,3 @@ function SwipeableCard({ appId, section, title, isActive, gradient, theme, isEn,
     </div>
   )
 }
-
-
-
-
-
-
-
-

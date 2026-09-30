@@ -2,7 +2,6 @@
 @import './styles/tokens.css';
 @import './styles/reset.css';
 
-/* Container principal de tela inteira do Desktop OS */
 .desktop-workspace {
   width: 100vw;
   height: 100vh;
@@ -19,7 +18,6 @@
   }
 }
 
-/* Área central de trabalho (logo abaixo da MenuBar até a base) */
 .desktop-content-area {
   flex: 1;
   position: relative;

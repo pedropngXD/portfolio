@@ -4,8 +4,6 @@ import { getDefaultDesktopPositions } from '../utils/desktopGrid'
 import styles from './DesktopIconsArea.module.css'
 
 export default function DesktopIconsArea({
-  openWindowIds = [],
-  focusedWindowId,
   iconPositions = {},
   onSelectSection,
   onDropIcon,
