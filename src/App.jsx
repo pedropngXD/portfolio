@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { SECTIONS } from './data/sections'
 import { CONTACT_CHANNELS } from './data/contact'
-import { RESUME_METADATA, getResumePdf } from './data/resume'
+import { getResumePdf } from './data/resume'
 import { useTheme } from './hooks/useTheme'
 import { useLanguage } from './hooks/useLanguage'
 import { useSystemAudio } from './hooks/useSystemAudio'
