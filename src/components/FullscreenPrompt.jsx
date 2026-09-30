@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { playWindowMaximize } from '../utils/soundEffects'
+import { playWindowMaximize, playWindowClose } from '../utils/soundEffects'
 import styles from './FullscreenPrompt.module.css'
 
 export default function FullscreenPrompt({ t }) {
@@ -54,6 +54,11 @@ export default function FullscreenPrompt({ t }) {
 
   const handleDismiss = (e) => {
     e.stopPropagation()
+    try {
+      playWindowClose()
+    } catch {
+      // ignore
+    }
     setIsDismissed(true)
   }
 
@@ -64,19 +69,8 @@ export default function FullscreenPrompt({ t }) {
       className={`${styles.wrapper} ${isHidden ? styles.hidden : ''}`}
       aria-hidden={isHidden}
     >
-      <div
-        role="button"
-        tabIndex={0}
-        className={styles.bannerCard}
-        onClick={handleRequestFullscreen}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
-            e.preventDefault()
-            handleRequestFullscreen()
-          }
-        }}
-        title={t?.system?.fullscreenPrompt || 'Pressione F11 ou clique aqui para tela cheia'}
-      >
+      <div className={styles.alertCard} role="dialog" aria-modal="false" aria-labelledby="fullscreen-dialog-title">
+        {/* Botão de Fechar discreto no canto */}
         <button
           type="button"
           className={styles.closeButton}
@@ -84,42 +78,78 @@ export default function FullscreenPrompt({ t }) {
           title={t?.system?.fullscreenClose || 'Fechar aviso'}
           aria-label={t?.system?.fullscreenClose || 'Fechar aviso'}
         >
-          ×
+          <svg
+            className={styles.closeIcon}
+            viewBox="0 0 10 10"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.8"
+            strokeLinecap="round"
+          >
+            <path d="M1.5 1.5l7 7M8.5 1.5l-7 7" />
+          </svg>
         </button>
 
-        <div className={styles.iconWrapper} aria-hidden="true">
+        {/* Ícone de Sistema macOS */}
+        <div className={styles.appIcon} aria-hidden="true">
+          {/* Monitor Apple Retina */}
           <svg
-            width="22"
-            height="22"
+            width="28"
+            height="28"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
-            strokeWidth="2.2"
+            strokeWidth="1.8"
             strokeLinecap="round"
             strokeLinejoin="round"
           >
-            <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3" />
+            <rect x="2" y="3" width="20" height="14" rx="2" />
+            <line x1="8" y1="21" x2="16" y2="21" />
+            <line x1="12" y1="17" x2="12" y2="21" />
           </svg>
-        </div>
 
-        <div className={styles.content}>
-          <div className={styles.headerRow}>
-            <span className={styles.tagBadge}>
-              {t?.system?.fullscreenPromptTitle || 'Experiência Completa'}
-            </span>
-            <kbd className={styles.keycap}>F11</kbd>
+          {/* Badge verde do semáforo macOS de tela cheia */}
+          <div className={styles.greenDotBadge}>
+            <svg
+              className={styles.greenDotArrows}
+              viewBox="0 0 10 10"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d="M1 4V1h3M9 6v3H6" />
+            </svg>
           </div>
-
-          <p className={styles.message}>
-            {t?.system?.fullscreenPrompt ||
-              'Pressione F11 ou clique aqui para tela cheia e ter a experiência máxima do sistema operacional'}
-          </p>
-
-          <span className={styles.actionHint}>
-            <span>{t?.system?.openAsWindow ? 'Tela Cheia' : 'Fullscreen'}</span>
-            <span aria-hidden="true">↗</span>
-          </span>
         </div>
+
+        {/* Título Indicativo do Alerta macOS */}
+        <h3 id="fullscreen-dialog-title" className={styles.title}>
+          {t?.system?.fullscreenPromptTitle || 'Modo Tela Cheia Recomendado'}
+        </h3>
+
+        {/* Mensagem e instrução F11 */}
+        <p className={styles.message}>
+          {t?.system?.langLabel === 'EN' ? (
+            <>
+              To enjoy the full desktop operating system experience, press <kbd className={styles.keycap}>F11</kbd> or click below.
+            </>
+          ) : (
+            <>
+              Para aproveitar a experiência completa do sistema operacional no desktop, pressione <kbd className={styles.keycap}>F11</kbd> ou clique abaixo.
+            </>
+          )}
+        </p>
+
+        {/* Botão Primário macOS */}
+        <button
+          type="button"
+          className={styles.primaryButton}
+          onClick={handleRequestFullscreen}
+        >
+          <span>{t?.system?.fullscreenConfirm || 'Entrar em Tela Cheia'}</span>
+        </button>
       </div>
     </aside>
   )

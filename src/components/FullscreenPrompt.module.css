@@ -1,20 +1,21 @@
+/* Wrapper centralizado na Área de Trabalho com transição suave */
 .wrapper {
   position: absolute;
   top: 48%;
   left: 50%;
   transform: translate(-50%, -50%) scale(1);
-  z-index: 20;
+  z-index: 25;
   display: flex;
   flex-direction: column;
   align-items: center;
   pointer-events: auto;
   opacity: 1;
-  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 0.5s cubic-bezier(0.16, 1, 0.3, 1),
-              visibility 0.5s;
+  transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+              visibility 0.45s;
   visibility: visible;
-  max-width: 90%;
-  width: 520px;
+  max-width: 90vw;
+  width: 320px;
 }
 
 .hidden {
@@ -24,142 +25,171 @@
   visibility: hidden;
 }
 
-.bannerCard {
-  width: 100%;
+/* Card no formato de Diálogo de Sistema Nativo do macOS (System Alert) */
+.alertCard {
   position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 24px 20px 20px;
+  background: var(--window-bg);
+  backdrop-filter: blur(40px) saturate(190%);
+  -webkit-backdrop-filter: blur(40px) saturate(190%);
+  border: 0.5px solid var(--window-border);
+  border-radius: 20px;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.35),
+              0 2px 12px rgba(0, 0, 0, 0.15),
+              inset 0 1px 0 rgba(255, 255, 255, 0.22);
+  user-select: none;
+  animation: macAlertPop 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes macAlertPop {
+  0% {
+    transform: scale(0.92);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Botão discreto 'x' no canto superior direito do card macOS */
+.closeButton {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 0.5px solid var(--window-border);
+  background: rgba(148, 163, 184, 0.18);
+  color: var(--window-text-secondary);
   display: flex;
   align-items: center;
-  gap: 1.1rem;
-  padding: 1.15rem 1.4rem;
-  background: var(--window-bg);
-  backdrop-filter: blur(28px);
-  -webkit-backdrop-filter: blur(28px);
-  border: 1px solid var(--window-border);
-  border-radius: var(--radius-xl);
-  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.22),
-              0 0 0 1px rgba(255, 255, 255, 0.08),
-              inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  justify-content: center;
   cursor: pointer;
-  text-align: left;
-  user-select: none;
-  transition: transform var(--transition-normal),
-              box-shadow var(--transition-normal),
-              border-color var(--transition-normal),
-              background var(--transition-normal);
-  outline: none;
+  padding: 0;
+  transition: background-color var(--transition-fast), color var(--transition-fast), transform var(--transition-fast);
 }
 
-.bannerCard:hover {
-  transform: translateY(-2px) scale(1.015);
-  box-shadow: 0 24px 54px rgba(59, 130, 246, 0.22),
-              0 0 0 1px rgba(59, 130, 246, 0.4),
-              inset 0 1px 0 rgba(255, 255, 255, 0.35);
-  border-color: rgba(59, 130, 246, 0.45);
+.closeButton:hover {
+  background: rgba(148, 163, 184, 0.35);
+  color: var(--window-text-primary);
+  transform: scale(1.06);
 }
 
-.bannerCard:active {
-  transform: translateY(0) scale(0.99);
+.closeButton:active {
+  transform: scale(0.95);
 }
 
-.iconWrapper {
-  flex-shrink: 0;
-  width: 46px;
-  height: 46px;
-  border-radius: var(--radius-lg);
-  background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+.closeIcon {
+  width: 10px;
+  height: 10px;
+}
+
+/* Ícone de Aplicativo / Sistema macOS */
+.appIcon {
+  width: 58px;
+  height: 58px;
+  border-radius: 13px;
+  background: linear-gradient(180deg, #3b82f6 0%, #1d4ed8 100%);
+  box-shadow: 0 8px 18px rgba(37, 99, 235, 0.35),
+              inset 0 1px 0 rgba(255, 255, 255, 0.35),
+              0 0 0 0.5px rgba(0, 0, 0, 0.2);
   display: flex;
   align-items: center;
   justify-content: center;
   color: #ffffff;
-  box-shadow: 0 6px 16px rgba(37, 99, 235, 0.35);
-  transition: transform var(--transition-normal);
+  position: relative;
 }
 
-.bannerCard:hover .iconWrapper {
-  transform: scale(1.08);
-}
-
-.content {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 0.35rem;
-}
-
-.headerRow {
+/* Badge de semáforo verde clássico de maximizar no canto do ícone */
+.greenDotBadge {
+  position: absolute;
+  top: -3px;
+  right: -3px;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: #28c840;
+  border: 2px solid var(--window-bg);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
   display: flex;
   align-items: center;
-  gap: 0.6rem;
+  justify-content: center;
 }
 
-.tagBadge {
-  font-size: 0.68rem;
+.greenDotArrows {
+  width: 8px;
+  height: 8px;
+  color: #0d4a18;
+}
+
+/* Tipografia Estilo macOS SF Pro */
+.title {
+  margin: 14px 0 6px;
+  font-size: 14.5px;
   font-weight: 700;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: #3b82f6;
-  background: rgba(59, 130, 246, 0.12);
-  padding: 0.15rem 0.5rem;
-  border-radius: 9999px;
-  border: 1px solid rgba(59, 130, 246, 0.25);
+  letter-spacing: -0.015em;
+  color: var(--window-text-primary);
+  line-height: 1.25;
+}
+
+.message {
+  margin: 0 0 18px;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.45;
+  color: var(--window-text-secondary);
 }
 
 .keycap {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0.12rem 0.45rem;
-  font-family: var(--font-mono);
-  font-size: 0.72rem;
-  font-weight: 700;
-  color: var(--window-text-primary);
-  background: var(--window-surface);
-  border: 1px solid var(--window-border);
-  border-radius: 6px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.2);
-}
-
-.message {
-  margin: 0;
-  font-size: 0.885rem;
-  font-weight: 500;
-  line-height: 1.42;
-  color: var(--window-text-primary);
-}
-
-.actionHint {
-  font-size: 0.76rem;
+  padding: 1px 6px;
+  font-family: var(--font-sans);
+  font-size: 11px;
   font-weight: 600;
-  color: #3b82f6;
-  display: flex;
-  align-items: center;
-  gap: 0.3rem;
-  margin-top: 0.1rem;
+  color: var(--window-text-primary);
+  background: rgba(148, 163, 184, 0.2);
+  border: 0.5px solid var(--window-border);
+  border-radius: 4px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.12);
+  margin: 0 2px;
+  vertical-align: baseline;
 }
 
-.closeButton {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
+/* Botão Primário macOS (Apple Blue) */
+.primaryButton {
+  width: 100%;
+  height: 34px;
+  padding: 0 14px;
+  background: #007aff;
+  color: #ffffff;
   border: none;
-  background: transparent;
-  color: var(--window-text-secondary);
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: -0.01em;
+  cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.1rem;
-  line-height: 1;
-  cursor: pointer;
-  opacity: 0.5;
-  transition: opacity var(--transition-fast), background var(--transition-fast), color var(--transition-fast);
-  z-index: 5;
+  gap: 6px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+  transition: background-color var(--transition-fast), transform var(--transition-fast);
 }
 
-.closeButton:hover {
-  opacity: 1;
-  background: rgba(148, 163, 184, 0.25);
-  color: var(--window-text-primary);
+.primaryButton:hover {
+  background: #0071eb;
+}
+
+.primaryButton:active {
+  background: #005ec4;
+  transform: scale(0.99);
 }

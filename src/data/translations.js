@@ -41,9 +41,9 @@ export const TRANSLATIONS = {
       restoreWindow: 'Restaurar tamanho',
       dockAria: 'Barra de tarefas',
       desktopAria: 'Atalhos da Área de Trabalho',
-      linkCopied: 'Link copiado para a área de transferência!',
-      fullscreenPrompt: 'Pressione F11 ou clique aqui para tela cheia e ter a experiência máxima do sistema operacional',
-      fullscreenPromptTitle: 'Experiência Completa',
+      fullscreenPromptTitle: 'Modo Tela Cheia Recomendado',
+      fullscreenPrompt: 'Para aproveitar a experiência completa do sistema operacional no desktop, pressione F11 ou clique abaixo.',
+      fullscreenConfirm: 'Entrar em Tela Cheia',
       fullscreenClose: 'Fechar aviso'
     },
     sections: {
@@ -356,10 +356,10 @@ export const TRANSLATIONS = {
       restoreWindow: 'Restore size',
       dockAria: 'Taskbar',
       desktopAria: 'Desktop Shortcuts',
-      linkCopied: 'Link copied to clipboard!',
-      fullscreenPrompt: 'Press F11 or click here for fullscreen to get the full operating system experience',
-      fullscreenPromptTitle: 'Full Experience',
-      fullscreenClose: 'Dismiss'
+      fullscreenPromptTitle: 'Fullscreen Mode Recommended',
+      fullscreenPrompt: 'To enjoy the full desktop operating system experience, press F11 or click below.',
+      fullscreenConfirm: 'Enter Fullscreen',
+      fullscreenClose: 'Dismiss notification'
     },
     sections: {
       readme: {
