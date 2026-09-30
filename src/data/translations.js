@@ -41,7 +41,10 @@ export const TRANSLATIONS = {
       restoreWindow: 'Restaurar tamanho',
       dockAria: 'Barra de tarefas',
       desktopAria: 'Atalhos da Área de Trabalho',
-      linkCopied: 'Link copiado para a área de transferência!'
+      linkCopied: 'Link copiado para a área de transferência!',
+      fullscreenPrompt: 'Pressione F11 ou clique aqui para tela cheia e ter a experiência máxima do sistema operacional',
+      fullscreenPromptTitle: 'Experiência Completa',
+      fullscreenClose: 'Fechar aviso'
     },
     sections: {
       readme: {
@@ -353,7 +356,10 @@ export const TRANSLATIONS = {
       restoreWindow: 'Restore size',
       dockAria: 'Taskbar',
       desktopAria: 'Desktop Shortcuts',
-      linkCopied: 'Link copied to clipboard!'
+      linkCopied: 'Link copied to clipboard!',
+      fullscreenPrompt: 'Press F11 or click here for fullscreen to get the full operating system experience',
+      fullscreenPromptTitle: 'Full Experience',
+      fullscreenClose: 'Dismiss'
     },
     sections: {
       readme: {

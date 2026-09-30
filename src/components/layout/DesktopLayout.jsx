@@ -6,6 +6,7 @@ import Window from '../Window'
 import Dock from '../Dock'
 import ContextMenu from '../ContextMenu'
 import NotificationToast from '../NotificationToast'
+import FullscreenPrompt from '../FullscreenPrompt'
 import dockStyles from '../Dock.module.css'
 
 export default function DesktopLayout({
@@ -132,6 +133,9 @@ export default function DesktopLayout({
           onContextMenu={onDesktopIconContextMenu}
           t={t}
         />
+
+        {/* Mensagem central de convite para tela cheia (F11 ou clique) */}
+        <FullscreenPrompt t={t} />
 
         {/* Janelas abertas */}
         {SECTIONS.map((section) => {

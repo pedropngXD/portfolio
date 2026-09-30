@@ -67,11 +67,11 @@ export function useWindowManager() {
       const bounds = getInitialWindowBounds(sec.id)
       initialMap[sec.id] = {
         id: sec.id,
-        isOpen: sec.id === 'readme',
+        isOpen: false,
         isMinimized: false,
         isMaximized: false,
         animState: 'idle',
-        zIndex: sec.id === 'readme' ? 100 : 10,
+        zIndex: 10,
         position: bounds.position,
         size: bounds.size,
         prevBounds: null
@@ -80,7 +80,7 @@ export function useWindowManager() {
     return initialMap
   })
 
-  const [focusedWindowId, setFocusedWindowId] = useState('readme')
+  const [focusedWindowId, setFocusedWindowId] = useState(null)
 
   // Foca em uma janela (traz para frente como camada superior absoluta)
   const focusWindow = useCallback((id) => {
