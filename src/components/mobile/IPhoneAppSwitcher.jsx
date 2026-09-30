@@ -248,10 +248,16 @@ function SwipeableCard({ appId, section, title, isActive, gradient, theme, isEn,
         >
           <span className="text-[10px] font-bold">✕</span>
         </div>
+        {/* Escudo protetor para garantir que toques e scrolls fiquem travados na miniatura */}
+        <div className="absolute inset-0 z-10 pointer-events-none" />
+
         {renderContentForSection ? (
-          <div className="absolute top-0 left-0 w-[125%] h-[130%] origin-top-left pointer-events-none select-none pt-12 px-7 sm:px-10 flex flex-col items-center" style={{ transform: 'scale(0.8)' }}>
-            <div className="w-full max-w-[350px] sm:max-w-[400px] flex flex-col flex-1">
-              {renderContentForSection(appId)}
+          <div
+            className={`${styles.switcherPreview} absolute top-0 left-0 w-[125%] h-[125%] origin-top-left pointer-events-none select-none overflow-hidden pt-5 px-6 flex flex-col items-center`}
+            style={{ transform: 'scale(0.8)' }}
+          >
+            <div className="w-full max-w-[350px] sm:max-w-[400px] flex flex-col flex-1 pointer-events-none">
+              {renderContentForSection(appId, { isMobile: true, isAppSwitcher: true })}
             </div>
           </div>
         ) : (

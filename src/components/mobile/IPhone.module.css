@@ -682,6 +682,26 @@
   box-shadow: 0 10px 28px rgba(0, 0, 0, 0.08), inset 0 0.5px 0 rgba(255, 255, 255, 0.85) !important;
 }
 
+/* ========================================================
+   TRAVAMENTO TOTAL DE SCROLL E INTERAÇÕES NOS APPS RECENTES
+   ======================================================== */
+.switcherPreview {
+  pointer-events: none !important;
+  user-select: none !important;
+  -webkit-user-select: none !important;
+  -webkit-touch-callout: none !important;
+  touch-action: none !important;
+  overflow: hidden !important;
+}
+
+.switcherPreview iframe,
+.switcherPreview object,
+.switcherPreview embed {
+  pointer-events: none !important;
+  touch-action: none !important;
+}
+
+
 
 
 

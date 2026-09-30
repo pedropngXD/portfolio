@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import styles from './StatusCheckSection.module.css'
 
-export default function StatusCheckSection({ t }) {
+export default function StatusCheckSection({ t, isAppSwitcher = false }) {
   const [reloadKey, setReloadKey] = useState(0)
   const url = 'https://status-check-eosin.vercel.app'
   const isEn = t?.system?.langLabel === 'EN'
@@ -13,7 +13,7 @@ export default function StatusCheckSection({ t }) {
   }
 
   return (
-    <div className={styles.container}>
+    <div className={styles.container} style={isAppSwitcher ? { pointerEvents: 'none', overflow: 'hidden' } : undefined}>
       {/* Barra de Navegador do SO */}
       <div className={styles.browserBar}>
         <div className={styles.barLeft}>
@@ -55,6 +55,8 @@ export default function StatusCheckSection({ t }) {
           src={url}
           title="Status Check — Real-time AI & Cloud Telemetry"
           className={styles.iframe}
+          style={isAppSwitcher ? { pointerEvents: 'none', touchAction: 'none' } : undefined}
+          tabIndex={isAppSwitcher ? -1 : undefined}
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope"
         />
       </div>

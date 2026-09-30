@@ -340,7 +340,7 @@ export default function App() {
       case 'contact':
         return <ContactSection t={t} />
       case 'status-check':
-        return <StatusCheckSection />
+        return <StatusCheckSection t={t} isAppSwitcher={options?.isAppSwitcher} />
       default:
         return null
     }
