@@ -101,13 +101,13 @@ export default function IPhoneAppSwitcher({
             const isActive = appId === activeAppId
             const APP_GRADIENTS = {
               readme: 'linear-gradient(180deg, #ffd60a 0%, #f59e0b 100%)',
-              resume: 'linear-gradient(180deg, #ff453a 0%, #d70015 100%)',
-              about: 'linear-gradient(180deg, #6366f1 0%, #4338ca 100%)',
-              stack: 'linear-gradient(180deg, #30d158 0%, #15803d 100%)',
-              experience: 'linear-gradient(180deg, #32d74b 0%, #28cd41 100%)',
-              projects: 'linear-gradient(180deg, #0a84ff 0%, #007aff 100%)',
-              education: 'linear-gradient(180deg, #bf5af2 0%, #af52de 100%)',
-              contact: 'linear-gradient(180deg, #64d2ff 0%, #5ac8fa 100%)'
+              resume: 'linear-gradient(180deg, #ef4444 0%, #dc2626 100%)',
+              about: 'linear-gradient(180deg, #8b5cf6 0%, #6366f1 100%)',
+              stack: 'linear-gradient(180deg, #10b981 0%, #059669 100%)',
+              experience: 'linear-gradient(180deg, #3b82f6 0%, #1d4ed8 100%)',
+              projects: 'linear-gradient(180deg, #f97316 0%, #ea580c 100%)',
+              'status-check': 'linear-gradient(180deg, #10b981 0%, #047857 100%)',
+              contact: 'linear-gradient(180deg, #06b6d4 0%, #0891b2 100%)'
             }
             const gradient = APP_GRADIENTS[section.id] || 'linear-gradient(180deg, #007aff 0%, #0051ba 100%)'
             
@@ -253,6 +253,7 @@ function SwipeableCard({ appId, section, title, isActive, gradient, theme, isEn,
     </div>
   )
 }
+
 
 
 
