@@ -371,12 +371,10 @@ export default function IPhoneHomeScreen({
                 <h2 className="font-bold text-[16px] text-white tracking-tight truncate">
                   {ABOUT_DATA.name}
                 </h2>
-                <span className="text-[10px] text-purple-300 bg-purple-500/20 border border-purple-500/30 px-2 py-0.5 rounded-full font-semibold">
-                  Dev Júnior
-                </span>
+                
               </div>
               <p className="text-[12.5px] text-neutral-300 truncate mt-1 font-medium">
-                {isEn ? 'Software Engineering • Unisinos' : 'Engenharia de Software • Unisinos'}
+                {isEn ? 'ADS • Unisinos' : 'ADS • Unisinos'}
               </p>
             </div>
           </div>
@@ -393,11 +391,9 @@ export default function IPhoneHomeScreen({
         {/* Linha Inferior: Stack Técnica & Call-to-action */}
         <div className="flex items-center justify-between w-full min-w-0">
           <div className="flex items-center gap-1.5 flex-wrap">
-            <span className={styles.profileTechPill}>PHP</span>
-            <span className={styles.profileTechPill}>React</span>
-            <span className={styles.profileTechPill}>SQL</span>
-            <span className={styles.profileTechPill}>Node</span>
-            <span className={styles.profileTechPill}>Vite</span>
+            <span className="text-[11px] text-purple-300 bg-purple-500/20 border border-purple-500/30 px-3 py-0.5 rounded-full font-semibold shadow-sm">
+              Dev Júnior
+            </span>
           </div>
 
           <div className="flex items-center gap-1 text-[12px] text-purple-400 font-semibold flex-shrink-0 ml-2">
@@ -574,6 +570,7 @@ export default function IPhoneHomeScreen({
     </div>
   )
 }
+
 
 
 
