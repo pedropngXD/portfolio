@@ -17,10 +17,7 @@ export default function StatusCheckSection({ t }) {
       {/* Barra de Navegador do SO */}
       <div className={styles.browserBar}>
         <div className={styles.barLeft}>
-          <div className={styles.statusIndicator}>
-            <span className={styles.statusDot} />
-            <span>{statusData.online || 'Online'}</span>
-          </div>
+          
 
           <div className={styles.urlBar} title={url}>
             <span className={styles.lockIcon}>🔒</span>
@@ -64,3 +61,4 @@ export default function StatusCheckSection({ t }) {
     </div>
   )
 }
+
