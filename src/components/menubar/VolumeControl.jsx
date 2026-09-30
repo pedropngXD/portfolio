@@ -31,6 +31,15 @@ export default function VolumeControl({
   const isEn = sys.langLabel === 'EN'
   const volumePercent = isMuted ? 0 : Math.round(volume * 100)
 
+  const [localVal, setLocalVal] = useState(volumePercent)
+  const isDraggingRef = useRef(false)
+
+  useEffect(() => {
+    if (!isDraggingRef.current) {
+      setLocalVal(volumePercent)
+    }
+  }, [volumePercent])
+
   const handleVolumeWheel = (e) => {
     e.preventDefault()
     if (e.deltaY < 0) {
@@ -39,6 +48,35 @@ export default function VolumeControl({
       onDecreaseVolume && onDecreaseVolume()
     }
   }
+
+  const handleSliderChange = (e) => {
+    const val = parseInt(e.target.value, 10)
+    setLocalVal(val)
+    if (onSetVolume) {
+      onSetVolume(val / 100, { silent: true })
+    }
+  }
+
+  const handlePointerDown = () => {
+    isDraggingRef.current = true
+  }
+
+  const handlePointerUp = () => {
+    isDraggingRef.current = false
+    if (onSetVolume) {
+      onSetVolume(localVal / 100, { silent: false })
+    }
+  }
+
+  const handleKeyUp = (e) => {
+    if (['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Home', 'End', 'PageUp', 'PageDown'].includes(e.key)) {
+      if (onSetVolume) {
+        onSetVolume(localVal / 100, { silent: false })
+      }
+    }
+  }
+
+  const currentPercent = isDraggingRef.current ? localVal : volumePercent
 
   return (
     <div className={styles.volumeWrapper} ref={wrapperRef}>
@@ -58,21 +96,24 @@ export default function VolumeControl({
           <div className={styles.popoverHeader}>
             <span>{sys.systemVolume || 'Som'}</span>
             <span className={styles.popoverValue}>
-              {isMuted ? sys.mute || 'Mudo' : `${volumePercent}%`}
+              {isMuted ? sys.mute || 'Mudo' : `${currentPercent}%`}
             </span>
           </div>
 
           <div className={styles.capsuleTrack}>
-            <div className={styles.capsuleFill} style={{ width: `${volumePercent}%` }} />
+            <div className={styles.capsuleFill} style={{ width: `${currentPercent}%` }} />
             <div className={styles.capsuleSpeakerIcon}>
-              <MacSpeakerIcon volume={volume} isMuted={isMuted} size={15} />
+              <MacSpeakerIcon volume={currentPercent / 100} isMuted={isMuted} size={15} />
             </div>
             <input
               type="range"
               min="0"
               max="100"
-              value={volumePercent}
-              onChange={(e) => onSetVolume && onSetVolume(parseInt(e.target.value, 10) / 100)}
+              value={currentPercent}
+              onPointerDown={handlePointerDown}
+              onPointerUp={handlePointerUp}
+              onKeyUp={handleKeyUp}
+              onChange={handleSliderChange}
               className={styles.capsuleInput}
               aria-label={isEn ? 'Volume level' : 'Nível de volume'}
             />

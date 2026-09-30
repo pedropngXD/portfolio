@@ -27,13 +27,15 @@ export function useSystemAudio() {
     playVolumeFeedback()
   }
 
-  const handleSetVolume = (newVol) => {
+  const handleSetVolume = (newVol, { silent = false } = {}) => {
     setSystemVolume(newVol)
     setVolume(newVol)
     if (newVol > 0 && isMuted) {
       setIsMuted(false)
     }
-    playVolumeFeedback()
+    if (!silent) {
+      playVolumeFeedback()
+    }
   }
 
   const handleToggleMute = () => {
