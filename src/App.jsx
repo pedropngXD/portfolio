@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { SECTIONS } from './data/sections'
 import { CONTACT_CHANNELS } from './data/contact'
-import { RESUME_METADATA, getResumePdf } from './data/resume'
+import { getResumePdf } from './data/resume'
 import { useTheme } from './hooks/useTheme'
 import { useLanguage } from './hooks/useLanguage'
 import { useSystemAudio } from './hooks/useSystemAudio'
@@ -13,14 +13,7 @@ import MobileLayout from './components/layout/MobileLayout'
 import NotificationToast from './components/NotificationToast'
 
 // Seções internas das janelas
-import ReadmeSection from './components/sections/ReadmeSection'
-import ResumeSection from './components/sections/ResumeSection'
-import AboutSection from './components/sections/AboutSection'
-import StackSection from './components/sections/StackSection'
-import ExperienceSection from './components/sections/ExperienceSection'
-import ProjectsSection from './components/sections/ProjectsSection'
-import ContactSection from './components/sections/ContactSection'
-import StatusCheckSection from './components/sections/StatusCheckSection'
+import SectionContent from './components/sections/SectionContent'
 import {
   playNotification,
   playWindowOpen,
@@ -321,28 +314,16 @@ export default function App() {
   const hasMaximizedWindow = Object.values(windows).some((w) => w.isOpen && !w.isMinimized && w.isMaximized)
 
   // Renderizador de seções de janelas
-  const renderContentForSection = (sectionId) => {
-    switch (sectionId) {
-      case 'readme':
-        return <ReadmeSection onNavigate={handleOpenApp} t={t} onNotify={showNotification} />
-      case 'resume':
-        return <ResumeSection language={language} />
-      case 'about':
-        return <AboutSection onNavigate={handleOpenApp} t={t} isMaximized={windows.about?.isMaximized} />
-      case 'stack':
-        return <StackSection t={t} />
-      case 'experience':
-        return <ExperienceSection t={t} />
-      case 'projects':
-        return <ProjectsSection t={t} />
-      case 'contact':
-        return <ContactSection t={t} />
-      case 'status-check':
-        return <StatusCheckSection />
-      default:
-        return null
-    }
-  }
+  const renderContentForSection = (sectionId) => (
+    <SectionContent
+      sectionId={sectionId}
+      language={language}
+      onNavigate={handleOpenApp}
+      onNotify={showNotification}
+      t={t}
+      isAboutMaximized={windows.about?.isMaximized}
+    />
+  )
 
   return (
     <>
