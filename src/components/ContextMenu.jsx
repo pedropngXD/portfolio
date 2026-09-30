@@ -1,22 +1,29 @@
-import { useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import styles from './ContextMenu.module.css'
 
 export default function ContextMenu({ x, y, items = [], onClose }) {
+  const menuRef = useRef(null)
+
   useEffect(() => {
     const handleClickOutside = (e) => {
+      if (menuRef.current && menuRef.current.contains(e.target)) return
       onClose && onClose()
     }
     const handleKeyDown = (e) => {
       if (e.key === 'Escape') onClose && onClose()
     }
 
-    window.addEventListener('click', handleClickOutside)
-    window.addEventListener('contextmenu', handleClickOutside)
-    window.addEventListener('keydown', handleKeyDown)
+    // Delay para garantir que o próprio clique que abriu o menu não o feche no mesmo frame
+    const timer = setTimeout(() => {
+      window.addEventListener('mousedown', handleClickOutside)
+      window.addEventListener('touchstart', handleClickOutside)
+      window.addEventListener('keydown', handleKeyDown)
+    }, 40)
 
     return () => {
-      window.removeEventListener('click', handleClickOutside)
-      window.removeEventListener('contextmenu', handleClickOutside)
+      clearTimeout(timer)
+      window.removeEventListener('mousedown', handleClickOutside)
+      window.removeEventListener('touchstart', handleClickOutside)
       window.removeEventListener('keydown', handleKeyDown)
     }
   }, [onClose])
@@ -27,9 +34,15 @@ export default function ContextMenu({ x, y, items = [], onClose }) {
 
   return (
     <div
+      ref={menuRef}
       className={styles.menu}
       style={{ left: adjustedX, top: adjustedY }}
       onClick={(e) => e.stopPropagation()}
+      onMouseDown={(e) => e.stopPropagation()}
+      onContextMenu={(e) => {
+        e.preventDefault()
+        e.stopPropagation()
+      }}
     >
       {items.map((item, idx) => {
         if (item.separator) {

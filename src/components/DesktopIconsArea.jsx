@@ -10,10 +10,15 @@ export default function DesktopIconsArea({
   onDropIcon,
   onMoveIcon,
   onContextMenu,
+  onWorkspaceContextMenu,
   t
 }) {
   return (
-    <nav className={styles.iconsArea} aria-label={t?.system?.desktopAria || "Atalhos da Área de Trabalho"}>
+    <nav
+      className={styles.iconsArea}
+      aria-label={t?.system?.desktopAria || "Atalhos da Área de Trabalho"}
+      onContextMenu={onWorkspaceContextMenu}
+    >
       {SECTIONS.map((section, idx) => {
         const title = t?.sections?.[section.id]?.title || section.title
         // Posição salva ou padrão em coluna no canto esquerdo

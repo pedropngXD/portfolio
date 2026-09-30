@@ -43,8 +43,7 @@ export default function App() {
     setDockAppIds,
     setDockRightIds,
     handleAddToDock,
-    handleRemoveFromDock,
-    handleResetDock
+    handleRemoveFromDock
   } = useDockApps()
 
   const {
@@ -170,7 +169,7 @@ export default function App() {
     })
     items.push({ separator: true })
     items.push({
-      label: sys.alignIcons || 'Alinhar todos os ícones',
+      label: sys.alignIcons || (language === 'pt' ? 'Alinhar todos os apps' : 'Align all apps'),
       icon: '📐',
       onClick: handleAlignIcons
     })
@@ -272,19 +271,20 @@ export default function App() {
       danger: isPinned,
       onClick: () => (isPinned ? handleRemoveFromDock(sectionId) : handleAddToDock(sectionId))
     })
-    items.push({ separator: true })
-    items.push({
-      label: sys.resetDock || 'Restaurar barra de tarefas padrão',
-      icon: '🔄',
-      onClick: handleResetDock
-    })
 
     setContextMenu({ isOpen: true, x: e.clientX, y: e.clientY, items, isFromDock: true })
   }
 
   const handleWorkspaceContextMenu = (e) => {
-    if (e.target.closest('[role="dialog"]') || e.target.closest('button')) return
+    // Não abre o menu da área de trabalho se clicou dentro de uma janela de aplicativo ou em botões
+    if (e.target.closest('[role="dialog"]') && !e.target.closest('aside')) return
+    if (e.target.closest('button') || e.target.closest('[role="button"]')) return
+
     e.preventDefault()
+    e.stopPropagation()
+    if (e.nativeEvent?.stopPropagation) {
+      e.nativeEvent.stopPropagation()
+    }
 
     const sys = t?.system || {}
 
@@ -294,22 +294,16 @@ export default function App() {
       y: e.clientY,
       items: [
         {
-          label: language === 'pt' ? '🌐 Idioma: Inglês (EN)' : '🌐 Language: Portuguese (PT)',
-          icon: '🌐',
-          onClick: toggleLanguage
-        },
-        { separator: true },
-        {
-          label: sys.alignIcons || 'Alinhar ícones na área de trabalho',
+          label: sys.alignIcons || (language === 'pt' ? 'Alinhar todos os apps' : 'Align all apps'),
           icon: '📐',
           onClick: handleAlignIcons
         },
-        {
-          label: sys.resetDock || 'Restaurar barra de tarefas padrão',
-          icon: '🔄',
-          onClick: handleResetDock
-        },
         { separator: true },
+        {
+          label: language === 'pt' ? 'Idioma: Inglês (EN)' : 'Language: Portuguese (PT)',
+          icon: '🌐',
+          onClick: toggleLanguage
+        },
         {
           label: theme === 'dark' ? sys.switchThemeLight || 'Modo Claro' : sys.switchThemeDark || 'Modo Escuro',
           icon: theme === 'dark' ? '☀️' : '🌙',

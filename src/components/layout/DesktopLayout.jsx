@@ -127,7 +127,11 @@ export default function DesktopLayout({
       />
 
       {/* Área central do desktop com ícones livres e janelas */}
-      <main className="desktop-content-area" style={{ marginTop: 'var(--menubar-height)' }}>
+      <main
+        className="desktop-content-area"
+        onContextMenu={onWorkspaceContextMenu}
+        style={{ marginTop: 'var(--menubar-height)' }}
+      >
         <DesktopIconsArea
           openWindowIds={openWindowIds}
           focusedWindowId={focusedWindowId}
@@ -135,6 +139,7 @@ export default function DesktopLayout({
           onSelectSection={(id) => onOpenApp && onOpenApp(id, { fromDock: false })}
           onDropIcon={onDropIcon}
           onContextMenu={onDesktopIconContextMenu}
+          onWorkspaceContextMenu={onWorkspaceContextMenu}
           t={t}
         />
 
