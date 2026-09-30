@@ -20,6 +20,8 @@ export default function MenuBar({
   onSetVolume,
   onToggleMute,
   onTestSound,
+  isWifiEnabled = true,
+  onToggleWifi,
   t
 }) {
   const sys = t?.system || {}
@@ -75,7 +77,7 @@ export default function MenuBar({
         />
 
         {/* Controle de Wi-Fi macOS */}
-        <WifiControl t={t} />
+        <WifiControl isWifiEnabled={isWifiEnabled} onToggleWifi={onToggleWifi} t={t} />
 
         {/* Alternador de Idioma (PT / EN) */}
         <button

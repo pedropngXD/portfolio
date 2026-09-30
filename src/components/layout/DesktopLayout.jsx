@@ -44,6 +44,8 @@ export default function DesktopLayout({
   onSetVolume,
   onToggleMute,
   onTestSound,
+  isWifiEnabled = true,
+  onToggleWifi,
 
   // Tema, Idioma e Notificações
   theme,
@@ -119,6 +121,8 @@ export default function DesktopLayout({
         onSetVolume={onSetVolume}
         onToggleMute={onToggleMute}
         onTestSound={onTestSound}
+        isWifiEnabled={isWifiEnabled}
+        onToggleWifi={onToggleWifi}
         t={t}
       />
 
@@ -166,6 +170,8 @@ export default function DesktopLayout({
               onMove={onMoveWindow}
               onResize={onResizeWindow}
               onRestoreFromDrag={onRestoreFromDrag}
+              isWifiEnabled={isWifiEnabled}
+              onToggleWifi={onToggleWifi}
               t={t}
             >
               {renderContentForSection(section.id)}

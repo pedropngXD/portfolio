@@ -5,6 +5,7 @@ import { RESUME_METADATA, getResumePdf } from './data/resume'
 import { useTheme } from './hooks/useTheme'
 import { useLanguage } from './hooks/useLanguage'
 import { useSystemAudio } from './hooks/useSystemAudio'
+import { useSystemWifi } from './hooks/useSystemWifi'
 import { useDesktopIcons } from './hooks/useDesktopIcons'
 import { useDockApps } from './hooks/useDockApps'
 import { useWindowManager } from './hooks/useWindowManager'
@@ -34,6 +35,7 @@ export default function App() {
   const { theme, toggleTheme } = useTheme()
   const { language, toggleLanguage, t } = useLanguage()
   const audio = useSystemAudio()
+  const { isWifiEnabled, toggleWifi } = useSystemWifi()
   const { iconPositions, handleDropIcon, handleAlignIcons } = useDesktopIcons()
   const {
     dockAppIds,
@@ -399,6 +401,8 @@ export default function App() {
         onSetVolume={audio.handleSetVolume}
         onToggleMute={audio.handleToggleMute}
         onTestSound={audio.handleTestSound}
+        isWifiEnabled={isWifiEnabled}
+        onToggleWifi={toggleWifi}
         theme={theme}
         onToggleTheme={toggleTheme}
         lang={language}

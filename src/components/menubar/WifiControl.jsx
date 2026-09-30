@@ -10,9 +10,8 @@ const CONNECTED_WIFI = {
   ip: '192.168.1.104'
 }
 
-export default function WifiControl({ t }) {
+export default function WifiControl({ isWifiEnabled = true, onToggleWifi, t }) {
   const [isOpen, setIsOpen] = useState(false)
-  const [isEnabled, setIsEnabled] = useState(true)
   const wrapperRef = useRef(null)
 
   useEffect(() => {
@@ -28,6 +27,7 @@ export default function WifiControl({ t }) {
   }, [isOpen])
 
   const isEn = t?.system?.langLabel === 'EN'
+  const isEnabled = isWifiEnabled
 
   return (
     <div className={styles.wifiWrapper} ref={wrapperRef}>
@@ -53,8 +53,9 @@ export default function WifiControl({ t }) {
               type="button"
               className={`${styles.switchToggle} ${isEnabled ? styles.switchToggleActive : ''}`}
               onClick={() => {
-                playToggle()
-                setIsEnabled((prev) => !prev)
+                if (onToggleWifi) {
+                  onToggleWifi()
+                }
               }}
               title={isEnabled ? t?.wifi?.turnOff || (isEn ? 'Turn Wi-Fi Off' : 'Desativar Wi-Fi') : t?.wifi?.turnOn || (isEn ? 'Turn Wi-Fi On' : 'Ativar Wi-Fi')}
               aria-label={isEn ? 'Toggle Wi-Fi' : 'Alternar Wi-Fi'}

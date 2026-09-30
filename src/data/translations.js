@@ -298,7 +298,10 @@ export const TRANSLATIONS = {
       statusOnline: 'Acesso à Internet Ativo',
       networkSettings: 'Ajustes de Rede...',
       turnOff: 'Desativar Wi-Fi',
-      turnOn: 'Ativar Wi-Fi'
+      turnOn: 'Ativar Wi-Fi',
+      connectionProblemTitle: 'Problema de Conexão',
+      connectionProblemDesc: 'O Wi-Fi do sistema está desligado. Conecte-se a uma rede para carregar o conteúdo deste aplicativo.',
+      reconnectBtn: 'Ativar Wi-Fi'
     },
     statusCheck: {
       online: 'Online',
@@ -611,7 +614,10 @@ export const TRANSLATIONS = {
       statusOnline: 'Internet Access Active',
       networkSettings: 'Network Settings...',
       turnOff: 'Turn Wi-Fi Off',
-      turnOn: 'Turn Wi-Fi On'
+      turnOn: 'Turn Wi-Fi On',
+      connectionProblemTitle: 'Connection Problem',
+      connectionProblemDesc: 'System Wi-Fi is turned off. Connect to a network to load content for this application.',
+      reconnectBtn: 'Turn Wi-Fi On'
     },
     statusCheck: {
       online: 'Online',
