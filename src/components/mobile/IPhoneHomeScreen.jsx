@@ -470,13 +470,7 @@ export default function IPhoneHomeScreen({
                 >
                   <SystemIcon type={section.iconType} size={32} color="#ffffff" />
 
-                  {/* Badges de notificação iOS */}
-                  {section.id === 'readme' && (
-                    <span className={styles.appBadgeNumber}>1</span>
-                  )}
-                  {section.id === 'resume' && (
-                    <span className={styles.appBadgePdf}>PDF</span>
-                  )}
+                  
                 </div>
 
                 {/* Rótulo do App */}
@@ -551,10 +545,7 @@ export default function IPhoneHomeScreen({
             >
               <SystemIcon type={item.iconType} size={28} color="#ffffff" />
 
-              {/* Badge de notificação 1 no e-mail */}
-              {item.id === 'email' && (
-                <span className={styles.appBadgeNumber}>1</span>
-              )}
+              
             </button>
           )
         })}
@@ -570,6 +561,7 @@ export default function IPhoneHomeScreen({
     </div>
   )
 }
+
 
 
 
