@@ -18,6 +18,18 @@ sua tela, ativando recursos como:
   • Transições fluidas e movimentação livre de janelas e ícones.
 
 --------------------------------------------------------------------------------
+[ 📱 ACESSO MOBILE: EXPERIÊNCIA DEDICADA ESTILO IPHONE ]
+--------------------------------------------------------------------------------
+Você sabia que este portfólio possui uma versão mobile completa estilo iOS?
+
+Acesse este mesmo link no seu celular (ou redimensione a janela do seu navegador
+para menos de 768px de largura) para vivenciar:
+  • Interface mobile com Dock translúcida, Home Indicator e widgets de perfil;
+  • Multitarefa fluido no estilo App Switcher do iOS com navegação por abas;
+  • Janelas em formato Bottom Sheet modal com gestos táteis e pull-to-dismiss;
+  • Filtros deslizáveis com affordance de blur na Stack Técnica.
+
+--------------------------------------------------------------------------------
 [ PRINCIPAIS RECURSOS & FUNCIONALIDADES ]
 --------------------------------------------------------------------------------
 
@@ -75,6 +87,18 @@ your display, unlocking:
   • Dynamic taskbar with auto-hide when hovering the bottom screen edge;
   • Maximized windows covering the full desktop viewport;
   • Fluid window transitions, floating icons, and desktop sound effects.
+
+--------------------------------------------------------------------------------
+[ 📱 MOBILE ACCESS: DEDICATED IPHONE / iOS EXPERIENCE ]
+--------------------------------------------------------------------------------
+Did you know that this portfolio also features a dedicated mobile operating system?
+
+Open this same link on your smartphone (or resize your browser window below 768px)
+to discover:
+  • Mobile interface featuring frosted glass Dock, Home Indicator, and profile widgets;
+  • Multitasking iOS App Switcher with touchable app previews;
+  • Modal Bottom Sheet windows with gesture physics and pull-to-dismiss;
+  • Touch-friendly swipeable filters in the Tech Stack section.
 
 --------------------------------------------------------------------------------
 [ KEY FEATURES & CAPABILITIES ]
