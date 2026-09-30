@@ -11,13 +11,7 @@ import MobileLayout from './components/layout/MobileLayout'
 import NotificationToast from './components/NotificationToast'
 
 // Seções internas das janelas
-import ResumeSection from './components/sections/ResumeSection'
-import AboutSection from './components/sections/AboutSection'
-import StackSection from './components/sections/StackSection'
-import ExperienceSection from './components/sections/ExperienceSection'
-import ProjectsSection from './components/sections/ProjectsSection'
-import ContactSection from './components/sections/ContactSection'
-import StatusCheckSection from './components/sections/StatusCheckSection'
+import SectionContent from './components/sections/SectionContent'
 import {
   playNotification,
   playWindowOpen,
@@ -257,26 +251,9 @@ export default function App() {
   const hasMaximizedWindow = Object.values(windows).some((w) => w.isOpen && !w.isMinimized && w.isMaximized)
 
   // Renderizador de seções de janelas
-  const renderContentForSection = (sectionId) => {
-    switch (sectionId) {
-      case 'resume':
-        return <ResumeSection language={language} />
-      case 'about':
-        return <AboutSection onNavigate={handleOpenApp} t={t} />
-      case 'stack':
-        return <StackSection t={t} />
-      case 'experience':
-        return <ExperienceSection t={t} />
-      case 'projects':
-        return <ProjectsSection t={t} />
-      case 'contact':
-        return <ContactSection t={t} />
-      case 'status-check':
-        return <StatusCheckSection />
-      default:
-        return null
-    }
-  }
+  const renderContentForSection = (sectionId) => (
+    <SectionContent sectionId={sectionId} language={language} onNavigate={handleOpenApp} t={t} />
+  )
 
   return (
     <>
