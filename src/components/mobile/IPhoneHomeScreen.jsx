@@ -391,9 +391,12 @@ export default function IPhoneHomeScreen({
         {/* Linha Inferior: Stack Técnica & Call-to-action */}
         <div className="flex items-center justify-between w-full min-w-0">
           <div className="flex items-center gap-1.5 flex-wrap">
-            <span className="text-[11px] text-purple-300 bg-purple-500/20 border border-purple-500/30 px-3 py-0.5 rounded-full font-semibold shadow-sm">
-              Desenvolvedor Júnior
-            </span>
+            <span 
+                className="text-[11px] text-purple-300 bg-purple-500/20 border border-purple-500/30 rounded-full font-semibold shadow-sm"
+                style={{ padding: '0.28rem 0.65rem' }}
+              >
+                {isEn ? 'Junior Developer' : 'Desenvolvedor Júnior'}
+              </span>
           </div>
 
           <div className="flex items-center gap-1 text-[12px] text-purple-400 font-semibold flex-shrink-0 ml-2">
@@ -561,6 +564,8 @@ export default function IPhoneHomeScreen({
     </div>
   )
 }
+
+
 
 
 
