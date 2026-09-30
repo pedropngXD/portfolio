@@ -1,3 +1,4 @@
+import { useOutsideClick } from '../../hooks/useOutsideClick'
 import { useState, useEffect, useRef } from 'react'
 import MacSpeakerIcon from './MacSpeakerIcon'
 import styles from '../MenuBar.module.css'
@@ -15,17 +16,7 @@ export default function VolumeControl({
   const [isOpen, setIsOpen] = useState(false)
   const wrapperRef = useRef(null)
 
-  useEffect(() => {
-    const handleOutsideClick = (e) => {
-      if (wrapperRef.current && !wrapperRef.current.contains(e.target)) {
-        setIsOpen(false)
-      }
-    }
-    if (isOpen) {
-      window.addEventListener('mousedown', handleOutsideClick)
-    }
-    return () => window.removeEventListener('mousedown', handleOutsideClick)
-  }, [isOpen])
+  useOutsideClick(wrapperRef, isOpen, setIsOpen)
 
   const sys = t?.system || {}
   const isEn = sys.langLabel === 'EN'
@@ -99,7 +90,6 @@ export default function VolumeControl({
               {isMuted ? sys.mute || 'Mudo' : `${currentPercent}%`}
             </span>
           </div>
-
           <div className={styles.capsuleTrack}>
             <div className={styles.capsuleFill} style={{ width: `${currentPercent}%` }} />
             <div className={styles.capsuleSpeakerIcon}>
@@ -118,7 +108,6 @@ export default function VolumeControl({
               aria-label={isEn ? 'Volume level' : 'Nível de volume'}
             />
           </div>
-
           <div className={styles.deviceInfoRow}>
             <div className={styles.deviceInfoLeft}>
               <span>🎧</span>
@@ -126,13 +115,11 @@ export default function VolumeControl({
             </div>
             <span className={styles.deviceCheck}>✓</span>
           </div>
-
           <div className={styles.popoverActions}>
             <button type="button" className={styles.popoverBtn} onClick={onToggleMute}>
               <span>{isMuted ? '🔊' : '🔇'}</span>
               <span>{isMuted ? sys.unmute || 'Ativar som' : sys.mute || 'Silenciar'}</span>
             </button>
-
             <button
               type="button"
               className={`${styles.popoverBtn} ${styles.popoverBtnTest}`}

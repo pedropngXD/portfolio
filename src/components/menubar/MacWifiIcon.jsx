@@ -1,5 +1,3 @@
-import React from 'react'
-
 export default function MacWifiIcon({ isConnected = true, size = 15 }) {
   if (!isConnected) {
     return (

@@ -10,7 +10,6 @@
   overflow: hidden;
 }
 
-
 .toolbar {
   display: flex;
   align-items: center;
@@ -102,7 +101,6 @@
   background: rgba(239, 68, 68, 0.18);
   color: #f87171;
 }
-
 
 .viewerWrapper {
   flex: 1;

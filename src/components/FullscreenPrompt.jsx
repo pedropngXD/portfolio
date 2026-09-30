@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { playWindowMaximize, playWindowClose } from '../utils/soundEffects'
 import styles from './FullscreenPrompt.module.css'
 
@@ -88,7 +88,6 @@ export default function FullscreenPrompt({ t }) {
             <path d="M1.5 1.5l7 7M8.5 1.5l-7 7" />
           </svg>
         </button>
-
         <div className={styles.appIcon} aria-hidden="true">
           <svg
             width="28"
@@ -104,7 +103,6 @@ export default function FullscreenPrompt({ t }) {
             <line x1="8" y1="21" x2="16" y2="21" />
             <line x1="12" y1="17" x2="12" y2="21" />
           </svg>
-
           <div className={styles.greenDotBadge}>
             <svg
               className={styles.greenDotArrows}
@@ -119,11 +117,9 @@ export default function FullscreenPrompt({ t }) {
             </svg>
           </div>
         </div>
-
         <h3 id="fullscreen-dialog-title" className={styles.title}>
           {t?.system?.fullscreenPromptTitle || 'Modo Tela Cheia Recomendado'}
         </h3>
-
         <p className={styles.message}>
           {t?.system?.langLabel === 'EN' ? (
             <>
@@ -135,7 +131,6 @@ export default function FullscreenPrompt({ t }) {
             </>
           )}
         </p>
-
         <button
           type="button"
           className={styles.primaryButton}

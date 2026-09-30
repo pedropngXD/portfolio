@@ -1,4 +1,3 @@
-import React from 'react'
 import { SECTIONS } from '../data/sections'
 import Clock from './menubar/Clock'
 import VolumeControl from './menubar/VolumeControl'
@@ -9,8 +8,6 @@ export default function MenuBar({
   focusedWindowId,
   openWindowIds = [],
   onOpenSection,
-  theme,
-  onToggleTheme,
   lang = 'pt',
   onToggleLang,
   volume = 0.7,
@@ -35,7 +32,6 @@ export default function MenuBar({
           </span>
           <span>{sys.brand || 'pedroOs'}</span>
         </div>
-
         <nav aria-label={lang === 'pt' ? 'Navegação do sistema' : 'System navigation'}>
           {SECTIONS.filter((section) => !['readme', 'resume', 'status-check'].includes(section.id)).map((section) => {
             const isFocused = focusedWindowId === section.id
@@ -60,7 +56,6 @@ export default function MenuBar({
           })}
         </nav>
       </div>
-
       <div className={styles.rightGroup}>
         <VolumeControl
           volume={volume}
@@ -72,9 +67,7 @@ export default function MenuBar({
           onTestSound={onTestSound}
           t={t}
         />
-
         <WifiControl isWifiEnabled={isWifiEnabled} onToggleWifi={onToggleWifi} t={t} />
-
         <button
           type="button"
           className={styles.statusItem}
@@ -99,7 +92,6 @@ export default function MenuBar({
           </svg>
           <span className={styles.statusLabel}>{lang === 'pt' ? 'PT' : 'EN'}</span>
         </button>
-
         <Clock lang={lang} className={styles.clock} />
       </div>
     </header>

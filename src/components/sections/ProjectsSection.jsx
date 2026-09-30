@@ -52,7 +52,6 @@ export default function ProjectsSection({ t }) {
           'Aplicações práticas com código real, regras de negócio e boas práticas de arquitetura.'
         }
       />
-
       <div className={styles.grid}>
         {localizedProjects.map((project) => (
           <article key={project.id} className={styles.projectCard}>
@@ -61,9 +60,7 @@ export default function ProjectsSection({ t }) {
                 <h3 className={styles.projectTitle}>{project.title}</h3>
                 <span className={styles.statusBadge}>{project.status}</span>
               </div>
-
               <p className={styles.description}>{project.description}</p>
-
               <ul className={styles.highlightsList} style={{ marginTop: '0.6rem' }}>
                 {project.highlights.map((highlight, idx) => (
                   <li key={idx} className={styles.highlightItem}>
@@ -73,7 +70,6 @@ export default function ProjectsSection({ t }) {
                 ))}
               </ul>
             </div>
-
             <div>
               <div className={styles.techTags}>
                 {project.techStack.map((tech) => (
@@ -82,7 +78,6 @@ export default function ProjectsSection({ t }) {
                   </span>
                 ))}
               </div>
-
               <div className={styles.cardFooter}>
                 {project.githubUrl && (
                   <a
@@ -112,7 +107,6 @@ export default function ProjectsSection({ t }) {
           </article>
         ))}
       </div>
-
       <div className={styles.footerCallout}>
         <span>
           {t?.projects?.footerText || 'Mais projetos de estudos e scripts estão disponíveis diretamente no meu perfil do GitHub.'}

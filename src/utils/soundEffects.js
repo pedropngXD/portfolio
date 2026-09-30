@@ -1,15 +1,13 @@
 /**
  * Sistema de Áudio e Efeitos Sonoros do Sistema Operacional via Web Audio API nativa
- * Não requer arquivos externos de áudio; sintetiza timbres suaves em tempo real com latência zero.
+ * Sintetiza os efeitos sem depender de arquivos externos de áudio.
  */
 
 let audioCtx = null
 
-// Configurações globais de áudio
 let masterVolume = 0.7 // 0.0 a 1.0 (70% padrão)
 let isMuted = false
 
-// Inicializa a partir do localStorage
 if (typeof window !== 'undefined') {
   const savedVol = localStorage.getItem('pedro-os-volume')
   if (savedVol !== null) {
@@ -214,7 +212,7 @@ export function playWindowMaximize() {
   if (gain <= 0) return
 
   const notes = [440, 659.25, 880] // A4, E5, A5
-  notes.forEach((freq, idx) => {
+  notes.forEach((freq) => {
     const osc = ctx.createOscillator()
     const gainNode = ctx.createGain()
 

@@ -9,16 +9,7 @@ import {
   playWindowMinimize
 } from '../../utils/soundEffects'
 
-export default function MobileLayout({
-  lang,
-  onToggleLang,
-  theme,
-  onToggleTheme,
-  onNotify,
-  renderContentForSection,
-  audio,
-  t
-}) {
+export default function MobileLayout({ lang, onToggleLang, theme, onToggleTheme, onNotify, renderContentForSection, t }) {
   const [activeAppId, setActiveAppId] = useState(null)
   const [openAppIds, setOpenAppIds] = useState(['about'])
   const [isAppSwitcherOpen, setIsAppSwitcherOpen] = useState(false)

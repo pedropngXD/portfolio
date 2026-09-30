@@ -17,7 +17,6 @@ export default function ResumeSection({ language = 'pt' }) {
           <span className={styles.fileName}>{fileName}</span>
           <span className={styles.pdfBadge}>PDF</span>
         </div>
-
         <div className={styles.actionsGroup}>
           <a
             href={pdfUrl}
@@ -29,7 +28,6 @@ export default function ResumeSection({ language = 'pt' }) {
             <span>↗</span>
             <span>{isEn ? 'View in Tab' : 'Abrir no Navegador'}</span>
           </a>
-
           <a
             href={pdfUrl}
             download={downloadName}
@@ -41,7 +39,6 @@ export default function ResumeSection({ language = 'pt' }) {
           </a>
         </div>
       </div>
-
       <div className={styles.viewerWrapper}>
         <object
           key={`pdf-object-${pdfUrl}`}

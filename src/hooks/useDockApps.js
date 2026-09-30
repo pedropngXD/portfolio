@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { SECTIONS } from '../data/sections'
+
 import { playSnap } from '../utils/soundEffects'
 
 export const DEFAULT_DOCK_APPS = ['about', 'stack', 'experience', 'contact', 'projects']
@@ -13,7 +13,7 @@ export function useDockApps() {
     try {
       localStorage.removeItem('pedro-os-dock-apps-v2')
       localStorage.removeItem('pedro-os-dock-apps')
-    } catch (e) {
+    } catch {
       /* ignore */
     }
 
@@ -25,7 +25,7 @@ export function useDockApps() {
           const cleaned = parsed.filter((id) => id !== 'resume' && id !== 'status-check' && id !== 'readme')
           return cleaned.length > 0 ? cleaned : DEFAULT_DOCK_APPS
         }
-      } catch (e) {
+      } catch {
         /* ignore */
       }
     }
@@ -37,7 +37,7 @@ export function useDockApps() {
     if (saved) {
       try {
         return JSON.parse(saved)
-      } catch (e) {
+      } catch {
         /* ignore */
       }
     }

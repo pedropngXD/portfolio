@@ -9,12 +9,10 @@
   transition: max-width 0.28s ease;
 }
 
-
 .containerMaximized {
   max-width: 1440px;
   gap: 2rem;
 }
-
 
 .profileHeader {
   display: flex;
@@ -157,7 +155,6 @@
   transform: translateY(-1px);
 }
 
-
 .contentLayout {
   display: flex;
   flex-direction: column;
@@ -254,7 +251,6 @@
     gap: 0.55rem;
   }
 }
-
 
 .bioColumn {
   display: flex;
@@ -357,7 +353,6 @@
   color: #f87171;
 }
 
-
 .sideColumn {
   display: flex;
   flex-direction: column;
@@ -412,7 +407,6 @@
   font-weight: var(--weight-semibold);
   line-height: 1.35;
 }
-
 
 .competenciesBox {
   background: var(--window-surface);
@@ -483,7 +477,6 @@
   color: var(--window-text-secondary);
   line-height: 1.4;
 }
-
 
 @media (max-width: 640px) {
   .container {
@@ -639,4 +632,3 @@
     line-height: 1.45;
   }
 }
-

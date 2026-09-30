@@ -1,3 +1,5 @@
+import { APP_GRADIENTS } from '../../data/appGradients'
+import { arrayMove } from '../../utils/arrayMove'
 import { useState, useRef } from 'react'
 import SystemIcon from '../SystemIcon'
 
@@ -7,24 +9,6 @@ import { CONTACT_CHANNELS } from '../../data/contact'
 import { playToggle } from '../../utils/soundEffects'
 import styles from './IPhone.module.css'
 import HomeIndicator from './HomeIndicator'
-
-function arrayMove(array, fromIndex, toIndex) {
-  const newArray = [...array]
-  const [removed] = newArray.splice(fromIndex, 1)
-  newArray.splice(toIndex, 0, removed)
-  return newArray
-}
-
-const APP_GRADIENTS = {
-  readme: 'linear-gradient(180deg, #ffd60a 0%, #f59e0b 100%)',
-  resume: 'linear-gradient(180deg, #ef4444 0%, #dc2626 100%)',
-  about: 'linear-gradient(180deg, #8b5cf6 0%, #6366f1 100%)',
-  stack: 'linear-gradient(180deg, #10b981 0%, #059669 100%)',
-  experience: 'linear-gradient(180deg, #3b82f6 0%, #1d4ed8 100%)',
-  contact: 'linear-gradient(180deg, #06b6d4 0%, #0891b2 100%)',
-  projects: 'linear-gradient(180deg, #f97316 0%, #ea580c 100%)',
-  'status-check': 'linear-gradient(180deg, #10b981 0%, #047857 100%)'
-}
 
 export default function IPhoneHomeScreen({
   onOpenApp,
@@ -48,7 +32,7 @@ export default function IPhoneHomeScreen({
         const missingIds = defaultDockIds.filter(id => !validIds.includes(id))
         return [...validIds, ...missingIds].slice(0, 4)
       }
-    } catch (err) {}
+    } catch {}
     return defaultDockIds
   })
 
@@ -127,11 +111,10 @@ export default function IPhoneHomeScreen({
             return [...ordered, ...missing]
           }
         }
-      } catch (err) {}
+      } catch {}
     }
     return SECTIONS
   })
-
 
   const [dockDragState, setDockDragState] = useState(null)
 
@@ -197,7 +180,7 @@ export default function IPhoneHomeScreen({
                 'pedro-os-mobile-dock-order',
                 JSON.stringify(next)
               )
-            } catch (err) {}
+            } catch {}
             return next
           })
         }
@@ -285,7 +268,7 @@ export default function IPhoneHomeScreen({
                 'pedro-os-mobile-app-order',
                 JSON.stringify(next.map((s) => s.id))
               )
-            } catch (err) {}
+            } catch {}
             return next
           })
         }
@@ -329,7 +312,6 @@ export default function IPhoneHomeScreen({
           </button>
         )}
       </header>
-
       <button
         type="button"
         onClick={() => onOpenApp('about')}
@@ -352,39 +334,33 @@ export default function IPhoneHomeScreen({
                 <h2 className="font-bold text-[16px] text-white tracking-tight truncate">
                   {ABOUT_DATA.name}
                 </h2>
-                
               </div>
               <p className="text-[12.5px] text-neutral-300 truncate mt-1 font-medium">
                 {isEn ? 'ADS • Unisinos' : 'ADS • Unisinos'}
               </p>
             </div>
           </div>
-
           <div className={styles.profileWidgetBadge}>
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse flex-shrink-0" />
             <span className="truncate">{isEn ? 'Available' : 'Disponível'}</span>
           </div>
         </div>
-
         <div className="w-full h-[1px] bg-white/10 my-3" />
-
         <div className="flex items-center justify-between w-full min-w-0">
           <div className="flex items-center gap-1.5 flex-wrap">
-            <span 
+            <span
                 className="text-[11px] text-purple-300 bg-purple-500/20 border border-purple-500/30 rounded-full font-semibold shadow-sm"
                 style={{ padding: '0.28rem 0.65rem' }}
               >
                 {isEn ? 'Junior Developer' : 'Desenvolvedor Júnior'}
               </span>
           </div>
-
           <div className="flex items-center gap-1 text-[12px] text-purple-400 font-semibold flex-shrink-0 ml-2">
             <span>{isEn ? 'View bio' : 'Ver bio'}</span>
             <span className="text-xs">↗</span>
           </div>
         </div>
       </button>
-
       <section className={styles.appsGridContainer}>
         <div className={styles.appsGrid}>
           {appOrder.map((section, index) => {
@@ -407,7 +383,7 @@ export default function IPhoneHomeScreen({
               let virtualIndex = index
               if (dragIndex < overIndex && index > dragIndex && index <= overIndex) virtualIndex = index - 1
               else if (dragIndex > overIndex && index >= overIndex && index < dragIndex) virtualIndex = index + 1
-              
+
               if (virtualIndex !== index) {
                 const cellW = typeof window !== 'undefined' && window.innerWidth < 400 ? 76 : 88
                 const colDiff = (virtualIndex % 4) - (index % 4)
@@ -447,18 +423,13 @@ export default function IPhoneHomeScreen({
                   }}
                 >
                   <SystemIcon type={section.iconType} size={32} color="#ffffff" />
-
-                  
                 </div>
-
                 <span className={styles.appLabel}>{title}</span>
               </button>
             )
           })}
         </div>
       </section>
-
-
       <nav aria-label="iOS Dock" className={styles.dockContainer}>
         {dockOrderIds.map((itemId, index) => {
           const item = dockItems.find((d) => d.id === itemId)
@@ -482,7 +453,7 @@ export default function IPhoneHomeScreen({
             let virtualIndex = index
             if (dragIndex < overIndex && index > dragIndex && index <= overIndex) virtualIndex = index - 1
             else if (dragIndex > overIndex && index >= overIndex && index < dragIndex) virtualIndex = index + 1
-            
+
             if (virtualIndex !== index) {
               const diff = virtualIndex - index
               const cellW = typeof window !== 'undefined' && window.innerWidth < 400 ? 68 : 74
@@ -517,29 +488,14 @@ export default function IPhoneHomeScreen({
               style={itemStyle}
             >
               <SystemIcon type={item.iconType} size={28} color="#ffffff" />
-
-              
             </button>
           )
         })}
       </nav>
-
-      <HomeIndicator 
-        onClick={onOpenAppSwitcher} 
-        title={isEn ? 'Multitask / App Switcher' : 'Ver Abas / Multitarefa'} 
+      <HomeIndicator
+        onClick={onOpenAppSwitcher}
+        title={isEn ? 'Multitask / App Switcher' : 'Ver Abas / Multitarefa'}
       />
     </div>
   )
 }
-
-
-
-
-
-
-
-
-
-
-
-

@@ -1,5 +1,3 @@
-import React from 'react'
-
 export default function SectionHeader({ title, subtitle, className = '' }) {
   return (
     <div className={`flex flex-col gap-1.5 w-full items-center text-center sm:items-start sm:text-left ${className}`}>

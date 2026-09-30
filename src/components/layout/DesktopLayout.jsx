@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { SECTIONS } from '../../data/sections'
 import MenuBar from '../MenuBar'
 import DesktopIconsArea from '../DesktopIconsArea'
@@ -22,7 +22,6 @@ export default function DesktopLayout({
   onResizeWindow,
   onRestoreFromDrag,
   renderContentForSection,
-
   iconPositions,
   onDropIcon,
   onDesktopIconContextMenu,
@@ -33,7 +32,6 @@ export default function DesktopLayout({
   onReorderDockRight,
   hasMaximizedWindow,
   onWorkspaceContextMenu,
-
   volume,
   isMuted,
   onIncreaseVolume,
@@ -43,7 +41,6 @@ export default function DesktopLayout({
   onTestSound,
   isWifiEnabled = true,
   onToggleWifi,
-
   theme,
   onToggleTheme,
   lang,
@@ -52,7 +49,6 @@ export default function DesktopLayout({
   onCloseContextMenu,
   notification,
   onCloseNotification,
-  showNotification,
   t
 }) {
   const [isDockRevealed, setIsDockRevealed] = useState(false)
@@ -61,7 +57,6 @@ export default function DesktopLayout({
   const mouseYRef = useRef(0)
   const prevContextMenuOpenRef = useRef(isDockContextMenuOpen)
 
-  // Controle estrito da área do Dock quando há janela maximizada (estilo macOS)
   useEffect(() => {
     if (!hasMaximizedWindow) {
       setIsDockRevealed(false)
@@ -105,8 +100,6 @@ export default function DesktopLayout({
         focusedWindowId={focusedWindowId}
         openWindowIds={openWindowIds}
         onOpenSection={(id) => onOpenApp && onOpenApp(id, { fromDock: false })}
-        theme={theme}
-        onToggleTheme={onToggleTheme}
         lang={lang}
         onToggleLang={onToggleLang}
         volume={volume}
@@ -120,15 +113,12 @@ export default function DesktopLayout({
         onToggleWifi={onToggleWifi}
         t={t}
       />
-
       <main
         className="desktop-content-area"
         onContextMenu={onWorkspaceContextMenu}
         style={{ marginTop: 'var(--menubar-height)' }}
       >
         <DesktopIconsArea
-          openWindowIds={openWindowIds}
-          focusedWindowId={focusedWindowId}
           iconPositions={iconPositions}
           onSelectSection={(id) => onOpenApp && onOpenApp(id, { fromDock: false })}
           onDropIcon={onDropIcon}
@@ -136,7 +126,6 @@ export default function DesktopLayout({
           onWorkspaceContextMenu={onWorkspaceContextMenu}
           t={t}
         />
-
         <FullscreenPrompt t={t} />
 
         {SECTIONS.map((section) => {
@@ -187,7 +176,6 @@ export default function DesktopLayout({
           aria-hidden="true"
         />
       )}
-
       <Dock
         windows={windows}
         dockAppIds={dockAppIds}
@@ -200,7 +188,6 @@ export default function DesktopLayout({
         }}
         onSelectSection={(id, opts) => onOpenApp && onOpenApp(id, { fromDock: true, ...opts })}
         onContextMenu={onDockContextMenu}
-        onNotify={showNotification}
         theme={theme}
         onToggleTheme={onToggleTheme}
         onReorderLeft={onReorderDockLeft}

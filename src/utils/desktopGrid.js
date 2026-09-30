@@ -114,7 +114,7 @@ export const RIGHT_SYSTEM_APPS = ['readme', 'resume', 'status-check']
  */
 export function getDefaultDesktopPositions(
   viewportWidth = (typeof window !== 'undefined' ? window.innerWidth : 1200),
-  viewportHeight = (typeof window !== 'undefined' ? window.innerHeight : 800)
+  _viewportHeight = (typeof window !== 'undefined' ? window.innerHeight : 800)
 ) {
   const positions = {}
 

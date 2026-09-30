@@ -1,9 +1,7 @@
+import { resizeWindow } from '../utils/windowGeometry'
 import { useRef, useState, useEffect } from 'react'
 import SystemIcon from './SystemIcon'
 import styles from './Window.module.css'
-
-const MIN_WIDTH = 340
-const MIN_HEIGHT = 240
 
 export default function Window({
   id,
@@ -36,6 +34,7 @@ export default function Window({
 
   // Permite arrastar janelas normais e também restaurar o tamanho
   // automaticamente ao começar a arrastar uma janela maximizada
+
   const handleHeaderMouseDown = (e) => {
     if (e.target.closest(`.${styles.controlButton}`)) return
 
@@ -45,7 +44,6 @@ export default function Window({
 
     const wasMaximized = Boolean(isMaximized)
     const restoredWidth = prevBounds?.size?.width || size?.width || 760
-    const restoredHeight = prevBounds?.size?.height || size?.height || 500
 
     let startX = e.clientX
     let startY = e.clientY
@@ -122,34 +120,13 @@ export default function Window({
       const deltaX = moveEvent.clientX - startX
       const deltaY = moveEvent.clientY - startY
 
-      let newWidth = startWidth
-      let newHeight = startHeight
-      let newPosX = startPosX
-      let newPosY = startPosY
+      const { size: nextSize, position: nextPosition } = resizeWindow(
+        { width: startWidth, height: startHeight },
+        { x: startPosX, y: startPosY },
+        direction, deltaX, deltaY
+      )
 
-      if (direction.includes('e')) {
-        newWidth = Math.max(MIN_WIDTH, startWidth + deltaX)
-      }
-      if (direction.includes('s')) {
-        newHeight = Math.max(MIN_HEIGHT, startHeight + deltaY)
-      }
-      if (direction.includes('w')) {
-        const potentialWidth = startWidth - deltaX
-        if (potentialWidth >= MIN_WIDTH) {
-          newWidth = potentialWidth
-          newPosX = startPosX + deltaX
-        }
-      }
-      if (direction.includes('n')) {
-        const potentialHeight = startHeight - deltaY
-        const potentialY = startPosY + deltaY
-        if (potentialHeight >= MIN_HEIGHT && potentialY >= 0) {
-          newHeight = potentialHeight
-          newPosY = potentialY
-        }
-      }
-
-      onResize && onResize(id, { width: newWidth, height: newHeight }, { x: newPosX, y: newPosY })
+      onResize && onResize(id, nextSize, nextPosition)
     }
 
     const onMouseUp = () => {
@@ -282,7 +259,6 @@ export default function Window({
             aria-label={maximizeTitle}
           />
         </div>
-
         <div className={styles.windowTitle}>
           {iconType && (
             <SystemIcon
@@ -293,12 +269,10 @@ export default function Window({
           )}
           <span>{title}</span>
         </div>
-
         <div className={styles.headerSpacer}>
           {tag && <span className={styles.tagBadge}>{tag}</span>}
         </div>
       </header>
-
       <section className={`${styles.windowBody} ${isFlush && isWifiEnabled ? styles.windowBodyFlush : ''}`}>
         {!isWifiEnabled ? (
           <div className={styles.offlineState} role="alert">
@@ -362,14 +336,10 @@ export default function Window({
 
       {!isMaximized && (
         <>
-          <div className={`${styles.resizeHandle} ${styles.handleN}`} onMouseDown={(e) => handleResizeStart(e, 'n')} />
-          <div className={`${styles.resizeHandle} ${styles.handleS}`} onMouseDown={(e) => handleResizeStart(e, 's')} />
-          <div className={`${styles.resizeHandle} ${styles.handleW}`} onMouseDown={(e) => handleResizeStart(e, 'w')} />
-          <div className={`${styles.resizeHandle} ${styles.handleE}`} onMouseDown={(e) => handleResizeStart(e, 'e')} />
-          <div className={`${styles.resizeHandle} ${styles.handleNW}`} onMouseDown={(e) => handleResizeStart(e, 'nw')} />
-          <div className={`${styles.resizeHandle} ${styles.handleNE}`} onMouseDown={(e) => handleResizeStart(e, 'ne')} />
-          <div className={`${styles.resizeHandle} ${styles.handleSW}`} onMouseDown={(e) => handleResizeStart(e, 'sw')} />
-          <div className={`${styles.resizeHandle} ${styles.handleSE}`} onMouseDown={(e) => handleResizeStart(e, 'se')} />
+          {['n', 's', 'w', 'e', 'nw', 'ne', 'sw', 'se'].map((direction) => (
+            <div key={direction} className={`${styles.resizeHandle} ${styles['handle' + direction.toUpperCase()]}`}
+              onMouseDown={(event) => handleResizeStart(event, direction)} />
+          ))}
         </>
       )}
     </div>

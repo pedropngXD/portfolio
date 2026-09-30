@@ -22,11 +22,9 @@
               border-radius 0.28s cubic-bezier(0.16, 1, 0.3, 1) !important;
 }
 
-/* Desativa transições durante arrasto ou redimensionamento manual para fluidez a 60fps */
 .windowInteracting {
   transition: none !important;
 }
-
 
 .windowMinimizing {
   animation: genieSuck 0.22s cubic-bezier(0.25, 0.1, 0.25, 1) forwards !important;
@@ -60,7 +58,6 @@
     opacity: 1;
   }
 }
-
 
 .windowContainerMaximized {
   border-radius: 0;
@@ -181,7 +178,6 @@
   overflow: hidden !important;
 }
 
-
 .resizeHandle {
   position: absolute;
   z-index: 10;
@@ -256,7 +252,6 @@
     padding: 1.25rem 1rem;
   }
 }
-
 
 .offlineState {
   display: flex;
@@ -340,4 +335,3 @@
   background: #005ec4;
   transform: translateY(0);
 }
-

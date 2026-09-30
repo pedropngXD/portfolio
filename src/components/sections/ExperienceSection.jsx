@@ -16,7 +16,6 @@ export default function ExperienceSection({ t }) {
         title={title}
         subtitle={subtitle}
       />
-
       <div className={styles.cardsList}>
         {experiences.map((exp) => {
           const responsibilities = exp.responsibilities || []
@@ -34,7 +33,6 @@ export default function ExperienceSection({ t }) {
                     {exp.company} • {exp.location}
                   </p>
                 </div>
-
                 <div className={`${styles.statusBadge} ${!exp.isCurrent ? styles.statusBadgePast : ''}`}>
                   {exp.isCurrent ? (
                     <span className={styles.pulseDot} />
@@ -44,7 +42,6 @@ export default function ExperienceSection({ t }) {
                   <span>{exp.period}</span>
                 </div>
               </div>
-
               <p className={styles.summaryText}>{exp.summary}</p>
 
               {responsibilities.length > 0 && (

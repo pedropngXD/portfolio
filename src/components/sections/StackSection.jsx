@@ -21,7 +21,6 @@ export default function StackSection({ t }) {
           'Stack real aplicada no desenvolvimento diário de APIs, sistemas internos e projetos práticos.'
         }
       />
-
       <div className={styles.filterWrapper}>
         <div className={styles.filterBar} role="tablist" aria-label="Categorias de tecnologias">
           {STACK_CATEGORIES.map((cat) => {
@@ -42,7 +41,6 @@ export default function StackSection({ t }) {
         </div>
         <div className={styles.fadeRight} aria-hidden="true" />
       </div>
-
       <div className={styles.cardsGrid}>
         {filteredStack.map((tech) => (
           <article key={tech.name} className={styles.card}>

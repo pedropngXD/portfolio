@@ -2,7 +2,6 @@
 @import './styles/tokens.css';
 @import './styles/reset.css';
 
-
 .desktop-workspace {
   width: 100vw;
   height: 100vh;
@@ -18,7 +17,6 @@
     display: none !important;
   }
 }
-
 
 .desktop-content-area {
   flex: 1;

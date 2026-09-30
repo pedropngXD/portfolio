@@ -2,7 +2,7 @@ import { ABOUT_DATA } from '../../data/about'
 import { CONTACT_CHANNELS } from '../../data/contact'
 import styles from './AboutSection.module.css'
 
-export default function AboutSection({ onNavigate, t, isMaximized }) {
+export default function AboutSection({ t, isMaximized }) {
   const data = t?.about || ABOUT_DATA
   const paragraphs = data.paragraphs || ABOUT_DATA.paragraphs
   const quickInfo = data.quickInfo || ABOUT_DATA.quickInfo
@@ -33,7 +33,6 @@ export default function AboutSection({ onNavigate, t, isMaximized }) {
             </span>
           </div>
         </div>
-
         <div className={styles.profileRight}>
           <div className={styles.statusPill}>
             <span className={styles.statusDot} aria-hidden="true" />
@@ -56,13 +55,11 @@ export default function AboutSection({ onNavigate, t, isMaximized }) {
           </div>
         </div>
       </div>
-
       <div className={styles.contentLayout}>
         <div className={styles.bioColumn}>
           <div className={styles.headlineBox}>
             <h2 className={styles.headline}>{data.headline || ABOUT_DATA.headline}</h2>
           </div>
-
           <div className={styles.paragraphsGroup}>
             {paragraphs.map((p, idx) => (
               <p key={idx} className={styles.paragraph}>
@@ -71,7 +68,6 @@ export default function AboutSection({ onNavigate, t, isMaximized }) {
             ))}
           </div>
         </div>
-
         <div className={styles.sideColumn}>
           <div className={styles.quickInfoGrid}>
             {quickInfo.map((item, idx) => (
@@ -81,7 +77,6 @@ export default function AboutSection({ onNavigate, t, isMaximized }) {
               </div>
             ))}
           </div>
-
         </div>
       </div>
     </div>

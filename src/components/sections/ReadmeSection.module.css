@@ -10,7 +10,6 @@
   overflow: hidden;
 }
 
-
 .notepadBody {
   flex: 1;
   overflow-y: auto;
@@ -27,7 +26,6 @@
   cursor: text;
   tab-size: 4;
 }
-
 
 .statusBar {
   display: flex;

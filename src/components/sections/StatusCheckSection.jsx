@@ -16,14 +16,11 @@ export default function StatusCheckSection({ t, isAppSwitcher = false }) {
     <div className={styles.container} style={isAppSwitcher ? { pointerEvents: 'none', overflow: 'hidden' } : undefined}>
       <div className={styles.browserBar}>
         <div className={styles.barLeft}>
-          
-
           <div className={styles.urlBar} title={url}>
             <span className={styles.lockIcon}>🔒</span>
             <span>{url}</span>
           </div>
         </div>
-
         <div className={styles.barRight}>
           <button
             type="button"
@@ -34,7 +31,6 @@ export default function StatusCheckSection({ t, isAppSwitcher = false }) {
             <span>🔄</span>
             <span>{statusData.reload || (isEn ? 'Reload' : 'Recarregar')}</span>
           </button>
-
           <a
             href={url}
             target="_blank"
@@ -46,7 +42,6 @@ export default function StatusCheckSection({ t, isAppSwitcher = false }) {
           </a>
         </div>
       </div>
-
       <div className={styles.iframeWrapper}>
         <iframe
           key={reloadKey}
@@ -61,4 +56,3 @@ export default function StatusCheckSection({ t, isAppSwitcher = false }) {
     </div>
   )
 }
-

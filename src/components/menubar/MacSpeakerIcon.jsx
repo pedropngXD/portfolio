@@ -1,5 +1,3 @@
-import React from 'react'
-
 export default function MacSpeakerIcon({ volume = 0.7, isMuted = false, size = 15 }) {
   if (isMuted || volume <= 0) {
     return (
