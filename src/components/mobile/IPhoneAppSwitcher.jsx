@@ -141,7 +141,15 @@ export default function IPhoneAppSwitcher({
             e.stopPropagation()
             onCloseAll()
           }}
-          className="absolute bottom-[4.5rem] left-1/2 -translate-x-1/2 px-7 py-2.5 rounded-[9999px] bg-[#3a3a3c] border border-[#545456] text-white hover:bg-[#4a4a4c] active:scale-95 text-[13px] font-semibold tracking-wide transition-all z-50 shadow-[0_8px_16px_rgba(0,0,0,0.5)] whitespace-nowrap"
+          style={{
+            padding: '8px 22px',
+            fontSize: '11.5px',
+            lineHeight: 1,
+            display: 'inline-flex',
+            alignItems: 'center',
+            justifyContent: 'center'
+          }}
+          className="absolute bottom-[4.5rem] left-1/2 -translate-x-1/2 rounded-full bg-[#3a3a3c] border border-[#545456] text-white hover:bg-[#4a4a4c] active:scale-95 font-semibold tracking-wide transition-all z-50 shadow-[0_8px_16px_rgba(0,0,0,0.5)] whitespace-nowrap cursor-pointer"
         >
           {isEn ? 'Clear All' : 'Limpar Tudo'}
         </button>
