@@ -28,6 +28,7 @@ export default function Window({
   children
 }) {
   const [isInteracting, setIsInteracting] = useState(false)
+  const isFlush = id === 'readme' || id === 'resume' || id === 'status-check'
   const isDraggingRef = useRef(false)
   const isResizingRef = useRef(false)
 
@@ -312,7 +313,7 @@ export default function Window({
       </header>
 
       {/* Conteúdo Rolável */}
-      <section className={styles.windowBody}>
+      <section className={`${styles.windowBody} ${isFlush ? styles.windowBodyFlush : ''}`}>
         {children}
       </section>
 

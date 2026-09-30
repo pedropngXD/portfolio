@@ -175,6 +175,12 @@
   padding: 2.5rem clamp(2rem, 6vw, 6rem);
 }
 
+.windowBodyFlush,
+.windowContainerMaximized .windowBodyFlush {
+  padding: 0 !important;
+  overflow: hidden !important;
+}
+
 /* Handles de redimensionamento em 8 direções */
 .resizeHandle {
   position: absolute;
