@@ -392,7 +392,7 @@ export default function IPhoneHomeScreen({
         <div className="flex items-center justify-between w-full min-w-0">
           <div className="flex items-center gap-1.5 flex-wrap">
             <span className="text-[11px] text-purple-300 bg-purple-500/20 border border-purple-500/30 px-3 py-0.5 rounded-full font-semibold shadow-sm">
-              Dev Júnior
+              Desenvolvedor Júnior
             </span>
           </div>
 
