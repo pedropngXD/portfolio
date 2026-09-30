@@ -6,7 +6,6 @@ export default function AboutSection({ onNavigate, t, isMaximized }) {
   const data = t?.about || ABOUT_DATA
   const paragraphs = data.paragraphs || ABOUT_DATA.paragraphs
   const quickInfo = data.quickInfo || ABOUT_DATA.quickInfo
-  const competencies = data.competencies || []
   const isEn = t?.system?.langLabel === 'EN'
 
   return (
@@ -116,28 +115,6 @@ export default function AboutSection({ onNavigate, t, isMaximized }) {
             ))}
           </div>
 
-          {/* Destaques de Competências / Metodologia */}
-          {competencies.length > 0 && (
-            <div className={styles.competenciesBox}>
-              <div className={styles.competenciesHeader}>
-                <span>🎯</span>
-                <span>{data.competenciesTitle || (isEn ? 'Core Competencies & Methodology' : 'Destaques de Atuação & Metodologia')}</span>
-              </div>
-              <div className={styles.competenciesList}>
-                {competencies.map((comp, idx) => (
-                  <div key={idx} className={styles.competencyItem}>
-                    <span className={styles.competencyIcon} aria-hidden="true">
-                      {comp.icon}
-                    </span>
-                    <div className={styles.competencyContent}>
-                      <span className={styles.competencyTitle}>{comp.title}</span>
-                      <span className={styles.competencyDesc}>{comp.desc}</span>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
         </div>
       </div>
     </div>
