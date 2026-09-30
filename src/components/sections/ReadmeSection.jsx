@@ -1,6 +1,7 @@
+import { useState, useEffect } from 'react'
 import styles from './ReadmeSection.module.css'
 
-const TEXT_PT = `================================================================================
+const TEXT_DESKTOP_PT = `================================================================================
   README.TXT — BEM-VINDO AO PEDRO OS (v2.0)
   Portfólio Interativo & Experiência Desktop • Pedro Moser
 ================================================================================
@@ -59,7 +60,7 @@ sua tela, ativando recursos como:
      embutido diretamente em uma janela nativa.
    - Explore as seções de Experiência, Stack Técnica, Formação e Projetos.`
 
-const TEXT_EN = `================================================================================
+const TEXT_DESKTOP_EN = `================================================================================
   README.TXT — WELCOME TO PEDRO OS (v2.0)
   Interactive Portfolio & Desktop Experience • Pedro Moser
 ================================================================================
@@ -116,10 +117,148 @@ your display, unlocking:
    - Open "resume.pdf" to inspect the official PDF document embedded directly.
    - Browse Experience, Tech Stack, Education, and live interactive projects.`
 
-export default function ReadmeSection({ t }) {
+const TEXT_MOBILE_PT = `================================================================================
+  README.TXT — BEM-VINDO AO PEDRO OS MOBILE (v2.0)
+  Experiência Nativa Estilo iOS / iPhone • Pedro Moser
+================================================================================
+
+[ 💻 DICA DE OURO: ACESSE NO COMPUTADOR PARA O SO DESKTOP! ]
+--------------------------------------------------------------------------------
+Você sabia que este portfólio possui uma experiência completa de Sistema
+Operacional Desktop projetada para computadores e notebooks?
+
+Acesse este mesmo link no seu computador para desbloquear:
+  • Janelas flutuantes com controles reais (minimizar, maximizar, redimensionar
+    e arrastar livremente pela tela);
+  • Modo Imersivo F11 em tela cheia com barra de tarefas oculta dinâmica;
+  • Área de trabalho livre com ícones arrastáveis e alinhamento à grade;
+  • Efeitos sonoros reais de sistema (abertura, fechamento e minimização);
+  • Barra de menus superior com relógio, conectividade e controle de áudio.
+
+--------------------------------------------------------------------------------
+[ GUIA DE RECURSOS & FUNCIONALIDADES DO MODELO MOBILE ]
+--------------------------------------------------------------------------------
+
+1. TELA INICIAL (HOME SCREEN):
+   - Grid de aplicativos com ícones responsivos e cores sincronizadas com o
+     interior de cada aplicativo.
+   - Widget de Perfil interativo no topo com foto, curso na Unisinos, status de
+     disponibilidade e cargo atual.
+   - Dock inferior flutuante em vidro fosco (frosted glass) com atalhos para:
+       * GitHub;
+       * LinkedIn;
+       * E-mail profissional (com cópia direta para a área de transferência);
+       * Alternador de idioma (PT / EN).
+
+2. MULTITAREFA & APP SWITCHER (ESTILO iOS):
+   - Toque na barra branca inferior (Home Indicator) na tela inicial ou na base
+     dos apps para abrir o alternador de multitarefa.
+   - Navegação por carrossel horizontal fluido com prévia interativa de cada app.
+   - Arraste um card para cima para fechá-lo individualmente.
+   - Toque no botão "Limpar Tudo" para fechar todas as abas abertas de uma só vez.
+
+3. NAVEGAÇÃO & GESTOS NOS APPS (BOTTOM SHEET):
+   - Janelas abrem no formato de gaveta modal nativa (Bottom Sheet).
+   - Rolagem vertical 100% suave com aceleração e inércia do navegador mobile.
+   - Deslize o dedo para baixo a partir do topo do app para fechar por gesto
+     (Pull-to-Dismiss), ou utilize o botão superior "Voltar".
+   - Barra Home Indicator fixa na base para retornar à tela inicial com um toque.
+
+4. SEÇÃO STACK TÉCNICA OTIMIZADA:
+   - Carrossel de filtros por categoria com rolagem horizontal tátil e efeito
+     de desvanecimento suave (blur) indicando a continuidade do conteúdo.
+
+5. STATUS CHECK — TELEMETRIA EM TEMPO REAL:
+   - Dashboard com status de saúde de serviços em nuvem e IA.
+   - Botão direto de "Abrir no Navegador" para interagir com o app em tela inteira.
+
+6. BILINGUISMO & TEMA:
+   - Alterne entre Português e Inglês com um toque no ícone de tradução da Dock.
+   - Suporte completo a Modo Escuro e Modo Claro com contraste e legibilidade.`
+
+const TEXT_MOBILE_EN = `================================================================================
+  README.TXT — WELCOME TO PEDRO OS MOBILE (v2.0)
+  Native iOS / iPhone Style Experience • Pedro Moser
+================================================================================
+
+[ 💻 PRO TIP: EXPERIENCE THE FULL DESKTOP OPERATING SYSTEM! ]
+--------------------------------------------------------------------------------
+Did you know that this portfolio features an authentic, fully functional
+Desktop Operating System designed specifically for computers and laptops?
+
+Open this same link on your desktop or laptop computer to unlock:
+  • Floating windows with genuine OS controls (minimize, maximize, resize,
+    and drag freely anywhere across the desktop);
+  • Fullscreen Immersive Mode (F11) with dynamic auto-hiding taskbar;
+  • Freeform desktop workspace with draggable icons and automatic grid alignment;
+  • Interactive system audio feedback (window open, close, and minimize sounds);
+  • Top MenuBar with live clock, network status, and master volume controls.
+
+--------------------------------------------------------------------------------
+[ MOBILE MODEL FEATURES & NAVIGATION GUIDE ]
+--------------------------------------------------------------------------------
+
+1. HOME SCREEN:
+   - Grid of application icons with colors matching each app's internal palette.
+   - Interactive Profile Widget at the top featuring avatar, degree at Unisinos,
+     availability status, and current role.
+   - Frosted glass bottom Dock with quick actions:
+       * GitHub;
+       * LinkedIn;
+       * Professional Email (copies directly to clipboard on tap);
+       * Language toggle (EN / PT).
+
+2. MULTITASKING & APP SWITCHER (iOS STYLE):
+   - Tap the white Home Indicator bar at the bottom to open the Multitask
+     App Switcher.
+   - Smooth horizontal swipe navigation with live preview of each open app.
+   - Swipe any card upward to close it individually.
+   - Tap "Clear All" to close all active background apps at once.
+
+3. IN-APP NAVIGATION & GESTURES (BOTTOM SHEET):
+   - Apps launch as native modal bottom sheets.
+   - Buttery smooth vertical scrolling with native hardware-accelerated momentum.
+   - Pull down firmly from the top of the app to dismiss via gesture, or tap
+     the top "Back" button.
+   - Dedicated Home Indicator bar anchored at the bottom to return home instantly.
+
+4. SWIPEABLE TECH STACK SECTION:
+   - Category filter tabs feature smooth touch-scrolling with an elegant blur
+     gradient affordance indicating more options to swipe.
+
+5. STATUS CHECK — REAL-TIME TELEMETRY:
+   - Live health dashboard for major AI services and cloud platforms.
+   - Convenient "Open in Browser" button to launch the telemetry tool directly.
+
+6. BILINGUAL & THEME SUPPORT:
+   - Switch between English and Portuguese with a single tap in the Dock.
+   - Full Dark Mode and Light Mode support with optimized contrast.`
+
+export default function ReadmeSection({ t, isMobile: isMobileProp }) {
+  const [isMobileScreen, setIsMobileScreen] = useState(() => {
+    if (typeof window !== 'undefined') {
+      return window.innerWidth < 768
+    }
+    return false
+  })
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobileScreen(window.innerWidth < 768)
+    }
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
+  }, [])
+
+  const isMobile = isMobileProp !== undefined ? isMobileProp : isMobileScreen
   const isEn = t?.system?.langLabel === 'EN'
-  const textContent = isEn ? TEXT_EN : TEXT_PT
-  const lineCount = textContent.split('\n').length
+
+  let textContent
+  if (isMobile) {
+    textContent = isEn ? TEXT_MOBILE_EN : TEXT_MOBILE_PT
+  } else {
+    textContent = isEn ? TEXT_DESKTOP_EN : TEXT_DESKTOP_PT
+  }
 
   return (
     <div className={styles.container}>

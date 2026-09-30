@@ -60,6 +60,10 @@ export default function MobileLayout({
     setIsAppSwitcherOpen(false)
   }
 
+  const renderMobileContent = (sectionId) => {
+    return renderContentForSection && renderContentForSection(sectionId, { isMobile: true })
+  }
+
   return (
     <div className={styles.phoneContainer}>
       {/* Conteúdo Principal: Home Screen (Widgets + Grade de Apps + Dock) */}
@@ -81,7 +85,7 @@ export default function MobileLayout({
             appId={activeAppId}
             onClose={handleCloseActiveApp}
             onOpenAppSwitcher={() => setIsAppSwitcherOpen(true)}
-            renderContentForSection={renderContentForSection}
+            renderContentForSection={renderMobileContent}
             openAppsCount={openAppIds.length}
             theme={theme}
             onToggleTheme={onToggleTheme}
@@ -99,7 +103,7 @@ export default function MobileLayout({
             onCloseApp={handleCloseTab}
             onCloseAll={handleCloseAllTabs}
             onDismiss={() => setIsAppSwitcherOpen(false)}
-            renderContentForSection={renderContentForSection}
+            renderContentForSection={renderMobileContent}
             theme={theme}
             lang={lang}
             t={t}

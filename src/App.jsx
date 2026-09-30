@@ -321,10 +321,10 @@ export default function App() {
   const hasMaximizedWindow = Object.values(windows).some((w) => w.isOpen && !w.isMinimized && w.isMaximized)
 
   // Renderizador de seções de janelas
-  const renderContentForSection = (sectionId) => {
+  const renderContentForSection = (sectionId, options = {}) => {
     switch (sectionId) {
       case 'readme':
-        return <ReadmeSection onNavigate={handleOpenApp} t={t} onNotify={showNotification} />
+        return <ReadmeSection onNavigate={handleOpenApp} t={t} onNotify={showNotification} isMobile={options?.isMobile} />
       case 'resume':
         return <ResumeSection language={language} />
       case 'about':
